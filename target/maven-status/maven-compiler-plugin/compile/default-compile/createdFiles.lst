@@ -1,0 +1,4 @@
+army/service/UserService.class
+army/db/dao/UserDao.class
+army/controller/UserController.class
+army/db/pojo/User.class
