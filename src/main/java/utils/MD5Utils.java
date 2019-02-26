@@ -2,9 +2,13 @@ package utils;
 
 import java.security.MessageDigest;
 
-public class MD5Utils {
-	public static String stringMD5(String input) {
-		 return null;
-	}
+import org.apache.commons.codec.digest.DigestUtils;
 
+public class MD5Utils {
+	public static String stringMD5(String key) {
+		    String text = "armycreat";
+		    String encodeStr=DigestUtils.md5Hex(key + text);
+	        return encodeStr;
+	}
+	
 }

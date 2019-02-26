@@ -6,6 +6,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java/service"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/webapp/imgs"/>
         <property name="context-root" value="ArmyCreate"/>
         <property name="java-output-path" value="/ArmyCreate/target/classes"/>
     </wb-module>

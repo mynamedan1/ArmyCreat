@@ -5,13 +5,23 @@ public class User {
 
     private String name;
 
-    private String password;
+    private String certificatenumber;
 
-    private String armycart;
-
-    private String identitycart;
+    private String idcard;
 
     private Integer phonenumber;
+
+    private String password;
+
+    private Integer pointcount;
+
+    private String importtype;
+
+    private Integer state;
+
+    private String imgurl;
+
+    private String extra;
 
     public Integer getId() {
         return id;
@@ -29,28 +39,20 @@ public class User {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getPassword() {
-        return password;
+    public String getCertificatenumber() {
+        return certificatenumber;
     }
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+    public void setCertificatenumber(String certificatenumber) {
+        this.certificatenumber = certificatenumber == null ? null : certificatenumber.trim();
     }
 
-    public String getArmycart() {
-        return armycart;
+    public String getIdcard() {
+        return idcard;
     }
 
-    public void setArmycart(String armycart) {
-        this.armycart = armycart == null ? null : armycart.trim();
-    }
-
-    public String getIdentitycart() {
-        return identitycart;
-    }
-
-    public void setIdentitycart(String identitycart) {
-        this.identitycart = identitycart == null ? null : identitycart.trim();
+    public void setIdcard(String idcard) {
+        this.idcard = idcard == null ? null : idcard.trim();
     }
 
     public Integer getPhonenumber() {
@@ -59,5 +61,53 @@ public class User {
 
     public void setPhonenumber(Integer phonenumber) {
         this.phonenumber = phonenumber;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
+    }
+
+    public Integer getPointcount() {
+        return pointcount;
+    }
+
+    public void setPointcount(Integer pointcount) {
+        this.pointcount = pointcount;
+    }
+
+    public String getImporttype() {
+        return importtype;
+    }
+
+    public void setImporttype(String importtype) {
+        this.importtype = importtype == null ? null : importtype.trim();
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    public String getImgurl() {
+        return imgurl;
+    }
+
+    public void setImgurl(String imgurl) {
+        this.imgurl = imgurl == null ? null : imgurl.trim();
+    }
+
+    public String getExtra() {
+        return extra;
+    }
+
+    public void setExtra(String extra) {
+        this.extra = extra == null ? null : extra.trim();
     }
 }

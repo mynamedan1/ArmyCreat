@@ -1,5 +1,9 @@
 package army.db.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import army.db.pojo.User;
 
 public interface UserMapper {
@@ -14,4 +18,12 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+    
+    int updatePassword(@Param("id") Integer id,@Param("password") String password);
+    //登陆验证
+    User checkLogin(@Param("cardCode") String cardCode,@Param("password") String password);
+    //批量插入
+    int inserByList(List<User> userList);
+    //查询用户
+    List<User> getAllUser();
 }

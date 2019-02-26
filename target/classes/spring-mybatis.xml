@@ -17,8 +17,16 @@
     <!-- 引入配置文件 -->  
     <bean id="propertyConfigurer"  
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
-        <property name="location" value="classpath:jdbc.properties" />  
-    </bean>  
+<!--         <property name="location" value="classpath:jdbc.properties" />  
+
+ -->    
+ <property name="locations"> 
+ 		    <list> 
+ 		       <value>classpath:jdbc.properties</value> 
+ 		       <value>classpath:armyCreat.properties</value>
+ 		    </list> 
+ 		</property>
+ </bean>  
   
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" 
         destroy-method="close">  
@@ -58,6 +66,6 @@
     </bean>
     
     <!-- 事务注解驱动，标注@Transactional的类和方法将具有事务性 -->  
-	<!-- <tx:annotation-driven transaction-manager="transactionManager" />  -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
   
 </beans>  
