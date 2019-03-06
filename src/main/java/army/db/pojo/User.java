@@ -23,6 +23,10 @@ public class User {
 
     private String extra;
 
+    private String updateby;
+
+    private String updatetime;
+
     public Integer getId() {
         return id;
     }
@@ -109,5 +113,21 @@ public class User {
 
     public void setExtra(String extra) {
         this.extra = extra == null ? null : extra.trim();
+    }
+
+    public String getUpdateby() {
+        return updateby;
+    }
+
+    public void setUpdateby(String updateby) {
+        this.updateby = updateby == null ? null : updateby.trim();
+    }
+
+    public String getUpdatetime() {
+        return updatetime;
+    }
+
+    public void setUpdatetime(String updatetime) {
+        this.updatetime = updatetime == null ? null : updatetime.trim();
     }
 }

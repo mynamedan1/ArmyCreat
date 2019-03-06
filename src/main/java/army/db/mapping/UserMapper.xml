@@ -13,36 +13,44 @@
     <result column="state" property="state" jdbcType="INTEGER" />
     <result column="imgUrl" property="imgurl" jdbcType="VARCHAR" />
     <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="updateby" property="updateby" jdbcType="VARCHAR" />
+    <result column="updateTime" property="updatetime" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, certificateNumber, IDCard, phoneNumber, password, pointCount, importType, 
-    state, imgUrl, extra
+    state, imgUrl, extra, updateby, updateTime
   </sql>
-   <select id="checkLogin" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from user
-    where (certificateNumber = #{cardCode,jdbcType=VARCHAR} or phoneNumber = #{cardCode,jdbcType=VARCHAR})
-    and password = #{password,jdbcType=VARCHAR}
-  </select>
-  
-  <select id="getAllUser" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from user
-  </select>
-  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from user
     where id = #{id,jdbcType=INTEGER}
   </select>
+     <select id="checkLogin" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where (certificateNumber = #{cardCode,jdbcType=VARCHAR} or phoneNumber = #{cardCode,jdbcType=VARCHAR})
+    and password = #{password,jdbcType=VARCHAR}
+  </select>
+  <select id="getAllUser" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user limit #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  <!-- 
+  <select id="getUserByCondition" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where 
+  </select> -->
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="inserByList" parameterType="java.util.List" >
+   <insert id="inserByList" parameterType="java.util.List" >
     insert into user (id, name, certificateNumber, 
       IDCard, phoneNumber, password, 
       pointCount, importType, state
@@ -54,16 +62,17 @@
       )
       </foreach>
   </insert>
-  
   <insert id="insert" parameterType="army.db.pojo.User" >
     insert into user (id, name, certificateNumber, 
       IDCard, phoneNumber, password, 
       pointCount, importType, state, 
-      imgUrl, extra)
+      imgUrl, extra, updateby, 
+      updateTime)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{certificatenumber,jdbcType=VARCHAR}, 
       #{idcard,jdbcType=VARCHAR}, #{phonenumber,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, 
       #{pointcount,jdbcType=INTEGER}, #{importtype,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
-      #{imgurl,jdbcType=VARCHAR}, #{extra,jdbcType=VARCHAR})
+      #{imgurl,jdbcType=VARCHAR}, #{extra,jdbcType=VARCHAR}, #{updateby,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="army.db.pojo.User" >
     insert into user
@@ -101,6 +110,12 @@
       <if test="extra != null" >
         extra,
       </if>
+      <if test="updateby != null" >
+        updateby,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -135,6 +150,12 @@
       </if>
       <if test="extra != null" >
         #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="updateby != null" >
+        #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -171,6 +192,12 @@
       <if test="extra != null" >
         extra = #{extra,jdbcType=VARCHAR},
       </if>
+      <if test="updateby != null" >
+        updateby = #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -185,10 +212,12 @@
       importType = #{importtype,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER},
       imgUrl = #{imgurl,jdbcType=VARCHAR},
-      extra = #{extra,jdbcType=VARCHAR}
+      extra = #{extra,jdbcType=VARCHAR},
+      updateby = #{updateby,jdbcType=VARCHAR},
+      updateTime = #{updatetime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updatePassword">
+    <update id="updatePassword">
     update user 
     set  password = #{password,jdbcType=VARCHAR} 
     where id = #{id,jdbcType=INTEGER}

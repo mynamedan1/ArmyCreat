@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 //生成token
 public class JWT {
-    private static final String SECRET = "XX#$%()(#*!()!KL<><MQLMNQNQJQK sdfkjsdrow32234545fdf>?N<:{LWPW";
-
+	private static final String SECRET = "XX#$%()(#*!()!KL<><MQLMNQNQJQK sdfkjsdrow32234545fdf>?N<:{LWPW";
+	
     private static final String EXP = "exp";
 
     private static final String PAYLOAD = "payload";

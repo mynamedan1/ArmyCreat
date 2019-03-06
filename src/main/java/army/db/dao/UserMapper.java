@@ -24,6 +24,8 @@ public interface UserMapper {
     User checkLogin(@Param("cardCode") String cardCode,@Param("password") String password);
     //批量插入
     int inserByList(List<User> userList);
-    //查询用户
-    List<User> getAllUser();
+    //分页查询用户
+    List<User> getAllUser(@Param("pageNumber")int pageNumber,@Param("pageSize") int pageSize);
+    //根据条件模糊查询
+    List<User> getUserByCondition(User user);
 }

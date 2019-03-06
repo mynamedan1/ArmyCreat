@@ -7,19 +7,28 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ServerResponse<T> {
 	// 状态码
-	private int statu;
+	private int status;
 	// 数据
 	private T data;
 	// 描述信息
 	private String msg;
 
-	public int getStatu() {
-		return statu;
+//	public int getstatus() {
+//		return status;
+//	}
+//
+//	public void setstatus(int status) {
+//		this.status = status;
+//	}
+	
+	public int getStatus() {
+		return status;
 	}
 
-	public void setStatu(int statu) {
-		this.statu = statu;
+	public void setStatus(int status) {
+		this.status = status;
 	}
+
 
 	public T getData() {
 		return data;
@@ -41,20 +50,20 @@ public class ServerResponse<T> {
 		super();
 	}
 
-	public ServerResponse(int statu) {
+	public ServerResponse(int status) {
 		super();
-		this.statu = statu;
+		this.status = status;
 	}
 
-	public ServerResponse(int statu, String msg) {
+	public ServerResponse(int status, String msg) {
 		super();
-		this.statu = statu;
+		this.status = status;
 		this.msg = msg;
 	}
 
-	public ServerResponse(int statu, T data, String msg) {
+	public ServerResponse(int status, T data, String msg) {
 		super();
-		this.statu = statu;
+		this.status = status;
 		this.data = data;
 		this.msg = msg;
 	}
@@ -62,7 +71,7 @@ public class ServerResponse<T> {
 	// 使之不在序列化结果中
 	@JsonIgnore
 	public boolean checkIsSuccess() {
-		return this.statu == ResponseCode.SUCCESS.getCode();
+		return this.status== ResponseCode.SUCCESS.getCode();
 	}
 
 	// 泛型方法

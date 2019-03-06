@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import army.db.pojo.User;
+import army.service.RedisTokenManager;
 import army.service.UserService;
 import utils.ImageCreat;
 import utils.JWT;
@@ -32,13 +33,18 @@ import utils.ServerResponse;
 public class UserController {
 	@Autowired
 	private UserService userService;
+
 	@Value("${tomact_dir}")
 	private String tomact_dir;
+
+	@Autowired
+	private RedisTokenManager redisRokenManager;
 
 	// 用户注册
 	@RequestMapping("register.do")
 	@ResponseBody
-	public ServerResponse registerUser(User user, Model model) {
+	public ServerResponse registerUser(HttpServletRequest request, HttpServletResponse response, User user,
+			Model model) {
 		ServerResponse serverResponse;
 		user.setPassword(MD5Utils.stringMD5(user.getPassword()));
 		if (userService.insertUser(user)) {
@@ -52,8 +58,8 @@ public class UserController {
 	// 更新用户信息，未完成
 	@RequestMapping("updateuser.do")
 	@ResponseBody
-	public ServerResponse updateUser(User user, MultipartFile partFile, Model model, HttpSession session,
-			HttpServletRequest request) {
+	public ServerResponse updateUser(User user, MultipartFile partFile, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
 		String filePath = tomact_dir + "/army/person/" + user.getCertificatenumber() + ".jpg";
 		File file = new File(filePath);
 		if (!file.exists()) {
@@ -70,7 +76,7 @@ public class UserController {
 			// e.printStackTrace();
 			return ServerResponse.createByError("文件上传失败");
 		}
-		user.setId(((User) session.getAttribute("currentUser")).getId());
+		user.setId(((User) request.getAttribute("currentUser")).getId());
 		user.setImgurl(filePath);
 		if (userService.updateUser(user)) {
 			return ServerResponse.createBySuccess("用户更新成功");
@@ -82,14 +88,14 @@ public class UserController {
 	// 用户登陆
 	@RequestMapping("login.do")
 	@ResponseBody
-	public ServerResponse login(HttpServletResponse response,HttpSession session, String cardCode, String password) {
+	public ServerResponse login(HttpServletRequest request, HttpServletResponse response, String cardCode,
+			String password) {
 		password = MD5Utils.stringMD5(password);
 		User user = userService.checkLogin(cardCode, password);
 		ServerResponse serverResponse;
 		if (user != null) {
-			session.setAttribute("currentUser", user);
-			String token = JWT.sign(user, 60L* 1000L* 30L);
-			response.addHeader("token", token);
+			redisRokenManager.setToken(user);
+			response.addHeader("key", MD5Utils.stringMD5(user.getId() + ""));
 			return ServerResponse.createBySuccess("登录成功", user);
 		} else {
 			return ServerResponse.createByError("账号或密码错误！");
@@ -100,20 +106,22 @@ public class UserController {
 	// 用户登出
 	@RequestMapping("logout.do")
 	@ResponseBody
-	public ServerResponse logout(HttpSession session) {
-		session.removeAttribute("currentUser");
+	public ServerResponse logout(HttpServletRequest request, HttpServletResponse response) {
+		redisRokenManager.deleteToken(((User) request.getAttribute("currentUser")).getId() + "");
+		request.removeAttribute("currentUser");
 		return ServerResponse.createBySuccess("登出");
 	}
 
 	// 修改密码
 	@RequestMapping("changePassowrd.do")
 	@ResponseBody
-	public ServerResponse changePassowrd(HttpSession session, String oldePwd, String newPwd) {
-		User user = (User) session.getAttribute("currentUser");
+	public ServerResponse changePassowrd(HttpServletRequest request, HttpServletResponse response, String oldePwd,
+			String newPwd) {
+		User user = (User) request.getAttribute("currentUser");
 		if (user.getPassword().equals(MD5Utils.stringMD5(oldePwd))) {
 			user.setPassword(MD5Utils.stringMD5(newPwd));
 			if (userService.changePassword(user)) {
-				session.setAttribute("currentUser", user);
+				request.setAttribute("currentUser", user);
 				return ServerResponse.createBySuccess("密码修改成功");
 			} else {
 				return ServerResponse.createByError("密码修改失败");
@@ -124,17 +132,26 @@ public class UserController {
 
 	}
 
-	// 用户列表查询
+	// 用户列表查询分页查询
 	@RequestMapping("getAllUser.do")
 	@ResponseBody
-	public ServerResponse getAllUser(HttpSession session, String cardCode, String password, HttpServletResponse response) {
-		return ServerResponse.createBySuccess("用户列表", userService.getAllUser());
+	public ServerResponse getAllUser(HttpServletRequest request, HttpServletResponse response, int pageNumber,
+			int pageSize) {
+		return ServerResponse.createBySuccess("用户列表", userService.getAllUser(pageNumber, pageSize));
+
+	}
+
+	// 用户模糊查询
+	@RequestMapping("getUserByCondition.do")
+	@ResponseBody
+	public ServerResponse getUserByCondition(HttpServletRequest request, HttpServletResponse response,User user,Model model) {
+		return ServerResponse.createBySuccess("用户列表", userService.getUserByCondition(user));
 
 	}
 
 	// 获取验证码
 	@RequestMapping("getVerifyCode.do")
-	public void generate(HttpServletResponse response, HttpSession session) {
+	public void generate(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		String verifyCodeValue = new ImageCreat().drawImg(output);
 		System.out.println(verifyCodeValue);

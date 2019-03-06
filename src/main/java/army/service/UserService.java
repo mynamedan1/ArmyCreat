@@ -29,9 +29,9 @@ public class UserService {
 	public boolean insertUser(User user) {
 		return userDao.insert(user) == 1 ? true : false;
 	}
-	
+
 	public boolean updateUser(User user) {
-	    return userDao.updateByPrimaryKey(user)==1?true:false;
+		return userDao.updateByPrimaryKeySelective(user) == 1 ? true : false;
 	}
 
 	public User checkLogin(String cardCode, String password) {
@@ -41,13 +41,20 @@ public class UserService {
 	public boolean changePassword(User user) {
 		return userDao.updatePassword(user.getId(), user.getPassword()) == 1 ? true : false;
 	}
-	
-	public List<User> getAllUser(){
-		return userDao.getAllUser();
+
+	public List<User> getAllUser(int pageNumber, int pageSize) {
+		return userDao.getAllUser((pageNumber-1)*pageSize, pageSize);
 	}
-	//任务完成，增加积分
+	
+	public List<User> getUserByCondition(User user) {
+		return userDao.getUserByCondition(user);
+	}
+
+	
+
+	// 任务完成，增加积分
 	public void changePointCount() {
-		
+
 	}
 
 	@Transactional
@@ -90,8 +97,8 @@ public class UserService {
 			user.setCertificatenumber(String.valueOf(lo.get(1)).length() == 0 ? null : String.valueOf(lo.get(1)));
 			user.setIdcard(String.valueOf(lo.get(2)).length() == 0 ? null : String.valueOf(lo.get(2)));
 			try {
-			    user.setPhonenumber(Integer.parseInt(String.valueOf(lo.get(3))));
-			}catch(Exception e){
+				user.setPhonenumber(Integer.parseInt(String.valueOf(lo.get(3))));
+			} catch (Exception e) {
 				return ServerResponse.createByError("数据错误，请检查数据");
 			}
 			user.setPassword(MD5Utils.stringMD5("123456"));// 默认密码123456

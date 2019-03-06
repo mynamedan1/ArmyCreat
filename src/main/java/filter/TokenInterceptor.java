@@ -5,16 +5,21 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
 
 import army.db.pojo.User;
+import army.service.RedisTokenManager;
 import utils.JWT;
-import utils.ResponseData;
+import utils.MD5Utils;
+import utils.ServerResponse;
 
 public class TokenInterceptor implements HandlerInterceptor {
+	@Autowired
+	private RedisTokenManager redisRokenManager;
 
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
 			Exception arg3) throws Exception {
@@ -28,37 +33,32 @@ public class TokenInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		response.setCharacterEncoding("utf-8");
-		String token = request.getParameter("token");
-		ResponseData responseData = ResponseData.ok();
+		String key = request.getHeader("key");
 		// token不存在
-		if (null != token) {
-			User login = JWT.unsign(token, User.class);
-//			String loginId = request.getParameter("loginId");
+		if (null != key) {
+			String token = redisRokenManager.getToken(key);
+			User loginUser = JWT.unsign(token, User.class);
 			// 解密token后的loginId与用户传来的loginId不一致，一般都是token过期
-//			if (null != loginId && null != login) {
-//				if (Integer.parseInt(loginId) == login.getId()) {
-//					return true;
-//				} else {
-//					responseData = ResponseData.forbidden();
-//					responseMessage(response, response.getWriter(), responseData);
-//					return false;
-//				}
-//			} else {
-//				responseData = ResponseData.forbidden();
-//				responseMessage(response, response.getWriter(), responseData);
-//				return false;
-//			}
-			return true;
+			if (null != key && null != loginUser) {
+				if (key.equals(MD5Utils.stringMD5(loginUser.getId()+""))) {
+					request.setAttribute("currentUser", loginUser);
+					return true;
+				} else {
+					responseMessage(response, response.getWriter(), ServerResponse.createByNeedLogin());
+					return false;
+				}
+			} else {
+				responseMessage(response, response.getWriter(), ServerResponse.createByNeedLogin());
+				return false;
+			}
 		} else {
-			responseData = ResponseData.forbidden();
-			responseMessage(response, response.getWriter(), responseData);
+			responseMessage(response, response.getWriter(), ServerResponse.createByNeedLogin());
 			return false;
 		}
 	}
 
 	// 请求不通过，返回错误信息给客户端
-	private void responseMessage(HttpServletResponse response, PrintWriter out, ResponseData responseData) {
-		responseData = ResponseData.forbidden();
+	private void responseMessage(HttpServletResponse response, PrintWriter out, ServerResponse responseData) {
 		response.setContentType("application/json; charset=utf-8");
 		String json = JSONObject.toJSONString(responseData);
 		out.print(json);

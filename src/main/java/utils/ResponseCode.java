@@ -6,7 +6,7 @@ package utils;
 public enum ResponseCode {
 	SUCCESS(100, "SUCCESS"),
 	ERROR(101, "ERROR"),
-	NEED_LOG(1, "NEED_LOG");
+	NEED_LOG(403, "NEED_LOG");
 	private int code;
 	private String desc;
 
