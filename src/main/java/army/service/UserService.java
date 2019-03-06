@@ -3,6 +3,7 @@ package army.service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import utils.ExcelUtil;
 import utils.MD5Utils;
 import utils.ResponseCode;
 import utils.ServerResponse;
+import utils.TimeUntils;
 
 @Service
 public class UserService {
@@ -46,8 +48,8 @@ public class UserService {
 		return userDao.getAllUser((pageNumber-1)*pageSize, pageSize);
 	}
 	
-	public List<User> getUserByCondition(User user) {
-		return userDao.getUserByCondition(user);
+	public List<User> getUserByCondition(User user,int stratPoint,int endPoint) {
+		return userDao.getUserByCondition(user,stratPoint,endPoint);
 	}
 
 	
@@ -105,6 +107,7 @@ public class UserService {
 			user.setPointcount(0);// 初使积分0
 			user.setImporttype("批量添加");// 添加方式：批量添加
 			user.setState(1);// 激活状态
+			user.setUpdatetime(TimeUntils.dataToString(new Date()));
 			userList.add(user);
 		}
 		try {

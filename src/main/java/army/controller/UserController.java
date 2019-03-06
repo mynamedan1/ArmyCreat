@@ -3,6 +3,7 @@ package army.controller;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +28,7 @@ import utils.JWT;
 import utils.MD5Utils;
 import utils.ResponseCode;
 import utils.ServerResponse;
+import utils.TimeUntils;
 
 @Controller
 @RequestMapping("/user")
@@ -45,6 +47,7 @@ public class UserController {
 	@ResponseBody
 	public ServerResponse registerUser(HttpServletRequest request, HttpServletResponse response, User user,
 			Model model) {
+		user.setUpdatetime(TimeUntils.dataToString(new Date()));
 		ServerResponse serverResponse;
 		user.setPassword(MD5Utils.stringMD5(user.getPassword()));
 		if (userService.insertUser(user)) {
@@ -95,7 +98,7 @@ public class UserController {
 		ServerResponse serverResponse;
 		if (user != null) {
 			redisRokenManager.setToken(user);
-			response.addHeader("key", MD5Utils.stringMD5(user.getId() + ""));
+			response.setHeader("key", MD5Utils.stringMD5(user.getId() + ""));
 			return ServerResponse.createBySuccess("登录成功", user);
 		} else {
 			return ServerResponse.createByError("账号或密码错误！");
@@ -144,8 +147,8 @@ public class UserController {
 	// 用户模糊查询
 	@RequestMapping("getUserByCondition.do")
 	@ResponseBody
-	public ServerResponse getUserByCondition(HttpServletRequest request, HttpServletResponse response,User user,Model model) {
-		return ServerResponse.createBySuccess("用户列表", userService.getUserByCondition(user));
+	public ServerResponse getUserByCondition(HttpServletRequest request, HttpServletResponse response,User user,Model model,int stratPoint,int endPoint) {
+		return ServerResponse.createBySuccess("用户列表", userService.getUserByCondition(user,stratPoint,endPoint));
 
 	}
 

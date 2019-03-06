@@ -27,5 +27,5 @@ public interface UserMapper {
     //分页查询用户
     List<User> getAllUser(@Param("pageNumber")int pageNumber,@Param("pageSize") int pageSize);
     //根据条件模糊查询
-    List<User> getUserByCondition(User user);
+    List<User> getUserByCondition(@Param("user")User user,@Param("startPonit")int startPonit,@Param("endPonit")int endPonit);
 }

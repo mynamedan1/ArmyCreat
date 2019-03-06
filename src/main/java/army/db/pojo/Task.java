@@ -19,6 +19,10 @@ public class Task {
 
     private String extra;
 
+    private String updatetime;
+
+    private Integer version;
+
     private byte[] content;
 
     public Integer getId() {
@@ -91,6 +95,22 @@ public class Task {
 
     public void setExtra(String extra) {
         this.extra = extra == null ? null : extra.trim();
+    }
+
+    public String getUpdatetime() {
+        return updatetime;
+    }
+
+    public void setUpdatetime(String updatetime) {
+        this.updatetime = updatetime == null ? null : updatetime.trim();
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
     public byte[] getContent() {

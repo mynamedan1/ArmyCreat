@@ -1,5 +1,9 @@
 package army.db.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import army.db.pojo.Task;
 
 public interface TaskMapper {
@@ -16,4 +20,8 @@ public interface TaskMapper {
     int updateByPrimaryKeyWithBLOBs(Task record);
 
     int updateByPrimaryKey(Task record);
+    
+    List<Task> getAllTask(@Param("pageNumber")int pageNumber,@Param("pageSize") int pageSize);
+    
+    List<Task> getTaskByCondition(Task  task);
 }
