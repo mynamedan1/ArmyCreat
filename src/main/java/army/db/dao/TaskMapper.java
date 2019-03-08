@@ -20,8 +20,8 @@ public interface TaskMapper {
     int updateByPrimaryKeyWithBLOBs(Task record);
 
     int updateByPrimaryKey(Task record);
-    
+    //任务分页查询
     List<Task> getAllTask(@Param("pageNumber")int pageNumber,@Param("pageSize") int pageSize);
-    
-    List<Task> getTaskByCondition(Task  task);
+    //任务模糊查询
+    List<Task> getTaskByCondition(@Param("task")Task  task);
 }

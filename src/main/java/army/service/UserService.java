@@ -52,6 +52,10 @@ public class UserService {
 		return userDao.getUserByCondition(user,stratPoint,endPoint);
 	}
 
+	public boolean deleteUser(int id) {
+		return userDao.deleteByPrimaryKey(id) == 1 ? true : false;
+	}
+
 	
 
 	// 任务完成，增加积分

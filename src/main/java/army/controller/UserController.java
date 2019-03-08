@@ -147,8 +147,21 @@ public class UserController {
 	// 用户模糊查询
 	@RequestMapping("getUserByCondition.do")
 	@ResponseBody
-	public ServerResponse getUserByCondition(HttpServletRequest request, HttpServletResponse response,User user,Model model,int stratPoint,int endPoint) {
-		return ServerResponse.createBySuccess("用户列表", userService.getUserByCondition(user,stratPoint,endPoint));
+	public ServerResponse getUserByCondition(HttpServletRequest request, HttpServletResponse response, User user,
+			Model model, int stratPoint, int endPoint) {
+		return ServerResponse.createBySuccess("用户列表", userService.getUserByCondition(user, stratPoint, endPoint));
+
+	}
+
+	// 用户模糊查询
+	@RequestMapping("deleteUser.do")
+	@ResponseBody
+	public ServerResponse deleteUser(HttpServletRequest request, HttpServletResponse response, int id) {
+		if(userService.deleteUser(id)) {
+			return ServerResponse.createBySuccess("用户删除成功");
+		}else {
+			return ServerResponse.createByError("用户删除失败");
+		}
 
 	}
 
