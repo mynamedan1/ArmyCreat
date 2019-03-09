@@ -59,8 +59,8 @@ public class UserService {
 	
 
 	// 任务完成，增加积分
-	public void changePointCount() {
-
+	public void changePointCount(int addPoint) {
+      
 	}
 
 	@Transactional

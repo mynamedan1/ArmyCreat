@@ -61,7 +61,7 @@ public class UserController {
 	// 更新用户信息，未完成
 	@RequestMapping("updateuser.do")
 	@ResponseBody
-	public ServerResponse updateUser(User user, MultipartFile partFile, Model model, HttpServletRequest request,
+	public ServerResponse updateUser(MultipartFile partFile,User user, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
 		if (!partFile.isEmpty()) {
 			String filePath = tomact_dir + "/army/person/" + user.getCertificatenumber() + ".jpg";

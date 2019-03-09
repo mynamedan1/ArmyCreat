@@ -18,15 +18,12 @@ public class TaskService {
 	}
 	//更新任务状态
 	public boolean claimTask(Task task) {
-		return taskDao.updateByPrimaryKey(task)==1?true:false;
+		return taskDao.updateByPrimaryKeySelective(task)==1?true:false;
 	}
 	
-	public boolean changeTaskStatus(Task task) {
-		return taskDao.updateByPrimaryKey(task)==1?true:false;
-	}
 	
 	public List<Task> getAllTask(int pageNumber,int pageSize) {
-		return null;
+		return taskDao.getAllTask((pageNumber-1)*pageSize, pageSize);
 	}
 	
 	public List<Task> getTaskByCondition(Task task) {
