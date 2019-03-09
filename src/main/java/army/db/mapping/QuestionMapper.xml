@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="army.db.dao.QuestionMapper" >
+  <resultMap id="BaseResultMap" type="army.db.pojo.Question" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="examId" property="examid" jdbcType="INTEGER" />
+    <result column="questionIndex" property="questionindex" jdbcType="INTEGER" />
+    <result column="questionType" property="questiontype" jdbcType="INTEGER" />
+    <result column="questionContent" property="questioncontent" jdbcType="VARCHAR" />
+    <result column="questionSelecttion" property="questionselecttion" jdbcType="VARCHAR" />
+    <result column="answer" property="answer" jdbcType="VARCHAR" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="point" property="point" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, examId, questionIndex, questionType, questionContent, questionSelecttion, answer, 
+    extra, point
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from questions
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from questions
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="army.db.pojo.Question" >
+    insert into questions (id, examId, questionIndex, 
+      questionType, questionContent, questionSelecttion, 
+      answer, extra, point
+      )
+    values (#{id,jdbcType=INTEGER}, #{examid,jdbcType=INTEGER}, #{questionindex,jdbcType=INTEGER}, 
+      #{questiontype,jdbcType=INTEGER}, #{questioncontent,jdbcType=VARCHAR}, #{questionselecttion,jdbcType=VARCHAR}, 
+      #{answer,jdbcType=VARCHAR}, #{extra,jdbcType=VARCHAR}, #{point,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="army.db.pojo.Question" >
+    insert into questions
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="examid != null" >
+        examId,
+      </if>
+      <if test="questionindex != null" >
+        questionIndex,
+      </if>
+      <if test="questiontype != null" >
+        questionType,
+      </if>
+      <if test="questioncontent != null" >
+        questionContent,
+      </if>
+      <if test="questionselecttion != null" >
+        questionSelecttion,
+      </if>
+      <if test="answer != null" >
+        answer,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+      <if test="point != null" >
+        point,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="examid != null" >
+        #{examid,jdbcType=INTEGER},
+      </if>
+      <if test="questionindex != null" >
+        #{questionindex,jdbcType=INTEGER},
+      </if>
+      <if test="questiontype != null" >
+        #{questiontype,jdbcType=INTEGER},
+      </if>
+      <if test="questioncontent != null" >
+        #{questioncontent,jdbcType=VARCHAR},
+      </if>
+      <if test="questionselecttion != null" >
+        #{questionselecttion,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null" >
+        #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null" >
+        #{point,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="army.db.pojo.Question" >
+    update questions
+    <set >
+      <if test="examid != null" >
+        examId = #{examid,jdbcType=INTEGER},
+      </if>
+      <if test="questionindex != null" >
+        questionIndex = #{questionindex,jdbcType=INTEGER},
+      </if>
+      <if test="questiontype != null" >
+        questionType = #{questiontype,jdbcType=INTEGER},
+      </if>
+      <if test="questioncontent != null" >
+        questionContent = #{questioncontent,jdbcType=VARCHAR},
+      </if>
+      <if test="questionselecttion != null" >
+        questionSelecttion = #{questionselecttion,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null" >
+        answer = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null" >
+        point = #{point,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="army.db.pojo.Question" >
+    update questions
+    set examId = #{examid,jdbcType=INTEGER},
+      questionIndex = #{questionindex,jdbcType=INTEGER},
+      questionType = #{questiontype,jdbcType=INTEGER},
+      questionContent = #{questioncontent,jdbcType=VARCHAR},
+      questionSelecttion = #{questionselecttion,jdbcType=VARCHAR},
+      answer = #{answer,jdbcType=VARCHAR},
+      extra = #{extra,jdbcType=VARCHAR},
+      point = #{point,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

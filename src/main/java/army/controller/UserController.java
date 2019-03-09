@@ -63,24 +63,26 @@ public class UserController {
 	@ResponseBody
 	public ServerResponse updateUser(User user, MultipartFile partFile, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
-		String filePath = tomact_dir + "/army/person/" + user.getCertificatenumber() + ".jpg";
-		File file = new File(filePath);
-		if (!file.exists()) {
-			file.mkdirs();
-		}
-		try {
-			partFile.transferTo(file);
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
-			return ServerResponse.createByError("文件上传失败");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
-			return ServerResponse.createByError("文件上传失败");
+		if (!partFile.isEmpty()) {
+			String filePath = tomact_dir + "/army/person/" + user.getCertificatenumber() + ".jpg";
+			File file = new File(filePath);
+			if (!file.exists()) {
+				file.mkdirs();
+			}
+			try {
+				partFile.transferTo(file);
+				user.setImgurl(filePath);
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				// e.printStackTrace();
+				return ServerResponse.createByError("文件上传失败");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				// e.printStackTrace();
+				return ServerResponse.createByError("文件上传失败");
+			}
 		}
 		user.setId(((User) request.getAttribute("currentUser")).getId());
-		user.setImgurl(filePath);
 		if (userService.updateUser(user)) {
 			return ServerResponse.createBySuccess("用户更新成功");
 		} else {
@@ -148,7 +150,7 @@ public class UserController {
 	@RequestMapping("getUserByCondition.do")
 	@ResponseBody
 	public ServerResponse getUserByCondition(HttpServletRequest request, HttpServletResponse response, User user,
-			Model model, int stratPoint, int endPoint) {
+			Model model, Integer stratPoint, Integer endPoint) {
 		return ServerResponse.createBySuccess("用户列表", userService.getUserByCondition(user, stratPoint, endPoint));
 
 	}
@@ -157,9 +159,9 @@ public class UserController {
 	@RequestMapping("deleteUser.do")
 	@ResponseBody
 	public ServerResponse deleteUser(HttpServletRequest request, HttpServletResponse response, int id) {
-		if(userService.deleteUser(id)) {
+		if (userService.deleteUser(id)) {
 			return ServerResponse.createBySuccess("用户删除成功");
-		}else {
+		} else {
 			return ServerResponse.createByError("用户删除失败");
 		}
 

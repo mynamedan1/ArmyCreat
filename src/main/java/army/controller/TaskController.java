@@ -54,7 +54,7 @@ public class TaskController {
 			return ServerResponse.createByError("任务获取失败");
 		}
 		
-		 //任务分页查询
+		 //任务模糊查询
 		@RequestMapping("getTaskByCondition.do")
 		@ResponseBody
 		public ServerResponse getTaskByCondition(HttpServletRequest request, HttpServletResponse response, Task task,

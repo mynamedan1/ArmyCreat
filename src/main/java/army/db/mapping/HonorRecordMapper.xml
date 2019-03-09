@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="army.db.dao.HonorRecordMapper" >
+  <resultMap id="BaseResultMap" type="army.db.pojo.HonorRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="certificateNumber" property="certificatenumber" jdbcType="VARCHAR" />
+    <result column="point" property="point" jdbcType="INTEGER" />
+    <result column="time" property="time" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, certificateNumber, point, time, type, extra
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from honorRecord
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from honorRecord
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="army.db.pojo.HonorRecord" >
+    insert into honorRecord (id, certificateNumber, point, 
+      time, type, extra)
+    values (#{id,jdbcType=INTEGER}, #{certificatenumber,jdbcType=VARCHAR}, #{point,jdbcType=INTEGER}, 
+      #{time,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{extra,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="army.db.pojo.HonorRecord" >
+    insert into honorRecord
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="certificatenumber != null" >
+        certificateNumber,
+      </if>
+      <if test="point != null" >
+        point,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="certificatenumber != null" >
+        #{certificatenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null" >
+        #{point,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="army.db.pojo.HonorRecord" >
+    update honorRecord
+    <set >
+      <if test="certificatenumber != null" >
+        certificateNumber = #{certificatenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null" >
+        point = #{point,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="army.db.pojo.HonorRecord" >
+    update honorRecord
+    set certificateNumber = #{certificatenumber,jdbcType=VARCHAR},
+      point = #{point,jdbcType=INTEGER},
+      time = #{time,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      extra = #{extra,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

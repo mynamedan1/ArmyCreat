@@ -47,9 +47,15 @@
     and certificateNumber like CONCAT ('%',#{user.certificatenumber},'%')
     and IDCard like CONCAT ('%',#{user.idcard},'%')
     and phoneNumber like CONCAT ('%',#{user.phonenumber},'%')
-    and state = #{user.state}
-    and updateTime = #{user.updatetime}
-    and #{startPonit,jdbcType=INTEGER} &gt;= pointCount &lt;#{endPonit,jdbcType=INTEGER}
+     <if test="user.state != null" >
+        and state = #{user.state}
+     </if>
+     <if test="user.updatetime != null" >
+       and updateTime = #{user.updatetime}
+     </if>
+     <if test="startPonit != null" >
+      and #{startPonit,jdbcType=INTEGER} &gt;= pointCount &lt;#{endPonit,jdbcType=INTEGER}
+    </if>
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

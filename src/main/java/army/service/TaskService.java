@@ -1,5 +1,7 @@
 package army.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,18 @@ public class TaskService {
 	//更新任务状态
 	public boolean claimTask(Task task) {
 		return taskDao.updateByPrimaryKey(task)==1?true:false;
+	}
+	
+	public boolean changeTaskStatus(Task task) {
+		return taskDao.updateByPrimaryKey(task)==1?true:false;
+	}
+	
+	public List<Task> getAllTask(int pageNumber,int pageSize) {
+		return null;
+	}
+	
+	public List<Task> getTaskByCondition(Task task) {
+		return null;
 	}
 
 }

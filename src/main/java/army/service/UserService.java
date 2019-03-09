@@ -48,7 +48,7 @@ public class UserService {
 		return userDao.getAllUser((pageNumber-1)*pageSize, pageSize);
 	}
 	
-	public List<User> getUserByCondition(User user,int stratPoint,int endPoint) {
+	public List<User> getUserByCondition(User user,Integer stratPoint,Integer endPoint) {
 		return userDao.getUserByCondition(user,stratPoint,endPoint);
 	}
 

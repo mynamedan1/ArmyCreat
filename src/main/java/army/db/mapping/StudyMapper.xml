@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="army.db.dao.StudyMapper" >
+  <resultMap id="BaseResultMap" type="army.db.pojo.Study" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="VARCHAR" />
+    <result column="imgUrl" property="imgurl" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="releaseBy" property="releaseby" jdbcType="VARCHAR" />
+    <result column="point" property="point" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="army.db.pojo.Study" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, time, imgUrl, state, extra, releaseBy, point
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from study
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from study
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="army.db.pojo.Study" >
+    insert into study (id, title, time, 
+      imgUrl, state, extra, 
+      releaseBy, point, content
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR}, 
+      #{imgurl,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{extra,jdbcType=VARCHAR}, 
+      #{releaseby,jdbcType=VARCHAR}, #{point,jdbcType=INTEGER}, #{content,jdbcType=LONGVARBINARY}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="army.db.pojo.Study" >
+    insert into study
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="imgurl != null" >
+        imgUrl,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+      <if test="releaseby != null" >
+        releaseBy,
+      </if>
+      <if test="point != null" >
+        point,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="imgurl != null" >
+        #{imgurl,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseby != null" >
+        #{releaseby,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null" >
+        #{point,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="army.db.pojo.Study" >
+    update study
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="imgurl != null" >
+        imgUrl = #{imgurl,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseby != null" >
+        releaseBy = #{releaseby,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null" >
+        point = #{point,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="army.db.pojo.Study" >
+    update study
+    set title = #{title,jdbcType=VARCHAR},
+      time = #{time,jdbcType=VARCHAR},
+      imgUrl = #{imgurl,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      extra = #{extra,jdbcType=VARCHAR},
+      releaseBy = #{releaseby,jdbcType=VARCHAR},
+      point = #{point,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARBINARY}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="army.db.pojo.Study" >
+    update study
+    set title = #{title,jdbcType=VARCHAR},
+      time = #{time,jdbcType=VARCHAR},
+      imgUrl = #{imgurl,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      extra = #{extra,jdbcType=VARCHAR},
+      releaseBy = #{releaseby,jdbcType=VARCHAR},
+      point = #{point,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
