@@ -120,13 +120,6 @@ public class TaskController {
 	}
 
 	// ----------------------------------------------------普通用户任务管理---------------------------------------------
-	// app端任务查询，只查询未被认领的任务
-	@RequestMapping("getAllTaskApp.do")
-	@ResponseBody
-	public ServerResponse getAllTaskApp(HttpServletRequest request, HttpServletResponse response, Model model) {
-
-		return ServerResponse.createByError("任务获取失败");
-	}
 
 	// 个人app端任务查询，根据状态查询 //-1下架，0待审批，1待认领，2已认领，3代支付，4已支付，5已完成
 	@RequestMapping("getAllTaskByUser.do")
