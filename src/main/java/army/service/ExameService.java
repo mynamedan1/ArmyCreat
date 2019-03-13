@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import army.db.dao.ExamMapper;
 import army.db.dao.QuestionMapper;
+import army.db.pojo.Exam;
 import army.db.pojo.Question;
 
 @Service
@@ -16,6 +17,14 @@ public class ExameService {
 
 	public boolean insertQuestion(Question question) {
 		return questionMapper.insert(question) == 1 ? true : false;
+	}
+
+	public int insertExam(Exam exam) {
+		if (examMapper.insert(exam) == 1) {
+			return exam.getId();
+		} else {
+			return -1;
+		}
 	}
 
 }
