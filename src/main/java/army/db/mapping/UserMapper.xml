@@ -36,6 +36,7 @@
 		where (certificateNumber = #{cardCode,jdbcType=VARCHAR} or phoneNumber =
 		#{cardCode,jdbcType=VARCHAR})
 		and password = #{password,jdbcType=VARCHAR}
+		and state = 1
 	</select>
 	<select id="getAllUser" resultMap="BaseResultMap">
 		select

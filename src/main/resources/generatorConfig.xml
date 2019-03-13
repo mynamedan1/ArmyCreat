@@ -47,41 +47,29 @@
 		<!-- <table tableName="course_user_info" domainObjectName="CourseUserInfo" 
 			enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" 
 			enableSelectByExample="false" selectByExampleQueryId="false" /> -->
-		<table tableName="study" domainObjectName="Study"
-			enableCountByExample="false" enableUpdateByExample="false"
-			enableDeleteByExample="false" enableSelectByExample="false"
-			selectByExampleQueryId="false" />
-			
-		<table tableName="questions" domainObjectName="Question"
-			enableCountByExample="false" enableUpdateByExample="false"
-			enableDeleteByExample="false" enableSelectByExample="false"
-			selectByExampleQueryId="false" />
+		<!-- <table tableName="study" domainObjectName="Study" enableCountByExample="false" 
+			enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
+			selectByExampleQueryId="false" /> <table tableName="questions" domainObjectName="Question" 
+			enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" 
+			enableSelectByExample="false" selectByExampleQueryId="false" /> <table tableName="payRecord" 
+			domainObjectName="PayRecord" enableCountByExample="false" enableUpdateByExample="false" 
+			enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" 
+			/> <table tableName="message" domainObjectName="Message" enableCountByExample="false" 
+			enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
+			selectByExampleQueryId="false" /> <table tableName="honorRecord" domainObjectName="HonorRecord" 
+			enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" 
+			enableSelectByExample="false" selectByExampleQueryId="false" /> <table tableName="answerRecord" 
+			domainObjectName="AnswerRecord" enableCountByExample="false" enableUpdateByExample="false" 
+			enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" 
+			/> -->
 
-		<table tableName="payRecord" domainObjectName="PayRecord"
+		<!-- <table tableName="study" domainObjectName="Study" enableCountByExample="false" 
+			enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
+			selectByExampleQueryId="false" /> -->
+		<table tableName="exam" domainObjectName="Exam"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false" />
-
-		<table tableName="message" domainObjectName="Message"
-			enableCountByExample="false" enableUpdateByExample="false"
-			enableDeleteByExample="false" enableSelectByExample="false"
-			selectByExampleQueryId="false" />
-
-		<table tableName="honorRecord" domainObjectName="HonorRecord"
-			enableCountByExample="false" enableUpdateByExample="false"
-			enableDeleteByExample="false" enableSelectByExample="false"
-			selectByExampleQueryId="false" />
-
-		<table tableName="answerRecord" domainObjectName="AnswerRecord"
-			enableCountByExample="false" enableUpdateByExample="false"
-			enableDeleteByExample="false" enableSelectByExample="false"
-			selectByExampleQueryId="false" />
-
-		<!-- <table tableName="study" domainObjectName="Study"
-			enableCountByExample="false" enableUpdateByExample="false"
-			enableDeleteByExample="false" enableSelectByExample="false"
-			selectByExampleQueryId="false" />
- -->
 
 	</context>
 </generatorConfiguration>
