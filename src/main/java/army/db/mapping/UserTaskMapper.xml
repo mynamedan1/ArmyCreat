@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="army.db.dao.UserTaskMapper" >
+  <resultMap id="BaseResultMap" type="army.db.pojo.UserTask" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="taskID" property="taskid" jdbcType="INTEGER" />
+    <result column="userID" property="userid" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="payImageUrl" property="payimageurl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, taskID, userID, state, payImageUrl
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from userTask
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from userTask
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="army.db.pojo.UserTask" >
+    insert into userTask (id, taskID, userID, 
+      state, payImageUrl)
+    values (#{id,jdbcType=INTEGER}, #{taskid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER}, #{payimageurl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="army.db.pojo.UserTask" >
+    insert into userTask
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="taskid != null" >
+        taskID,
+      </if>
+      <if test="userid != null" >
+        userID,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="payimageurl != null" >
+        payImageUrl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="taskid != null" >
+        #{taskid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="payimageurl != null" >
+        #{payimageurl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="army.db.pojo.UserTask" >
+    update userTask
+    <set >
+      <if test="taskid != null" >
+        taskID = #{taskid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        userID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="payimageurl != null" >
+        payImageUrl = #{payimageurl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="army.db.pojo.UserTask" >
+    update userTask
+    set taskID = #{taskid,jdbcType=INTEGER},
+      userID = #{userid,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      payImageUrl = #{payimageurl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,5 +1,7 @@
 package army.db.dao;
 
+import java.util.List;
+
 import army.db.pojo.Question;
 
 public interface QuestionMapper {
@@ -14,4 +16,8 @@ public interface QuestionMapper {
     int updateByPrimaryKeySelective(Question record);
 
     int updateByPrimaryKey(Question record);
+    
+    List<Question> getQuestions();
+    
+    String  getAnswers();
 }

@@ -3,7 +3,7 @@ package army.db.pojo;
 public class PayRecord {
     private Integer id;
 
-    private String certificatenumber;
+    private Integer userid;
 
     private Float money;
 
@@ -21,12 +21,12 @@ public class PayRecord {
         this.id = id;
     }
 
-    public String getCertificatenumber() {
-        return certificatenumber;
+    public Integer getUserid() {
+        return userid;
     }
 
-    public void setCertificatenumber(String certificatenumber) {
-        this.certificatenumber = certificatenumber == null ? null : certificatenumber.trim();
+    public void setUserid(Integer userid) {
+        this.userid = userid;
     }
 
     public Float getMoney() {

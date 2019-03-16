@@ -1,95 +1,107 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="army.db.dao.AnswerRecordMapper" >
-  <resultMap id="BaseResultMap" type="army.db.pojo.AnswerRecord" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="examid" property="examid" jdbcType="INTEGER" />
-    <result column="certificateNumber" property="certificatenumber" jdbcType="VARCHAR" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="army.db.pojo.AnswerRecord" extends="BaseResultMap" >
-    <result column="answer" property="answer" jdbcType="LONGVARBINARY" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, examid, certificateNumber
-  </sql>
-  <sql id="Blob_Column_List" >
-    answer
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from answerRecord
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from answerRecord
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="army.db.pojo.AnswerRecord" >
-    insert into answerRecord (id, examid, certificateNumber, 
-      answer)
-    values (#{id,jdbcType=INTEGER}, #{examid,jdbcType=INTEGER}, #{certificatenumber,jdbcType=VARCHAR}, 
-      #{answer,jdbcType=LONGVARBINARY})
-  </insert>
-  <insert id="insertSelective" parameterType="army.db.pojo.AnswerRecord" >
-    insert into answerRecord
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="examid != null" >
-        examid,
-      </if>
-      <if test="certificatenumber != null" >
-        certificateNumber,
-      </if>
-      <if test="answer != null" >
-        answer,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="examid != null" >
-        #{examid,jdbcType=INTEGER},
-      </if>
-      <if test="certificatenumber != null" >
-        #{certificatenumber,jdbcType=VARCHAR},
-      </if>
-      <if test="answer != null" >
-        #{answer,jdbcType=LONGVARBINARY},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="army.db.pojo.AnswerRecord" >
-    update answerRecord
-    <set >
-      <if test="examid != null" >
-        examid = #{examid,jdbcType=INTEGER},
-      </if>
-      <if test="certificatenumber != null" >
-        certificateNumber = #{certificatenumber,jdbcType=VARCHAR},
-      </if>
-      <if test="answer != null" >
-        answer = #{answer,jdbcType=LONGVARBINARY},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="army.db.pojo.AnswerRecord" >
-    update answerRecord
-    set examid = #{examid,jdbcType=INTEGER},
-      certificateNumber = #{certificatenumber,jdbcType=VARCHAR},
-      answer = #{answer,jdbcType=LONGVARBINARY}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="army.db.pojo.AnswerRecord" >
-    update answerRecord
-    set examid = #{examid,jdbcType=INTEGER},
-      certificateNumber = #{certificatenumber,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+<mapper namespace="army.db.dao.AnswerRecordMapper">
+	<resultMap id="BaseResultMap" type="army.db.pojo.AnswerRecord">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="examid" property="examid" jdbcType="INTEGER" />
+		<result column="userID" property="userid" jdbcType="INTEGER" />
+		<result column="answer" property="answer" jdbcType="VARCHAR" />
+		<result column="extra" property="extra" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, examid, userID, answer, extra
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from answerRecord
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectByUserId" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from answerRecord
+		where userID = #{userid,jdbcType=INTEGER} and examid = (
+		select id from exam where state=1
+		)
+
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from answerRecord
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="army.db.pojo.AnswerRecord">
+		insert into answerRecord (id, examid, userID,
+		answer, extra)
+		values (#{id,jdbcType=INTEGER}, #{examid,jdbcType=INTEGER},
+		#{userid,jdbcType=INTEGER},
+		#{answer,jdbcType=VARCHAR}, #{extra,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="army.db.pojo.AnswerRecord">
+		insert into answerRecord
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="examid != null">
+				examid,
+			</if>
+			<if test="userid != null">
+				userID,
+			</if>
+			<if test="answer != null">
+				answer,
+			</if>
+			<if test="extra != null">
+				extra,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="examid != null">
+				#{examid,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=INTEGER},
+			</if>
+			<if test="answer != null">
+				#{answer,jdbcType=VARCHAR},
+			</if>
+			<if test="extra != null">
+				#{extra,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="army.db.pojo.AnswerRecord">
+		update answerRecord
+		<set>
+			<if test="examid != null">
+				examid = #{examid,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				userID = #{userid,jdbcType=INTEGER},
+			</if>
+			<if test="answer != null">
+				answer = #{answer,jdbcType=VARCHAR},
+			</if>
+			<if test="extra != null">
+				extra = #{extra,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="army.db.pojo.AnswerRecord">
+		update answerRecord
+		set examid = #{examid,jdbcType=INTEGER},
+		userID = #{userid,jdbcType=INTEGER},
+		answer = #{answer,jdbcType=VARCHAR},
+		extra = #{extra,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
 </mapper>

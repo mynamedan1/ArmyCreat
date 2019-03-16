@@ -4,15 +4,15 @@
   <resultMap id="BaseResultMap" type="army.db.pojo.Message" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="content" property="content" jdbcType="VARCHAR" />
-    <result column="relase" property="relase" jdbcType="VARCHAR" />
-    <result column="claim" property="claim" jdbcType="VARCHAR" />
+    <result column="relaseUser" property="relaseuser" jdbcType="INTEGER" />
+    <result column="claimUser" property="claimuser" jdbcType="INTEGER" />
     <result column="sendTime" property="sendtime" jdbcType="VARCHAR" />
     <result column="state" property="state" jdbcType="INTEGER" />
     <result column="updateTime" property="updatetime" jdbcType="VARCHAR" />
     <result column="extra" property="extra" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, content, relase, claim, sendTime, state, updateTime, extra
+    id, content, relaseUser, claimUser, sendTime, state, updateTime, extra
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -25,11 +25,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="army.db.pojo.Message" >
-    insert into message (id, content, relase, 
-      claim, sendTime, state, 
+    insert into message (id, content, relaseUser, 
+      claimUser, sendTime, state, 
       updateTime, extra)
-    values (#{id,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{relase,jdbcType=VARCHAR}, 
-      #{claim,jdbcType=VARCHAR}, #{sendtime,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{relaseuser,jdbcType=INTEGER}, 
+      #{claimuser,jdbcType=INTEGER}, #{sendtime,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
       #{updatetime,jdbcType=VARCHAR}, #{extra,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="army.db.pojo.Message" >
@@ -41,11 +41,11 @@
       <if test="content != null" >
         content,
       </if>
-      <if test="relase != null" >
-        relase,
+      <if test="relaseuser != null" >
+        relaseUser,
       </if>
-      <if test="claim != null" >
-        claim,
+      <if test="claimuser != null" >
+        claimUser,
       </if>
       <if test="sendtime != null" >
         sendTime,
@@ -67,11 +67,11 @@
       <if test="content != null" >
         #{content,jdbcType=VARCHAR},
       </if>
-      <if test="relase != null" >
-        #{relase,jdbcType=VARCHAR},
+      <if test="relaseuser != null" >
+        #{relaseuser,jdbcType=INTEGER},
       </if>
-      <if test="claim != null" >
-        #{claim,jdbcType=VARCHAR},
+      <if test="claimuser != null" >
+        #{claimuser,jdbcType=INTEGER},
       </if>
       <if test="sendtime != null" >
         #{sendtime,jdbcType=VARCHAR},
@@ -93,11 +93,11 @@
       <if test="content != null" >
         content = #{content,jdbcType=VARCHAR},
       </if>
-      <if test="relase != null" >
-        relase = #{relase,jdbcType=VARCHAR},
+      <if test="relaseuser != null" >
+        relaseUser = #{relaseuser,jdbcType=INTEGER},
       </if>
-      <if test="claim != null" >
-        claim = #{claim,jdbcType=VARCHAR},
+      <if test="claimuser != null" >
+        claimUser = #{claimuser,jdbcType=INTEGER},
       </if>
       <if test="sendtime != null" >
         sendTime = #{sendtime,jdbcType=VARCHAR},
@@ -117,8 +117,8 @@
   <update id="updateByPrimaryKey" parameterType="army.db.pojo.Message" >
     update message
     set content = #{content,jdbcType=VARCHAR},
-      relase = #{relase,jdbcType=VARCHAR},
-      claim = #{claim,jdbcType=VARCHAR},
+      relaseUser = #{relaseuser,jdbcType=INTEGER},
+      claimUser = #{claimuser,jdbcType=INTEGER},
       sendTime = #{sendtime,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER},
       updateTime = #{updatetime,jdbcType=VARCHAR},

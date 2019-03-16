@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import army.db.pojo.User;
 
+import java.text.ParseException;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
@@ -44,9 +45,15 @@ public class RedisTokenManager{
     
 	public void setToken(User user) {
 		// 使用jwt生成token
-		String token = JWT.sign(user, 60L * 1000L * 30L);
+		String token;
+		try {
+			token = JWT.sign(user, 60L * 1000L * 30L);
+			redisTemplate.boundValueOps(MD5Utils.stringMD5(user.getId()+"")).set(token,60, TimeUnit.DAYS);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// 存储到redis并设置过期时间
-		redisTemplate.boundValueOps(MD5Utils.stringMD5(user.getId()+"")).set(token);
 	}
 
 	public String getToken(String key) {

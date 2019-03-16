@@ -61,7 +61,7 @@ public class UserController {
 	// 更新用户信息，未完成
 	@RequestMapping("updateuser.do")
 	@ResponseBody
-	public ServerResponse updateUser(MultipartFile partFile,User user, Model model, HttpServletRequest request,
+	public ServerResponse updateUser(MultipartFile partFile, User user, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
 		if (!partFile.isEmpty()) {
 			String filePath = tomact_dir + "/army/person/" + user.getCertificatenumber() + ".jpg";
@@ -102,6 +102,28 @@ public class UserController {
 			redisRokenManager.setToken(user);
 			response.setHeader("key", MD5Utils.stringMD5(user.getId() + ""));
 			return ServerResponse.createBySuccess("登录成功", user);
+		} else {
+			return ServerResponse.createByError("账号或密码错误！");
+		}
+
+	}
+
+	// 管理员登陆,验证管理员身份
+	@RequestMapping("adminLogin.do")
+	@ResponseBody
+	public ServerResponse adminLogin(HttpServletRequest request, HttpServletResponse response, String cardCode,
+			String password) {
+		password = MD5Utils.stringMD5(password);
+		User user = userService.checkLogin(cardCode, password);
+		ServerResponse serverResponse;
+		if (user != null) {
+			if (user.getUpdateby() == "system") {
+				redisRokenManager.setToken(user);
+				response.setHeader("key", MD5Utils.stringMD5(user.getId() + ""));
+				return ServerResponse.createBySuccess("登录成功", user);
+			}else {
+				return ServerResponse.createByError("您没有管理员权限");
+			}
 		} else {
 			return ServerResponse.createByError("账号或密码错误！");
 		}

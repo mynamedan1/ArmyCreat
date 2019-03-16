@@ -3,14 +3,14 @@
 <mapper namespace="army.db.dao.PayRecordMapper" >
   <resultMap id="BaseResultMap" type="army.db.pojo.PayRecord" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="certificateNumber" property="certificatenumber" jdbcType="VARCHAR" />
+    <result column="userID" property="userid" jdbcType="INTEGER" />
     <result column="money" property="money" jdbcType="REAL" />
     <result column="time" property="time" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="extra" property="extra" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, certificateNumber, money, time, type, extra
+    id, userID, money, time, type, extra
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -23,9 +23,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="army.db.pojo.PayRecord" >
-    insert into payRecord (id, certificateNumber, money, 
+    insert into payRecord (id, userID, money, 
       time, type, extra)
-    values (#{id,jdbcType=INTEGER}, #{certificatenumber,jdbcType=VARCHAR}, #{money,jdbcType=REAL}, 
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{money,jdbcType=REAL}, 
       #{time,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{extra,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="army.db.pojo.PayRecord" >
@@ -34,8 +34,8 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="certificatenumber != null" >
-        certificateNumber,
+      <if test="userid != null" >
+        userID,
       </if>
       <if test="money != null" >
         money,
@@ -54,8 +54,8 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="certificatenumber != null" >
-        #{certificatenumber,jdbcType=VARCHAR},
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
       </if>
       <if test="money != null" >
         #{money,jdbcType=REAL},
@@ -74,8 +74,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="army.db.pojo.PayRecord" >
     update payRecord
     <set >
-      <if test="certificatenumber != null" >
-        certificateNumber = #{certificatenumber,jdbcType=VARCHAR},
+      <if test="userid != null" >
+        userID = #{userid,jdbcType=INTEGER},
       </if>
       <if test="money != null" >
         money = #{money,jdbcType=REAL},
@@ -94,7 +94,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="army.db.pojo.PayRecord" >
     update payRecord
-    set certificateNumber = #{certificatenumber,jdbcType=VARCHAR},
+    set userID = #{userid,jdbcType=INTEGER},
       money = #{money,jdbcType=REAL},
       time = #{time,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},

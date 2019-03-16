@@ -4,6 +4,10 @@ import com.auth0.jwt.JWTSigner;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.internal.com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 //生成token
@@ -15,14 +19,16 @@ public class JWT {
     private static final String PAYLOAD = "payload";
 
     //加密，传入一个对象和有效期
-    public static <T> String sign(T object, long maxAge) {
+    public static <T> String sign(T object, long maxAge) throws ParseException {
+    	DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
+    	Date myDate1 = dateFormat1.parse("2099-12-31");
         try {
             final JWTSigner signer = new JWTSigner(SECRET);
             final Map<String, Object> claims = new HashMap<String, Object>();
             ObjectMapper mapper = new ObjectMapper();
             String jsonString = mapper.writeValueAsString(object);
             claims.put(PAYLOAD, jsonString);
-            claims.put(EXP, System.currentTimeMillis() + maxAge);
+            claims.put(EXP, myDate1.getTime() + maxAge);
             return signer.sign(claims);
         } catch(Exception e) {
             return null;

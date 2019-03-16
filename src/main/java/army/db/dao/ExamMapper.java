@@ -1,5 +1,6 @@
 package army.db.dao;
 
+
 import army.db.pojo.Exam;
 
 public interface ExamMapper {
@@ -14,4 +15,5 @@ public interface ExamMapper {
     int updateByPrimaryKeySelective(Exam record);
 
     int updateByPrimaryKey(Exam record);
+    
 }

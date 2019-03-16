@@ -3,14 +3,15 @@
 <mapper namespace="army.db.dao.HonorRecordMapper" >
   <resultMap id="BaseResultMap" type="army.db.pojo.HonorRecord" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="certificateNumber" property="certificatenumber" jdbcType="VARCHAR" />
+    <result column="userId" property="userid" jdbcType="INTEGER" />
     <result column="point" property="point" jdbcType="INTEGER" />
     <result column="time" property="time" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="typeExpense" property="typeexpense" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, certificateNumber, point, time, type, extra
+    id, userId, point, time, type, extra, typeExpense
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -23,10 +24,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="army.db.pojo.HonorRecord" >
-    insert into honorRecord (id, certificateNumber, point, 
-      time, type, extra)
-    values (#{id,jdbcType=INTEGER}, #{certificatenumber,jdbcType=VARCHAR}, #{point,jdbcType=INTEGER}, 
-      #{time,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{extra,jdbcType=VARCHAR})
+    insert into honorRecord (id, userId, point, 
+      time, type, extra, 
+      typeExpense)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{point,jdbcType=INTEGER}, 
+      #{time,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{extra,jdbcType=VARCHAR}, 
+      #{typeexpense,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="army.db.pojo.HonorRecord" >
     insert into honorRecord
@@ -34,8 +37,8 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="certificatenumber != null" >
-        certificateNumber,
+      <if test="userid != null" >
+        userId,
       </if>
       <if test="point != null" >
         point,
@@ -49,13 +52,16 @@
       <if test="extra != null" >
         extra,
       </if>
+      <if test="typeexpense != null" >
+        typeExpense,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="certificatenumber != null" >
-        #{certificatenumber,jdbcType=VARCHAR},
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
       </if>
       <if test="point != null" >
         #{point,jdbcType=INTEGER},
@@ -69,13 +75,16 @@
       <if test="extra != null" >
         #{extra,jdbcType=VARCHAR},
       </if>
+      <if test="typeexpense != null" >
+        #{typeexpense,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="army.db.pojo.HonorRecord" >
     update honorRecord
     <set >
-      <if test="certificatenumber != null" >
-        certificateNumber = #{certificatenumber,jdbcType=VARCHAR},
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=INTEGER},
       </if>
       <if test="point != null" >
         point = #{point,jdbcType=INTEGER},
@@ -89,16 +98,20 @@
       <if test="extra != null" >
         extra = #{extra,jdbcType=VARCHAR},
       </if>
+      <if test="typeexpense != null" >
+        typeExpense = #{typeexpense,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="army.db.pojo.HonorRecord" >
     update honorRecord
-    set certificateNumber = #{certificatenumber,jdbcType=VARCHAR},
+    set userId = #{userid,jdbcType=INTEGER},
       point = #{point,jdbcType=INTEGER},
       time = #{time,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
-      extra = #{extra,jdbcType=VARCHAR}
+      extra = #{extra,jdbcType=VARCHAR},
+      typeExpense = #{typeexpense,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

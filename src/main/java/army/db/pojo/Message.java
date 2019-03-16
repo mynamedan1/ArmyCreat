@@ -5,9 +5,9 @@ public class Message {
 
     private String content;
 
-    private String relase;
+    private Integer relaseuser;
 
-    private String claim;
+    private Integer claimuser;
 
     private String sendtime;
 
@@ -33,20 +33,20 @@ public class Message {
         this.content = content == null ? null : content.trim();
     }
 
-    public String getRelase() {
-        return relase;
+    public Integer getRelaseuser() {
+        return relaseuser;
     }
 
-    public void setRelase(String relase) {
-        this.relase = relase == null ? null : relase.trim();
+    public void setRelaseuser(Integer relaseuser) {
+        this.relaseuser = relaseuser;
     }
 
-    public String getClaim() {
-        return claim;
+    public Integer getClaimuser() {
+        return claimuser;
     }
 
-    public void setClaim(String claim) {
-        this.claim = claim == null ? null : claim.trim();
+    public void setClaimuser(Integer claimuser) {
+        this.claimuser = claimuser;
     }
 
     public String getSendtime() {

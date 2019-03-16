@@ -8,7 +8,7 @@
     <result column="imgUrl" property="imgurl" jdbcType="INTEGER" />
     <result column="state" property="state" jdbcType="INTEGER" />
     <result column="extra" property="extra" jdbcType="VARCHAR" />
-    <result column="releaseBy" property="releaseby" jdbcType="VARCHAR" />
+    <result column="releaseBy" property="releaseby" jdbcType="INTEGER" />
     <result column="point" property="point" jdbcType="INTEGER" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="army.db.pojo.Study" extends="BaseResultMap" >
@@ -39,7 +39,7 @@
       )
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR}, 
       #{imgurl,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{extra,jdbcType=VARCHAR}, 
-      #{releaseby,jdbcType=VARCHAR}, #{point,jdbcType=INTEGER}, #{content,jdbcType=LONGVARBINARY}
+      #{releaseby,jdbcType=INTEGER}, #{point,jdbcType=INTEGER}, #{content,jdbcType=LONGVARBINARY}
       )
   </insert>
   <insert id="insertSelective" parameterType="army.db.pojo.Study" >
@@ -93,7 +93,7 @@
         #{extra,jdbcType=VARCHAR},
       </if>
       <if test="releaseby != null" >
-        #{releaseby,jdbcType=VARCHAR},
+        #{releaseby,jdbcType=INTEGER},
       </if>
       <if test="point != null" >
         #{point,jdbcType=INTEGER},
@@ -122,7 +122,7 @@
         extra = #{extra,jdbcType=VARCHAR},
       </if>
       <if test="releaseby != null" >
-        releaseBy = #{releaseby,jdbcType=VARCHAR},
+        releaseBy = #{releaseby,jdbcType=INTEGER},
       </if>
       <if test="point != null" >
         point = #{point,jdbcType=INTEGER},
@@ -140,7 +140,7 @@
       imgUrl = #{imgurl,jdbcType=INTEGER},
       state = #{state,jdbcType=INTEGER},
       extra = #{extra,jdbcType=VARCHAR},
-      releaseBy = #{releaseby,jdbcType=VARCHAR},
+      releaseBy = #{releaseby,jdbcType=INTEGER},
       point = #{point,jdbcType=INTEGER},
       content = #{content,jdbcType=LONGVARBINARY}
     where id = #{id,jdbcType=INTEGER}
@@ -152,7 +152,7 @@
       imgUrl = #{imgurl,jdbcType=INTEGER},
       state = #{state,jdbcType=INTEGER},
       extra = #{extra,jdbcType=VARCHAR},
-      releaseBy = #{releaseby,jdbcType=VARCHAR},
+      releaseBy = #{releaseby,jdbcType=INTEGER},
       point = #{point,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

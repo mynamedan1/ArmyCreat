@@ -5,9 +5,11 @@ public class AnswerRecord {
 
     private Integer examid;
 
-    private String certificatenumber;
+    private Integer userid;
 
-    private byte[] answer;
+    private String answer;
+
+    private String extra;
 
     public Integer getId() {
         return id;
@@ -25,19 +27,27 @@ public class AnswerRecord {
         this.examid = examid;
     }
 
-    public String getCertificatenumber() {
-        return certificatenumber;
+    public Integer getUserid() {
+        return userid;
     }
 
-    public void setCertificatenumber(String certificatenumber) {
-        this.certificatenumber = certificatenumber == null ? null : certificatenumber.trim();
+    public void setUserid(Integer userid) {
+        this.userid = userid;
     }
 
-    public byte[] getAnswer() {
+    public String getAnswer() {
         return answer;
     }
 
-    public void setAnswer(byte[] answer) {
-        this.answer = answer;
+    public void setAnswer(String answer) {
+        this.answer = answer == null ? null : answer.trim();
+    }
+
+    public String getExtra() {
+        return extra;
+    }
+
+    public void setExtra(String extra) {
+        this.extra = extra == null ? null : extra.trim();
     }
 }

@@ -3,7 +3,7 @@ package army.db.pojo;
 public class HonorRecord {
     private Integer id;
 
-    private String certificatenumber;
+    private Integer userid;
 
     private Integer point;
 
@@ -13,6 +13,8 @@ public class HonorRecord {
 
     private String extra;
 
+    private String typeexpense;
+
     public Integer getId() {
         return id;
     }
@@ -21,12 +23,12 @@ public class HonorRecord {
         this.id = id;
     }
 
-    public String getCertificatenumber() {
-        return certificatenumber;
+    public Integer getUserid() {
+        return userid;
     }
 
-    public void setCertificatenumber(String certificatenumber) {
-        this.certificatenumber = certificatenumber == null ? null : certificatenumber.trim();
+    public void setUserid(Integer userid) {
+        this.userid = userid;
     }
 
     public Integer getPoint() {
@@ -59,5 +61,13 @@ public class HonorRecord {
 
     public void setExtra(String extra) {
         this.extra = extra == null ? null : extra.trim();
+    }
+
+    public String getTypeexpense() {
+        return typeexpense;
+    }
+
+    public void setTypeexpense(String typeexpense) {
+        this.typeexpense = typeexpense == null ? null : typeexpense.trim();
     }
 }

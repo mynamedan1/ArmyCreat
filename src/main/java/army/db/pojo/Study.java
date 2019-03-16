@@ -13,7 +13,7 @@ public class Study {
 
     private String extra;
 
-    private String releaseby;
+    private Integer releaseby;
 
     private Integer point;
 
@@ -67,12 +67,12 @@ public class Study {
         this.extra = extra == null ? null : extra.trim();
     }
 
-    public String getReleaseby() {
+    public Integer getReleaseby() {
         return releaseby;
     }
 
-    public void setReleaseby(String releaseby) {
-        this.releaseby = releaseby == null ? null : releaseby.trim();
+    public void setReleaseby(Integer releaseby) {
+        this.releaseby = releaseby;
     }
 
     public Integer getPoint() {

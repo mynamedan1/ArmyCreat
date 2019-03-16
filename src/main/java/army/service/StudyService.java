@@ -29,9 +29,4 @@ public class StudyService {
 		return null;
 	}
 
-
-	
-	
-
-
 }
