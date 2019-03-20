@@ -7,9 +7,10 @@
     <result column="userID" property="userid" jdbcType="INTEGER" />
     <result column="state" property="state" jdbcType="INTEGER" />
     <result column="payImageUrl" property="payimageurl" jdbcType="VARCHAR" />
+    <result column="extral" property="extral" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, taskID, userID, state, payImageUrl
+    id, taskID, userID, state, payImageUrl, extral
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -23,9 +24,11 @@
   </delete>
   <insert id="insert" parameterType="army.db.pojo.UserTask" >
     insert into userTask (id, taskID, userID, 
-      state, payImageUrl)
+      state, payImageUrl, extral
+      )
     values (#{id,jdbcType=INTEGER}, #{taskid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, 
-      #{state,jdbcType=INTEGER}, #{payimageurl,jdbcType=VARCHAR})
+      #{state,jdbcType=INTEGER}, #{payimageurl,jdbcType=VARCHAR}, #{extral,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="army.db.pojo.UserTask" >
     insert into userTask
@@ -45,6 +48,9 @@
       <if test="payimageurl != null" >
         payImageUrl,
       </if>
+      <if test="extral != null" >
+        extral,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -61,6 +67,9 @@
       </if>
       <if test="payimageurl != null" >
         #{payimageurl,jdbcType=VARCHAR},
+      </if>
+      <if test="extral != null" >
+        #{extral,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -79,6 +88,9 @@
       <if test="payimageurl != null" >
         payImageUrl = #{payimageurl,jdbcType=VARCHAR},
       </if>
+      <if test="extral != null" >
+        extral = #{extral,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -87,7 +99,8 @@
     set taskID = #{taskid,jdbcType=INTEGER},
       userID = #{userid,jdbcType=INTEGER},
       state = #{state,jdbcType=INTEGER},
-      payImageUrl = #{payimageurl,jdbcType=VARCHAR}
+      payImageUrl = #{payimageurl,jdbcType=VARCHAR},
+      extral = #{extral,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

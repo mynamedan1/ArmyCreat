@@ -27,6 +27,10 @@ public class User {
 
     private String updatetime;
 
+    private Integer levelvalue;
+
+    private String lavelname;
+
     public Integer getId() {
         return id;
     }
@@ -129,5 +133,21 @@ public class User {
 
     public void setUpdatetime(String updatetime) {
         this.updatetime = updatetime == null ? null : updatetime.trim();
+    }
+
+    public Integer getLevelvalue() {
+        return levelvalue;
+    }
+
+    public void setLevelvalue(Integer levelvalue) {
+        this.levelvalue = levelvalue;
+    }
+
+    public String getLavelname() {
+        return lavelname;
+    }
+
+    public void setLavelname(String lavelname) {
+        this.lavelname = lavelname == null ? null : lavelname.trim();
     }
 }

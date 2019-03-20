@@ -23,6 +23,8 @@ public class Task {
 
     private Integer version;
 
+    private Integer level;
+
     private byte[] content;
 
     public Integer getId() {
@@ -111,6 +113,14 @@ public class Task {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 
     public byte[] getContent() {

@@ -24,7 +24,6 @@ import army.db.pojo.User;
 import army.service.RedisTokenManager;
 import army.service.UserService;
 import utils.ImageCreat;
-import utils.JWT;
 import utils.MD5Utils;
 import utils.ResponseCode;
 import utils.ServerResponse;
@@ -48,6 +47,8 @@ public class UserController {
 	public ServerResponse registerUser(HttpServletRequest request, HttpServletResponse response, User user,
 			Model model) {
 		user.setUpdatetime(TimeUntils.dataToString(new Date()));
+		user.setLevelvalue(1);
+		user.setLavelname("士兵");
 		ServerResponse serverResponse;
 		user.setPassword(MD5Utils.stringMD5(user.getPassword()));
 		if (userService.insertUser(user)) {
@@ -63,26 +64,33 @@ public class UserController {
 	@ResponseBody
 	public ServerResponse updateUser(MultipartFile partFile, User user, Model model, HttpServletRequest request,
 			HttpServletResponse response) {
-		if (!partFile.isEmpty()) {
-			String filePath = tomact_dir + "/army/person/" + user.getCertificatenumber() + ".jpg";
-			File file = new File(filePath);
-			if (!file.exists()) {
-				file.mkdirs();
-			}
-			try {
-				partFile.transferTo(file);
-				user.setImgurl(filePath);
-			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
-				// e.printStackTrace();
-				return ServerResponse.createByError("文件上传失败");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				// e.printStackTrace();
-				return ServerResponse.createByError("文件上传失败");
+		if (null != partFile) {
+			if (!partFile.isEmpty()) {
+				String filePath = tomact_dir + "/person/" + user.getCertificatenumber() + ".jpg";
+				String setPath = "/person/" + user.getCertificatenumber() + ".jpg";
+				System.out.println(setPath);
+				File file = new File(filePath);
+				if (!file.exists()) {
+					file.mkdirs();
+				}
+				try {
+					partFile.transferTo(file);
+					user.setImgurl(setPath);
+				} catch (IllegalStateException e) {
+					// TODO Auto-generated catch block
+					// e.printStackTrace();
+					return ServerResponse.createByError("文件上传失败");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					// e.printStackTrace();
+					return ServerResponse.createByError("文件上传失败");
+				}
 			}
 		}
-		user.setId(((User) request.getAttribute("currentUser")).getId());
+//		user.setId(((User) request.getAttribute("currentUser")).getId());
+		HashMap<String,String> hashMap = (HashMap<String, String>) getLevelInfo(user.getPointcount());
+		user.setLevelvalue(Integer.parseInt(hashMap.get("levelValue")));
+		user.setLavelname(hashMap.get("levelName"));
 		if (userService.updateUser(user)) {
 			return ServerResponse.createBySuccess("用户更新成功");
 		} else {
@@ -121,7 +129,7 @@ public class UserController {
 				redisRokenManager.setToken(user);
 				response.setHeader("key", MD5Utils.stringMD5(user.getId() + ""));
 				return ServerResponse.createBySuccess("登录成功", user);
-			}else {
+			} else {
 				return ServerResponse.createByError("您没有管理员权限");
 			}
 		} else {
@@ -224,5 +232,74 @@ public class UserController {
 	@ResponseBody
 	public ServerResponse UploadExcel(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return userService.ajaxUploadExcel(request, response);
+	}
+	
+	public Map<String,String> getLevelInfo(int point){
+		HashMap<String,String> hashMap = new HashMap<String,String>();
+		if(0<=point&&point<50) {
+			hashMap.put("levelValue", "1");
+			hashMap.put("levelName", "士兵");
+		}
+		if(50<=point&&point<100) {
+			hashMap.put("levelValue", "2");
+			hashMap.put("levelName", "二等兵");
+		}
+		if(100<=point&&point<200) {
+			hashMap.put("levelValue", "3");
+			hashMap.put("levelName", "一等兵");
+		}
+		if(200<=point&&point<500) {
+			hashMap.put("levelValue", "4");
+			hashMap.put("levelName", "下士");
+		}
+		if(500<=point&&point<1000) {
+			hashMap.put("levelValue", "5");
+			hashMap.put("levelName", "中士");
+		}
+		if(1000<=point&&point<3000) {
+			hashMap.put("levelValue", "6");
+			hashMap.put("levelName", "上士");
+		}
+		if(3000<=point&&point<5000) {
+			hashMap.put("levelValue", "7");
+			hashMap.put("levelName", "少尉");
+		}
+		if(5000<=point&&point<10000) {
+			hashMap.put("levelValue", "8");
+			hashMap.put("levelName", "中尉");
+		}
+		if(10000<=point&&point<300000) {
+			hashMap.put("levelValue", "9");
+			hashMap.put("levelName", "上尉");
+		}
+		if(30000<=point&&point<50000) {
+			hashMap.put("levelValue", "10");
+			hashMap.put("levelName", "少校");
+		}
+		if(50000<=point&&point<100000) {
+			hashMap.put("levelValue", "11");
+			hashMap.put("levelName", "中校");
+		}
+		if(100000<=point&&point<110000) {
+			hashMap.put("levelValue", "12");
+			hashMap.put("levelName", "上校");
+		}
+		if(110000<=point&&point<200000) {
+			hashMap.put("levelValue", "13");
+			hashMap.put("levelName", "少将");
+		}
+		if(200000<=point&&point<300000) {
+			hashMap.put("levelValue", "14");
+			hashMap.put("levelName", "中将");
+		}
+		if(300000<=point&&point<588900) {
+			hashMap.put("levelValue", "15");
+			hashMap.put("levelName", "上将");
+		}
+		if(588900<=point) {
+			hashMap.put("levelValue", "16");
+			hashMap.put("levelName", "大将军");
+		}
+		return  hashMap;
 	}
 }

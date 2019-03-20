@@ -13,12 +13,14 @@
     <result column="extra" property="extra" jdbcType="VARCHAR" />
     <result column="updateTime" property="updatetime" jdbcType="VARCHAR" />
     <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="level" property="level" jdbcType="INTEGER" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="army.db.pojo.Task" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARBINARY" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, money, point, title, state, release, claim, imgUrl, extra, updateTime, version
+    id, money, point, title, state, release, claim, imgUrl, extra, updateTime, version, 
+    level
   </sql>
   <sql id="Blob_Column_List" >
     content
@@ -32,7 +34,7 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   
-    <select id="getAllTask" resultMap="ResultMapWithBLOBs" >
+   <select id="getAllTask" resultMap="ResultMapWithBLOBs" >
     select 
     <include refid="Base_Column_List" />
     ,
@@ -40,16 +42,6 @@
     from task
     limit #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
-  
-<!--   <select id="getTaskByCondition" resultMap="ResultMapWithBLOBs" >
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from task
-    where 
-  </select> -->
-  
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from task
@@ -59,13 +51,13 @@
     insert into task (id, money, point, 
       title, state, release, 
       claim, imgUrl, extra, 
-      updateTime, version, content
-      )
+      updateTime, version, level, 
+      content)
     values (#{id,jdbcType=INTEGER}, #{money,jdbcType=INTEGER}, #{point,jdbcType=INTEGER}, 
       #{title,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{release,jdbcType=VARCHAR}, 
       #{claim,jdbcType=VARCHAR}, #{imgurl,jdbcType=VARCHAR}, #{extra,jdbcType=VARCHAR}, 
-      #{updatetime,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, #{content,jdbcType=LONGVARBINARY}
-      )
+      #{updatetime,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARBINARY})
   </insert>
   <insert id="insertSelective" parameterType="army.db.pojo.Task" >
     insert into task
@@ -102,6 +94,9 @@
       </if>
       <if test="version != null" >
         version,
+      </if>
+      <if test="level != null" >
+        level,
       </if>
       <if test="content != null" >
         content,
@@ -141,6 +136,9 @@
       <if test="version != null" >
         #{version,jdbcType=INTEGER},
       </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
       <if test="content != null" >
         #{content,jdbcType=LONGVARBINARY},
       </if>
@@ -179,6 +177,9 @@
       <if test="version != null" >
         version = #{version,jdbcType=INTEGER},
       </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
       <if test="content != null" >
         content = #{content,jdbcType=LONGVARBINARY},
       </if>
@@ -197,6 +198,7 @@
       extra = #{extra,jdbcType=VARCHAR},
       updateTime = #{updatetime,jdbcType=VARCHAR},
       version = #{version,jdbcType=INTEGER},
+      level = #{level,jdbcType=INTEGER},
       content = #{content,jdbcType=LONGVARBINARY}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -211,7 +213,8 @@
       imgUrl = #{imgurl,jdbcType=VARCHAR},
       extra = #{extra,jdbcType=VARCHAR},
       updateTime = #{updatetime,jdbcType=VARCHAR},
-      version = #{version,jdbcType=INTEGER}
+      version = #{version,jdbcType=INTEGER},
+      level = #{level,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

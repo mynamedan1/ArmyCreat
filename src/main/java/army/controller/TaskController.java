@@ -36,7 +36,7 @@ public class TaskController {
 			MultipartFile partFile, Model model) {
 		if (null != partFile) {
 			if (!partFile.isEmpty()) {
-				String filePath = tomact_dir + "/army/task/" + task.getId() + ".jpg";
+				String filePath = tomact_dir + "/army/study/" + task.getId() + ".jpg";
 				File file = new File(filePath);
 				if (!file.exists()) {
 					file.mkdirs();

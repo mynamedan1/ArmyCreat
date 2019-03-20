@@ -54,7 +54,7 @@ public class ExameController {
 		return serverResponse;
 	}
 
-	// 添加题目
+	// 添加题目 examId=1
 	@RequestMapping("addQuestion.do")
 	@ResponseBody
 	public ServerResponse addQuestion(HttpServletRequest request, HttpServletResponse response, List<Question> question,

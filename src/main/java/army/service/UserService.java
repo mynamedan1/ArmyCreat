@@ -56,12 +56,6 @@ public class UserService {
 		return userDao.deleteByPrimaryKey(id) == 1 ? true : false;
 	}
 
-	
-
-	// 任务完成，增加积分
-	public void changePointCount(int addPoint) {
-      
-	}
 
 	@Transactional
 	public boolean insertUserByList(List<User> userList) {
@@ -111,14 +105,24 @@ public class UserService {
 			user.setPointcount(0);// 初使积分0
 			user.setImporttype("批量添加");// 添加方式：批量添加
 			user.setState(1);// 激活状态
+			user.setLevelvalue(1);
+			user.setLavelname("士兵");
 			user.setUpdatetime(TimeUntils.dataToString(new Date()));
 			userList.add(user);
 		}
-		try {
-			insertUserByList(userList);
-		} catch (Exception e) {
-			return ServerResponse.createByError("批量插入失败，请检查数据");
+		for(int i=0;i<userList.size();i++) {
+			try {
+			   userDao.insertSelective(userList.get(i));
+			} catch (Exception e) {
+			  return ServerResponse.createByError("批量插入失败，请检查第"+i+"条数据");
+			}
+
 		}
+//		try {
+//		insertUserByList(userList);
+//		} catch (Exception e) {
+//			return ServerResponse.createByError("批量插入失败，请检查数据");
+//		}
 		return ServerResponse.createBySuccess("插入成功");
 	}
 }

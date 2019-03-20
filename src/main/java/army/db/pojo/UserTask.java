@@ -11,6 +11,8 @@ public class UserTask {
 
     private String payimageurl;
 
+    private String extral;
+
     public Integer getId() {
         return id;
     }
@@ -49,5 +51,13 @@ public class UserTask {
 
     public void setPayimageurl(String payimageurl) {
         this.payimageurl = payimageurl == null ? null : payimageurl.trim();
+    }
+
+    public String getExtral() {
+        return extral;
+    }
+
+    public void setExtral(String extral) {
+        this.extral = extral == null ? null : extral.trim();
     }
 }

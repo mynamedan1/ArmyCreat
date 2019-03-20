@@ -7,7 +7,7 @@ public class Study {
 
     private String time;
 
-    private Integer imgurl;
+    private String imgurl;
 
     private Integer state;
 
@@ -16,6 +16,8 @@ public class Study {
     private Integer releaseby;
 
     private Integer point;
+    
+    private Integer type;
 
     private byte[] content;
 
@@ -43,11 +45,11 @@ public class Study {
         this.time = time == null ? null : time.trim();
     }
 
-    public Integer getImgurl() {
+    public String getImgurl() {
         return imgurl;
     }
 
-    public void setImgurl(Integer imgurl) {
+    public void setImgurl(String imgurl) {
         this.imgurl = imgurl;
     }
 
@@ -83,7 +85,15 @@ public class Study {
         this.point = point;
     }
 
-    public byte[] getContent() {
+    public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+	public byte[] getContent() {
         return content;
     }
 

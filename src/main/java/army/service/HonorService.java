@@ -1,5 +1,7 @@
 package army.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,5 +15,9 @@ public class HonorService {
 
 	public boolean addHonorRecord(HonorRecord honor) {
 		return honorRecordMapper.insert(honor) == 1 ? true : false;
+	}
+	
+	public List<HonorRecord> getHonorList(int userId){
+		return null;
 	}
 }

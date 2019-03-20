@@ -25,8 +25,12 @@ public class StudyService {
 		return studyMapper.deleteByPrimaryKey(id)== 1 ? true : false;
 	}
 	
-	public List<Study> selectStudy(Study id) {
-		return null;
+	public int selectMaxId() {
+		return studyMapper.selectMaxId();
+	}
+	
+	public List<Study> selectStudy(int pageNumber,int pageSize,int type) {
+		return studyMapper.getStudyList((pageNumber-1)*pageSize,pageSize,type);
 	}
 
 }

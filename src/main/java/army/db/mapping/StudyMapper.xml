@@ -5,17 +5,19 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="time" property="time" jdbcType="VARCHAR" />
-    <result column="imgUrl" property="imgurl" jdbcType="INTEGER" />
+    <result column="imgUrl" property="imgurl" jdbcType="VARCHAR" />
     <result column="state" property="state" jdbcType="INTEGER" />
     <result column="extra" property="extra" jdbcType="VARCHAR" />
     <result column="releaseBy" property="releaseby" jdbcType="INTEGER" />
     <result column="point" property="point" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="army.db.pojo.Study" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARBINARY" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, title, time, imgUrl, state, extra, releaseBy, point
+    id, title, time, imgUrl, state, extra, releaseBy, point,type
   </sql>
   <sql id="Blob_Column_List" >
     content
@@ -28,6 +30,20 @@
     from study
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectMaxId"  resultType="java.lang.Integer" >
+  select max(id) from study
+  </select>
+  
+   <select id="getStudyList" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from study
+    where state = 1 and type=#{type,jdbcType=INTEGER} limit
+    #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from study
     where id = #{id,jdbcType=INTEGER}
@@ -35,11 +51,11 @@
   <insert id="insert" parameterType="army.db.pojo.Study" >
     insert into study (id, title, time, 
       imgUrl, state, extra, 
-      releaseBy, point, content
+      releaseBy, point, content,type
       )
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR}, 
       #{imgurl,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{extra,jdbcType=VARCHAR}, 
-      #{releaseby,jdbcType=INTEGER}, #{point,jdbcType=INTEGER}, #{content,jdbcType=LONGVARBINARY}
+      #{releaseby,jdbcType=INTEGER}, #{point,jdbcType=INTEGER}, #{content,jdbcType=LONGVARBINARY},#{type,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="army.db.pojo.Study" >
@@ -72,6 +88,9 @@
       <if test="content != null" >
         content,
       </if>
+       <if test="type != null" >
+        type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -101,6 +120,10 @@
       <if test="content != null" >
         #{content,jdbcType=LONGVARBINARY},
       </if>
+        <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="army.db.pojo.Study" >
@@ -130,6 +153,10 @@
       <if test="content != null" >
         content = #{content,jdbcType=LONGVARBINARY},
       </if>
+        <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -143,6 +170,7 @@
       releaseBy = #{releaseby,jdbcType=INTEGER},
       point = #{point,jdbcType=INTEGER},
       content = #{content,jdbcType=LONGVARBINARY}
+      type = #{type,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="army.db.pojo.Study" >
@@ -154,6 +182,7 @@
       extra = #{extra,jdbcType=VARCHAR},
       releaseBy = #{releaseby,jdbcType=INTEGER},
       point = #{point,jdbcType=INTEGER}
+      type = #{type,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

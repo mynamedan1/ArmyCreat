@@ -56,7 +56,7 @@
 		<property name="maxInMemorySize" value="40960" />
 	</bean>
 
-	<mvc:interceptors>
+	 <mvc:interceptors>
 		<mvc:interceptor>
 			<!-- 匹配的是url路径， 如果不配置或/**,将拦截所有的Controller -->
 			<mvc:mapping path="/**" />

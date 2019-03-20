@@ -1,5 +1,7 @@
 package army.db.dao;
 
+import java.util.List;
+
 import army.db.pojo.HonorRecord;
 
 public interface HonorRecordMapper {
@@ -14,4 +16,6 @@ public interface HonorRecordMapper {
     int updateByPrimaryKeySelective(HonorRecord record);
 
     int updateByPrimaryKey(HonorRecord record);
+    
+    List<HonorRecord> getHonorList(int userId);
 }
