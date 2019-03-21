@@ -16,10 +16,10 @@ public class Study {
     private Integer releaseby;
 
     private Integer point;
-    
+
     private Integer type;
 
-    private byte[] content;
+    private String content;
 
     public Integer getId() {
         return id;
@@ -50,7 +50,7 @@ public class Study {
     }
 
     public void setImgurl(String imgurl) {
-        this.imgurl = imgurl;
+        this.imgurl = imgurl == null ? null : imgurl.trim();
     }
 
     public Integer getState() {
@@ -86,18 +86,18 @@ public class Study {
     }
 
     public Integer getType() {
-		return type;
-	}
+        return type;
+    }
 
-	public void setType(Integer type) {
-		this.type = type;
-	}
+    public void setType(Integer type) {
+        this.type = type;
+    }
 
-	public byte[] getContent() {
+    public String getContent() {
         return content;
     }
 
-    public void setContent(byte[] content) {
-        this.content = content;
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
     }
 }

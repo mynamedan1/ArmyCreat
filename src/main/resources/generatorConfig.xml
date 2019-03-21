@@ -46,7 +46,7 @@
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false" /> -->
-		<table tableName="userTask" domainObjectName="UserTask"
+		<table tableName="study" domainObjectName="Study"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false" />

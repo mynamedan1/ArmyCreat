@@ -11,13 +11,12 @@
     <result column="releaseBy" property="releaseby" jdbcType="INTEGER" />
     <result column="point" property="point" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="INTEGER" />
-    
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="army.db.pojo.Study" extends="BaseResultMap" >
-    <result column="content" property="content" jdbcType="LONGVARBINARY" />
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, title, time, imgUrl, state, extra, releaseBy, point,type
+    id, title, time, imgUrl, state, extra, releaseBy, point, type
   </sql>
   <sql id="Blob_Column_List" >
     content
@@ -30,19 +29,41 @@
     from study
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectMaxId"  resultType="java.lang.Integer" >
-  select max(id) from study
-  </select>
   
-   <select id="getStudyList" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from study
-    where state = 1 and type=#{type,jdbcType=INTEGER} limit
-    #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
-  </select>
+     <select id="selectMaxId" resultType="java.lang.Integer">
+		select IFNULL(max(id),0) from study
+	</select>
+
+	<select id="getStudyList" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from study
+		where state = 1 and type=#{type,jdbcType=INTEGER} limit
+		#{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	</select>
+
+
+	<select id="getStudyListByCon" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from study
+		where title like CONCAT ('%',#{study.title},'%')
+		and content like CONCAT ('%',#{study.content},'%')
+		<if test="study.time!=''">
+		 and time=#{study.time}
+		</if>
+		<if test="study.state!=null">
+		 and state=#{study.state}
+		</if>
+		<if test="study.type!=null">
+		 and type=#{study.type}
+		</if>
+	</select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from study
@@ -51,12 +72,12 @@
   <insert id="insert" parameterType="army.db.pojo.Study" >
     insert into study (id, title, time, 
       imgUrl, state, extra, 
-      releaseBy, point, content,type
-      )
+      releaseBy, point, type, 
+      content)
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR}, 
-      #{imgurl,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{extra,jdbcType=VARCHAR}, 
-      #{releaseby,jdbcType=INTEGER}, #{point,jdbcType=INTEGER}, #{content,jdbcType=LONGVARBINARY},#{type,jdbcType=INTEGER}
-      )
+      #{imgurl,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{extra,jdbcType=VARCHAR}, 
+      #{releaseby,jdbcType=INTEGER}, #{point,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="army.db.pojo.Study" >
     insert into study
@@ -85,11 +106,11 @@
       <if test="point != null" >
         point,
       </if>
+      <if test="type != null" >
+        type,
+      </if>
       <if test="content != null" >
         content,
-      </if>
-       <if test="type != null" >
-        type,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -103,7 +124,7 @@
         #{time,jdbcType=VARCHAR},
       </if>
       <if test="imgurl != null" >
-        #{imgurl,jdbcType=INTEGER},
+        #{imgurl,jdbcType=VARCHAR},
       </if>
       <if test="state != null" >
         #{state,jdbcType=INTEGER},
@@ -117,13 +138,12 @@
       <if test="point != null" >
         #{point,jdbcType=INTEGER},
       </if>
-      <if test="content != null" >
-        #{content,jdbcType=LONGVARBINARY},
-      </if>
-        <if test="type != null" >
+      <if test="type != null" >
         #{type,jdbcType=INTEGER},
       </if>
-      
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="army.db.pojo.Study" >
@@ -136,7 +156,7 @@
         time = #{time,jdbcType=VARCHAR},
       </if>
       <if test="imgurl != null" >
-        imgUrl = #{imgurl,jdbcType=INTEGER},
+        imgUrl = #{imgurl,jdbcType=VARCHAR},
       </if>
       <if test="state != null" >
         state = #{state,jdbcType=INTEGER},
@@ -150,13 +170,12 @@
       <if test="point != null" >
         point = #{point,jdbcType=INTEGER},
       </if>
-      <if test="content != null" >
-        content = #{content,jdbcType=LONGVARBINARY},
-      </if>
-        <if test="type != null" >
+      <if test="type != null" >
         type = #{type,jdbcType=INTEGER},
       </if>
-      
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -164,24 +183,24 @@
     update study
     set title = #{title,jdbcType=VARCHAR},
       time = #{time,jdbcType=VARCHAR},
-      imgUrl = #{imgurl,jdbcType=INTEGER},
+      imgUrl = #{imgurl,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER},
       extra = #{extra,jdbcType=VARCHAR},
       releaseBy = #{releaseby,jdbcType=INTEGER},
       point = #{point,jdbcType=INTEGER},
-      content = #{content,jdbcType=LONGVARBINARY}
-      type = #{type,jdbcType=INTEGER}
+      type = #{type,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="army.db.pojo.Study" >
     update study
     set title = #{title,jdbcType=VARCHAR},
       time = #{time,jdbcType=VARCHAR},
-      imgUrl = #{imgurl,jdbcType=INTEGER},
+      imgUrl = #{imgurl,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER},
       extra = #{extra,jdbcType=VARCHAR},
       releaseBy = #{releaseby,jdbcType=INTEGER},
-      point = #{point,jdbcType=INTEGER}
+      point = #{point,jdbcType=INTEGER},
       type = #{type,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -32,5 +32,9 @@ public class StudyService {
 	public List<Study> selectStudy(int pageNumber,int pageSize,int type) {
 		return studyMapper.getStudyList((pageNumber-1)*pageSize,pageSize,type);
 	}
+	
+	public List<Study> selectStudy(Study study) {
+		return studyMapper.getStudyListByCon(study);
+	}
 
 }

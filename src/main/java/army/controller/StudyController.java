@@ -46,14 +46,15 @@ public class StudyController {
 			MultipartFile partFile, Model model) {
 		if (null != partFile) {
 			if (!partFile.isEmpty()) {
-				String filePath = tomact_dir + "/army/task/" + (studyService.selectMaxId() + 1) + ".jpg";
+				String filePath = tomact_dir + "/task/" + (studyService.selectMaxId() + 1) + ".jpg";
+				String setPath = "/task/" + (studyService.selectMaxId() + 1) + ".jpg";
 				File file = new File(filePath);
 				if (!file.exists()) {
 					file.mkdirs();
 				}
 				try {
 					partFile.transferTo(file);
-					study.setImgurl(filePath);
+					study.setImgurl(setPath);
 				} catch (IllegalStateException e) {
 					// TODO Auto-generated catch block
 					// e.printStackTrace();
@@ -65,7 +66,7 @@ public class StudyController {
 				}
 			}
 		}
-		study.setTime(TimeUntils.dataToString(new Date()));
+		study.setTime(TimeUntils.dataToStringForDate(new Date()));
 		if (studyService.addStudy(study)) {
 			return ServerResponse.createBySuccess("学习任务发布成功");
 		}
@@ -99,11 +100,17 @@ public class StudyController {
 
 	}
 
-	// 查询学习任务
+	// 查询学习任务分页查询
 	@RequestMapping("getStudyList.do")
 	@ResponseBody
 	public ServerResponse getStudyList(HttpServletRequest request, HttpServletResponse response,int pageNumber,int pageSize,int type) {
 		return ServerResponse.createBySuccess("学习任务列表", studyService.selectStudy(pageNumber,pageSize,type));
+	}
+	//查询学习任务
+	@RequestMapping("getStudyListByCon.do")
+	@ResponseBody
+	public ServerResponse getStudyListByCon(HttpServletRequest request, HttpServletResponse response,Study study,Model model) {
+		return ServerResponse.createBySuccess("学习任务列表", studyService.selectStudy(study));
 	}
 	
 	//完成学习任务，添加荣誉点
