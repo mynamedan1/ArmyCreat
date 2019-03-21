@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
+
 import army.db.pojo.AnswerRecord;
 import army.db.pojo.Exam;
 import army.db.pojo.HonorRecord;
@@ -57,9 +59,10 @@ public class ExameController {
 	// 添加题目 examId=1
 	@RequestMapping("addQuestion.do")
 	@ResponseBody
-	public ServerResponse addQuestion(HttpServletRequest request, HttpServletResponse response, List<Question> question,
+	public ServerResponse addQuestion(HttpServletRequest request, HttpServletResponse response, String questions,
 			Model model) {
-		return exameService.insertQuestion(question);
+		List<Question> ts = (List<Question>) JSONArray.parseArray(questions, Question.class);
+		return exameService.insertQuestion(ts);
 	}
 
 	// app端查询是否已经参加考核，如已参加考核，则弹出信息answerRecord.extra
