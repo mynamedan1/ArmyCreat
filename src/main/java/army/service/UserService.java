@@ -48,8 +48,8 @@ public class UserService {
 		return userDao.getAllUser((pageNumber-1)*pageSize, pageSize);
 	}
 	
-	public List<User> getUserByCondition(User user,Integer stratPoint,Integer endPoint) {
-		return userDao.getUserByCondition(user,stratPoint,endPoint);
+	public List<User> getUserByCondition(User user) {
+		return userDao.getUserByCondition(user);
 	}
 
 	public boolean deleteUser(int id) {
@@ -114,7 +114,7 @@ public class UserService {
 			try {
 			   userDao.insertSelective(userList.get(i));
 			} catch (Exception e) {
-			  return ServerResponse.createByError("批量插入失败，请检查第"+i+"条数据");
+			  return ServerResponse.createByError("批量插入失败，请检查第"+(i+1)+"条数据");
 			}
 
 		}

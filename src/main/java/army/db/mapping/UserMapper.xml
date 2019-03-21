@@ -69,9 +69,8 @@
 		<if test="user.updatetime != null">
 			and updateTime = #{user.updatetime}
 		</if>
-		<if test="startPonit != null">
-			and #{startPonit,jdbcType=INTEGER} &gt;= pointCount
-			&lt;#{endPonit,jdbcType=INTEGER}
+		<if test="user.levelvalue != null">
+			and levelvalue = #{user.levelvalue}
 		</if>
 	</select>
 

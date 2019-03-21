@@ -180,12 +180,12 @@ public class UserController {
 	@RequestMapping("getUserByCondition.do")
 	@ResponseBody
 	public ServerResponse getUserByCondition(HttpServletRequest request, HttpServletResponse response, User user,
-			Model model, Integer stratPoint, Integer endPoint) {
-		return ServerResponse.createBySuccess("用户列表", userService.getUserByCondition(user, stratPoint, endPoint));
+			Model model) {
+		return ServerResponse.createBySuccess("用户列表", userService.getUserByCondition(user));
 
 	}
 
-	// 用户模糊查询
+	// 用户删除
 	@RequestMapping("deleteUser.do")
 	@ResponseBody
 	public ServerResponse deleteUser(HttpServletRequest request, HttpServletResponse response, int id) {
