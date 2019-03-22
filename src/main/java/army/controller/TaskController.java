@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import army.db.pojo.Task;
+import army.db.pojo.User;
 import army.service.TaskService;
 import utils.ServerResponse;
 import utils.TimeUntils;
@@ -36,14 +37,15 @@ public class TaskController {
 			MultipartFile partFile, Model model) {
 		if (null != partFile) {
 			if (!partFile.isEmpty()) {
-				String filePath = tomact_dir + "/army/study/" + task.getId() + ".jpg";
+				String filePath = tomact_dir + "/task/" + task.getId() + ".jpg";
+				String setPath = "/task/" + task.getId() + ".jpg";
 				File file = new File(filePath);
 				if (!file.exists()) {
 					file.mkdirs();
 				}
 				try {
 					partFile.transferTo(file);
-					task.setImgurl(filePath);
+					task.setImgurl(setPath);
 				} catch (IllegalStateException e) {
 					// TODO Auto-generated catch block
 					// e.printStackTrace();
@@ -55,7 +57,8 @@ public class TaskController {
 				}
 			}
 		}
-		task.setUpdatetime(TimeUntils.dataToString(new Date()));
+		task.setReleaseby(((User) request.getAttribute("currentUser")).getId());
+		task.setUpdatetime(TimeUntils.dataToStringForDate(new Date()));
 		if (taskService.insertTask(task)) {
 			return ServerResponse.createBySuccess("任务发布成功");
 		}
@@ -63,7 +66,7 @@ public class TaskController {
 		return ServerResponse.createByError("任务发布失败");
 	}
 
-	// admin任务状态修改
+	// admin实战任务更新
 	@RequestMapping("changeTaskStatus.do")
 	@ResponseBody
 	public ServerResponse changeTaskStatus(HttpServletRequest request, HttpServletResponse response, Task task,
@@ -101,6 +104,16 @@ public class TaskController {
 
 		return ServerResponse.createByError("任务状态修改失败");
 	}
+	
+	//实战任务审批
+	@RequestMapping("pprovalTask.do")
+	@ResponseBody
+	public ServerResponse pprovalTask(HttpServletRequest request, HttpServletResponse response, int pageNumber,
+			int pageSize, Model model) {
+		return ServerResponse.createBySuccess("用户列表", taskService.getAllTask(pageNumber, pageSize));
+
+	}
+
 
 	// admin任务分页查询
 	@RequestMapping("getAllTask.do")

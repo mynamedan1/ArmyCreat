@@ -97,10 +97,11 @@ public class ExameController {
 		ServerResponse serverResponse;
 		int point = 0;
 		int rightAnswer = 0;
-		String[] userAnw = useranswers.split("#");
+		String[] userAnw = useranswers.split("@");
 		// String[] rightAnw = exameService.getAnswer().split(",");
+		System.out.println(userAnw.length);
 		List<Question> questions = exameService.getQuestions();
-		for (int i = 0; i < useranswers.length(); i++) {
+		for (int i = 0; i < userAnw.length; i++) {
 			if (questions.get(i).getAnswer().equals(userAnw[i])) {
 				point += questions.get(i).getPoint();
 				rightAnswer += 1;

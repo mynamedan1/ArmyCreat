@@ -11,9 +11,9 @@ public class Task {
 
     private Integer state;
 
-    private String release;
+    private Integer releaseby;
 
-    private String claim;
+    private Integer claim;
 
     private String imgurl;
 
@@ -25,7 +25,7 @@ public class Task {
 
     private Integer level;
 
-    private byte[] content;
+    private String content;
 
     public Integer getId() {
         return id;
@@ -67,20 +67,20 @@ public class Task {
         this.state = state;
     }
 
-    public String getRelease() {
-        return release;
+    public Integer getReleaseby() {
+        return releaseby;
     }
 
-    public void setRelease(String release) {
-        this.release = release == null ? null : release.trim();
+    public void setReleaseby(Integer releaseby) {
+        this.releaseby = releaseby;
     }
 
-    public String getClaim() {
+    public Integer getClaim() {
         return claim;
     }
 
-    public void setClaim(String claim) {
-        this.claim = claim == null ? null : claim.trim();
+    public void setClaim(Integer claim) {
+        this.claim = claim;
     }
 
     public String getImgurl() {
@@ -123,11 +123,11 @@ public class Task {
         this.level = level;
     }
 
-    public byte[] getContent() {
+    public String getContent() {
         return content;
     }
 
-    public void setContent(byte[] content) {
-        this.content = content;
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
     }
 }

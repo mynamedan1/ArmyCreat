@@ -7,8 +7,8 @@
     <result column="point" property="point" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="state" property="state" jdbcType="INTEGER" />
-    <result column="release" property="release" jdbcType="VARCHAR" />
-    <result column="claim" property="claim" jdbcType="VARCHAR" />
+    <result column="releaseby" property="releaseby" jdbcType="INTEGER" />
+    <result column="claim" property="claim" jdbcType="INTEGER" />
     <result column="imgUrl" property="imgurl" jdbcType="VARCHAR" />
     <result column="extra" property="extra" jdbcType="VARCHAR" />
     <result column="updateTime" property="updatetime" jdbcType="VARCHAR" />
@@ -16,10 +16,10 @@
     <result column="level" property="level" jdbcType="INTEGER" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="army.db.pojo.Task" extends="BaseResultMap" >
-    <result column="content" property="content" jdbcType="LONGVARBINARY" />
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, money, point, title, state, release, claim, imgUrl, extra, updateTime, version, 
+    id, money, point, title, state, releaseby, claim, imgUrl, extra, updateTime, version, 
     level
   </sql>
   <sql id="Blob_Column_List" >
@@ -33,7 +33,6 @@
     from task
     where id = #{id,jdbcType=INTEGER}
   </select>
-  
    <select id="getAllTask" resultMap="ResultMapWithBLOBs" >
     select 
     <include refid="Base_Column_List" />
@@ -49,15 +48,15 @@
   </delete>
   <insert id="insert" parameterType="army.db.pojo.Task" >
     insert into task (id, money, point, 
-      title, state, release, 
+      title, state, releaseby, 
       claim, imgUrl, extra, 
       updateTime, version, level, 
       content)
     values (#{id,jdbcType=INTEGER}, #{money,jdbcType=INTEGER}, #{point,jdbcType=INTEGER}, 
-      #{title,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{release,jdbcType=VARCHAR}, 
-      #{claim,jdbcType=VARCHAR}, #{imgurl,jdbcType=VARCHAR}, #{extra,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{releaseby,jdbcType=INTEGER}, 
+      #{claim,jdbcType=INTEGER}, #{imgurl,jdbcType=VARCHAR}, #{extra,jdbcType=VARCHAR}, 
       #{updatetime,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, 
-      #{content,jdbcType=LONGVARBINARY})
+      #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="army.db.pojo.Task" >
     insert into task
@@ -77,8 +76,8 @@
       <if test="state != null" >
         state,
       </if>
-      <if test="release != null" >
-        release,
+      <if test="releaseby != null" >
+        releaseby,
       </if>
       <if test="claim != null" >
         claim,
@@ -118,11 +117,11 @@
       <if test="state != null" >
         #{state,jdbcType=INTEGER},
       </if>
-      <if test="release != null" >
-        #{release,jdbcType=VARCHAR},
+      <if test="releaseby != null" >
+        #{releaseby,jdbcType=INTEGER},
       </if>
       <if test="claim != null" >
-        #{claim,jdbcType=VARCHAR},
+        #{claim,jdbcType=INTEGER},
       </if>
       <if test="imgurl != null" >
         #{imgurl,jdbcType=VARCHAR},
@@ -140,7 +139,7 @@
         #{level,jdbcType=INTEGER},
       </if>
       <if test="content != null" >
-        #{content,jdbcType=LONGVARBINARY},
+        #{content,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -159,11 +158,11 @@
       <if test="state != null" >
         state = #{state,jdbcType=INTEGER},
       </if>
-      <if test="release != null" >
-        release = #{release,jdbcType=VARCHAR},
+      <if test="releaseby != null" >
+        releaseby = #{releaseby,jdbcType=INTEGER},
       </if>
       <if test="claim != null" >
-        claim = #{claim,jdbcType=VARCHAR},
+        claim = #{claim,jdbcType=INTEGER},
       </if>
       <if test="imgurl != null" >
         imgUrl = #{imgurl,jdbcType=VARCHAR},
@@ -181,7 +180,7 @@
         level = #{level,jdbcType=INTEGER},
       </if>
       <if test="content != null" >
-        content = #{content,jdbcType=LONGVARBINARY},
+        content = #{content,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -192,14 +191,14 @@
       point = #{point,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER},
-      release = #{release,jdbcType=VARCHAR},
-      claim = #{claim,jdbcType=VARCHAR},
+      releaseby = #{releaseby,jdbcType=INTEGER},
+      claim = #{claim,jdbcType=INTEGER},
       imgUrl = #{imgurl,jdbcType=VARCHAR},
       extra = #{extra,jdbcType=VARCHAR},
       updateTime = #{updatetime,jdbcType=VARCHAR},
       version = #{version,jdbcType=INTEGER},
       level = #{level,jdbcType=INTEGER},
-      content = #{content,jdbcType=LONGVARBINARY}
+      content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="army.db.pojo.Task" >
@@ -208,8 +207,8 @@
       point = #{point,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER},
-      release = #{release,jdbcType=VARCHAR},
-      claim = #{claim,jdbcType=VARCHAR},
+      releaseby = #{releaseby,jdbcType=INTEGER},
+      claim = #{claim,jdbcType=INTEGER},
       imgUrl = #{imgurl,jdbcType=VARCHAR},
       extra = #{extra,jdbcType=VARCHAR},
       updateTime = #{updatetime,jdbcType=VARCHAR},
