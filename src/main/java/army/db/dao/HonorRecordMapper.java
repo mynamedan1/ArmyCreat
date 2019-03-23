@@ -2,6 +2,8 @@ package army.db.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import army.db.pojo.HonorRecord;
 
 public interface HonorRecordMapper {
@@ -18,4 +20,6 @@ public interface HonorRecordMapper {
     int updateByPrimaryKey(HonorRecord record);
     
     List<HonorRecord> getHonorList(int userId);
+    
+    List<HonorRecord> checkTodayLock(@Param("userId")int userId,@Param("time")String time);
 }

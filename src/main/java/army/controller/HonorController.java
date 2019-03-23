@@ -31,20 +31,23 @@ public class HonorController {
 	@ResponseBody
 	public ServerResponse login(HttpServletRequest request, HttpServletResponse response) {
 		User user = (User) request.getAttribute("currentUser");
-		HonorRecord honorRecord = new HonorRecord();
-		honorRecord.setPoint(1);
-		honorRecord.setTime(TimeUntils.dataToStringForDate(new Date()));
-		honorRecord.setType(1);
-		honorRecord.setTypeexpense("完成当日打卡 获得1个荣誉");
-		honorRecord.setUserid(((User) request.getAttribute("currentUser")).getId());
-		if (honorService.addHonorRecord(honorRecord)) {
-			user.setPointcount(user.getPointcount() + 1);
-			userService.updateUser(user);
-			return ServerResponse.createBySuccess("打卡成功");
+		if (honorService.checkTodayLock(user.getId(), TimeUntils.dataToStringForDate(new Date()))) {
+			return ServerResponse.createBySuccess("今日已打卡");
 		} else {
-			return ServerResponse.createByError("打开失败，请重新打卡！");
+			HonorRecord honorRecord = new HonorRecord();
+			honorRecord.setPoint(1);
+			honorRecord.setTime(TimeUntils.dataToStringForDate(new Date()));
+			honorRecord.setType(1);
+			honorRecord.setTypeexpense("完成当日打卡 获得1个荣誉");
+			honorRecord.setUserid(((User) request.getAttribute("currentUser")).getId());
+			if (honorService.addHonorRecord(honorRecord)) {
+				user.setPointcount(user.getPointcount() + 1);
+				userService.updateUser(user);
+				return ServerResponse.createBySuccess("打卡成功");
+			} else {
+				return ServerResponse.createByError("打开失败，请重新打卡！");
+			}
 		}
-
 	}
 
 	// 查询荣誉点记录
@@ -52,7 +55,7 @@ public class HonorController {
 	@ResponseBody
 	public ServerResponse gethonors(HttpServletRequest request, HttpServletResponse response) {
 		int userId = ((User) request.getAttribute("currentUser")).getId();
-		return ServerResponse.createBySuccess("荣誉记录",honorService.getHonorList(userId));
+		return ServerResponse.createBySuccess("荣誉记录", honorService.getHonorList(userId));
 
 	}
 
