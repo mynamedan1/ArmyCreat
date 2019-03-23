@@ -103,8 +103,8 @@ public class StudyController {
 	// 查询学习任务分页查询
 	@RequestMapping("getStudyList.do")
 	@ResponseBody
-	public ServerResponse getStudyList(HttpServletRequest request, HttpServletResponse response,int pageNumber,int pageSize,int type) {
-		return ServerResponse.createBySuccess("学习任务列表", studyService.selectStudy(pageNumber,pageSize,type));
+	public ServerResponse getStudyList(HttpServletRequest request, HttpServletResponse response,int type) {
+		return ServerResponse.createBySuccess("学习任务列表", studyService.selectStudy(type));
 	}
 	//查询学习任务
 	@RequestMapping("getStudyListByCon.do")

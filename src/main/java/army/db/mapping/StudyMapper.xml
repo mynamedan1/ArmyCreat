@@ -41,8 +41,7 @@
 		,
 		<include refid="Blob_Column_List" />
 		from study
-		where state = 1 and type=#{type,jdbcType=INTEGER} limit
-		#{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+		where state = 1 and type=#{type,jdbcType=INTEGER}
 	</select>
 
 

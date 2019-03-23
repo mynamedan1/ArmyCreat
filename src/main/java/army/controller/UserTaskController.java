@@ -19,7 +19,7 @@ public class UserTaskController {
 	@Autowired
 	private UserTaskService userTaskService;
 
-	// 用户领取任务
+	// 用户领取任务 userTask状态设置为2
 	@RequestMapping("claimTask.do")
 	@ResponseBody
 	public ServerResponse claimTask(HttpServletRequest request, HttpServletResponse response, UserTask userTask,

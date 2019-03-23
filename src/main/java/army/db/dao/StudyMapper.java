@@ -23,7 +23,7 @@ public interface StudyMapper {
 
 	int selectMaxId();
 
-	List<Study> getStudyList(@Param("pageNumber") Integer pageNumber, @Param("pageSize") Integer pageSize,@Param("type") Integer type);
+	List<Study> getStudyList(Integer type);
 
 	List<Study> getStudyListByCon(@Param("study") Study study);
 }
