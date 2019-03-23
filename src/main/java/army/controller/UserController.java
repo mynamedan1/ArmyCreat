@@ -37,8 +37,8 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-//	@Autowired
-//	private MessageService messageService;
+	@Autowired
+	private MessageService messageService;
 
 	@Value("${tomact_dir}")
 	private String tomact_dir;
@@ -57,6 +57,13 @@ public class UserController {
 		ServerResponse serverResponse;
 		user.setPassword(MD5Utils.stringMD5(user.getPassword()));
 		if (userService.insertUser(user)) {
+			Message message = new Message();
+			message.setContent("欢迎来到军创平台！");
+			message.setClaimuser(user.getId());
+			message.setRelaseuser(-1);
+			message.setSendtime(TimeUntils.dataToStringForDate(new Date()));
+			message.setState(0);
+			messageService.addMessage(message);
 			serverResponse = new ServerResponse(ResponseCode.SUCCESS.getCode(), "用户注册成功");
 		} else {
 			serverResponse = new ServerResponse(ResponseCode.ERROR.getCode(), "用户注册失败");
