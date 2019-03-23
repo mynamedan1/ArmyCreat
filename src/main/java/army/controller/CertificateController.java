@@ -26,7 +26,7 @@ public class CertificateController {
 			if(certificateService.buyCertificate(certificate)) {
 				return ServerResponse.createBySuccess("购买成功");
 			}else {
-				return ServerResponse.createBySuccess("购买失败，请稍后重试！");
+				return ServerResponse.createBySuccess("购买失败，请稍后重试！！！");
 			}
 
 		}
