@@ -105,25 +105,16 @@ public class TaskController {
 		return ServerResponse.createByError("任务状态修改失败");
 	}
 	
-	//实战任务审批
-	@RequestMapping("pprovalTask.do")
-	@ResponseBody
-	public ServerResponse pprovalTask(HttpServletRequest request, HttpServletResponse response, int pageNumber,
-			int pageSize, Model model) {
-		return ServerResponse.createBySuccess("用户列表", taskService.getAllTask(pageNumber, pageSize));
 
-	}
-
-
-	// admin任务分页查询
+	// 任务分页查询，app端传入state 1
 	@RequestMapping("getAllTask.do")
 	@ResponseBody
 	public ServerResponse getAllTask(HttpServletRequest request, HttpServletResponse response, int pageNumber,
-			int pageSize, Model model) {
-		return ServerResponse.createBySuccess("用户列表", taskService.getAllTask(pageNumber, pageSize));
+			int pageSize,int state, Model model) {
+		return ServerResponse.createBySuccess("用户列表", taskService.getAllTask(pageNumber, pageSize,state));
 
 	}
-
+ 
 	// admin任务模糊查询
 	@RequestMapping("getTaskByCondition.do")
 	@ResponseBody
@@ -131,24 +122,22 @@ public class TaskController {
 			Model model) {
 		return ServerResponse.createByError("任务获取失败");
 	}
-
-	// ----------------------------------------------------普通用户任务管理---------------------------------------------
-
-	// 个人app端任务查询，根据状态查询 //-1下架，0待审批，1待认领，2已认领，3代支付，4已支付，5已完成
-	@RequestMapping("getAllTaskByUser.do")
+	
+	//----------------------------------------------app端接口-------------------------------------------------------
+	// 2已认领，3代支付，4完成
+	@RequestMapping("getUserTask.do")
 	@ResponseBody
-	public ServerResponse getAllTaskByUser(HttpServletRequest request, HttpServletResponse response,
-			String certificatenumber, int state, Model model) {
-
-		return ServerResponse.createByError("任务获取失败");
+	public ServerResponse getUserTask(HttpServletRequest request, HttpServletResponse response,
+			int userId, int state, Model model) {
+		return ServerResponse.createBySuccess("任务列表", taskService.getUserTaskByState(userId, state));
 	}
 
 	// 我的发布
-	@RequestMapping("getAllTaskByRelwase.do")
+	@RequestMapping("getReleaseTask.do")
 	@ResponseBody
-	public ServerResponse getAllTaskByRelwase(HttpServletRequest request, HttpServletResponse response,
-			String certificatenumber, Model model) {
-		return ServerResponse.createByError("任务获取失败");
+	public ServerResponse getReleaseTask(HttpServletRequest request, HttpServletResponse response,
+			int userId, Model model) {
+		return ServerResponse.createBySuccess("我的发布", taskService.getReleaseTask(userId));
 	}
 
 }

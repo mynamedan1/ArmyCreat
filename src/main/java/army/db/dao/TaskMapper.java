@@ -22,7 +22,12 @@ public interface TaskMapper {
     int updateByPrimaryKey(Task record);
     
     //任务分页查询
-    List<Task> getAllTask(@Param("pageNumber")int pageNumber,@Param("pageSize") int pageSize);
+    List<Task> getAllTask(@Param("pageNumber")int pageNumber,@Param("pageSize") int pageSize,@Param("state") int state);
     //任务模糊查询
     List<Task> getTaskByCondition(@Param("task")Task  task);
+    //
+    List<Task> getUserTaskByState(@Param("userId")Integer userId,@Param("state")Integer state);
+    
+    List<Task> getReleaseTask(Integer userId);
+    
 }

@@ -1,219 +1,250 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="army.db.dao.TaskMapper" >
-  <resultMap id="BaseResultMap" type="army.db.pojo.Task" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="money" property="money" jdbcType="INTEGER" />
-    <result column="point" property="point" jdbcType="INTEGER" />
-    <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="state" property="state" jdbcType="INTEGER" />
-    <result column="releaseby" property="releaseby" jdbcType="INTEGER" />
-    <result column="claim" property="claim" jdbcType="INTEGER" />
-    <result column="imgUrl" property="imgurl" jdbcType="VARCHAR" />
-    <result column="extra" property="extra" jdbcType="VARCHAR" />
-    <result column="updateTime" property="updatetime" jdbcType="VARCHAR" />
-    <result column="version" property="version" jdbcType="INTEGER" />
-    <result column="level" property="level" jdbcType="INTEGER" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="army.db.pojo.Task" extends="BaseResultMap" >
-    <result column="content" property="content" jdbcType="LONGVARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, money, point, title, state, releaseby, claim, imgUrl, extra, updateTime, version, 
-    level
-  </sql>
-  <sql id="Blob_Column_List" >
-    content
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from task
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-   <select id="getAllTask" resultMap="ResultMapWithBLOBs" >
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from task
-    limit #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
-  </select>
-  
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from task
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="army.db.pojo.Task" >
-    insert into task (id, money, point, 
-      title, state, releaseby, 
-      claim, imgUrl, extra, 
-      updateTime, version, level, 
-      content)
-    values (#{id,jdbcType=INTEGER}, #{money,jdbcType=INTEGER}, #{point,jdbcType=INTEGER}, 
-      #{title,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{releaseby,jdbcType=INTEGER}, 
-      #{claim,jdbcType=INTEGER}, #{imgurl,jdbcType=VARCHAR}, #{extra,jdbcType=VARCHAR}, 
-      #{updatetime,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, 
-      #{content,jdbcType=LONGVARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="army.db.pojo.Task" >
-    insert into task
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="money != null" >
-        money,
-      </if>
-      <if test="point != null" >
-        point,
-      </if>
-      <if test="title != null" >
-        title,
-      </if>
-      <if test="state != null" >
-        state,
-      </if>
-      <if test="releaseby != null" >
-        releaseby,
-      </if>
-      <if test="claim != null" >
-        claim,
-      </if>
-      <if test="imgurl != null" >
-        imgUrl,
-      </if>
-      <if test="extra != null" >
-        extra,
-      </if>
-      <if test="updatetime != null" >
-        updateTime,
-      </if>
-      <if test="version != null" >
-        version,
-      </if>
-      <if test="level != null" >
-        level,
-      </if>
-      <if test="content != null" >
-        content,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="money != null" >
-        #{money,jdbcType=INTEGER},
-      </if>
-      <if test="point != null" >
-        #{point,jdbcType=INTEGER},
-      </if>
-      <if test="title != null" >
-        #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="state != null" >
-        #{state,jdbcType=INTEGER},
-      </if>
-      <if test="releaseby != null" >
-        #{releaseby,jdbcType=INTEGER},
-      </if>
-      <if test="claim != null" >
-        #{claim,jdbcType=INTEGER},
-      </if>
-      <if test="imgurl != null" >
-        #{imgurl,jdbcType=VARCHAR},
-      </if>
-      <if test="extra != null" >
-        #{extra,jdbcType=VARCHAR},
-      </if>
-      <if test="updatetime != null" >
-        #{updatetime,jdbcType=VARCHAR},
-      </if>
-      <if test="version != null" >
-        #{version,jdbcType=INTEGER},
-      </if>
-      <if test="level != null" >
-        #{level,jdbcType=INTEGER},
-      </if>
-      <if test="content != null" >
-        #{content,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="army.db.pojo.Task" >
-    update task
-    <set >
-      <if test="money != null" >
-        money = #{money,jdbcType=INTEGER},
-      </if>
-      <if test="point != null" >
-        point = #{point,jdbcType=INTEGER},
-      </if>
-      <if test="title != null" >
-        title = #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="state != null" >
-        state = #{state,jdbcType=INTEGER},
-      </if>
-      <if test="releaseby != null" >
-        releaseby = #{releaseby,jdbcType=INTEGER},
-      </if>
-      <if test="claim != null" >
-        claim = #{claim,jdbcType=INTEGER},
-      </if>
-      <if test="imgurl != null" >
-        imgUrl = #{imgurl,jdbcType=VARCHAR},
-      </if>
-      <if test="extra != null" >
-        extra = #{extra,jdbcType=VARCHAR},
-      </if>
-      <if test="updatetime != null" >
-        updateTime = #{updatetime,jdbcType=VARCHAR},
-      </if>
-      <if test="version != null" >
-        version = #{version,jdbcType=INTEGER},
-      </if>
-      <if test="level != null" >
-        level = #{level,jdbcType=INTEGER},
-      </if>
-      <if test="content != null" >
-        content = #{content,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="army.db.pojo.Task" >
-    update task
-    set money = #{money,jdbcType=INTEGER},
-      point = #{point,jdbcType=INTEGER},
-      title = #{title,jdbcType=VARCHAR},
-      state = #{state,jdbcType=INTEGER},
-      releaseby = #{releaseby,jdbcType=INTEGER},
-      claim = #{claim,jdbcType=INTEGER},
-      imgUrl = #{imgurl,jdbcType=VARCHAR},
-      extra = #{extra,jdbcType=VARCHAR},
-      updateTime = #{updatetime,jdbcType=VARCHAR},
-      version = #{version,jdbcType=INTEGER},
-      level = #{level,jdbcType=INTEGER},
-      content = #{content,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="army.db.pojo.Task" >
-    update task
-    set money = #{money,jdbcType=INTEGER},
-      point = #{point,jdbcType=INTEGER},
-      title = #{title,jdbcType=VARCHAR},
-      state = #{state,jdbcType=INTEGER},
-      releaseby = #{releaseby,jdbcType=INTEGER},
-      claim = #{claim,jdbcType=INTEGER},
-      imgUrl = #{imgurl,jdbcType=VARCHAR},
-      extra = #{extra,jdbcType=VARCHAR},
-      updateTime = #{updatetime,jdbcType=VARCHAR},
-      version = #{version,jdbcType=INTEGER},
-      level = #{level,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+<mapper namespace="army.db.dao.TaskMapper">
+	<resultMap id="BaseResultMap" type="army.db.pojo.Task">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="money" property="money" jdbcType="INTEGER" />
+		<result column="point" property="point" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="INTEGER" />
+		<result column="releaseby" property="releaseby" jdbcType="INTEGER" />
+		<result column="claim" property="claim" jdbcType="INTEGER" />
+		<result column="imgUrl" property="imgurl" jdbcType="VARCHAR" />
+		<result column="extra" property="extra" jdbcType="VARCHAR" />
+		<result column="updateTime" property="updatetime" jdbcType="VARCHAR" />
+		<result column="version" property="version" jdbcType="INTEGER" />
+		<result column="level" property="level" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="army.db.pojo.Task"
+		extends="BaseResultMap">
+		<result column="content" property="content" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, money, point, title, state, releaseby, claim, imgUrl, extra,
+		updateTime, version,
+		level
+	</sql>
+	<sql id="Blob_Column_List">
+		content
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from task
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="getAllTask" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from task
+		<if test="state!=null">
+			where state = #{state,jdbcType=INTEGER}
+		</if>
+		limit #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	</select>
+
+
+	<select id="getUserTaskByState" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from task
+		where id in(
+		select taskID from userTask where userID=#{userId,jdbcType=INTEGER} and state=#{state,jdbcType=INTEGER}
+		)
+	</select>
+	
+	
+		<select id="getReleaseTask" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from task
+	    where releaseby = #{userId,jdbcType=INTEGER}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from task
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="army.db.pojo.Task">
+		insert into task (id, money, point,
+		title, state, releaseby,
+		claim, imgUrl, extra,
+		updateTime, version, level,
+		content)
+		values (#{id,jdbcType=INTEGER}, #{money,jdbcType=INTEGER},
+		#{point,jdbcType=INTEGER},
+		#{title,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{releaseby,jdbcType=INTEGER},
+		#{claim,jdbcType=INTEGER}, #{imgurl,jdbcType=VARCHAR},
+		#{extra,jdbcType=VARCHAR},
+		#{updatetime,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, #{level,jdbcType=INTEGER},
+		#{content,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="army.db.pojo.Task">
+		insert into task
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="money != null">
+				money,
+			</if>
+			<if test="point != null">
+				point,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="state != null">
+				state,
+			</if>
+			<if test="releaseby != null">
+				releaseby,
+			</if>
+			<if test="claim != null">
+				claim,
+			</if>
+			<if test="imgurl != null">
+				imgUrl,
+			</if>
+			<if test="extra != null">
+				extra,
+			</if>
+			<if test="updatetime != null">
+				updateTime,
+			</if>
+			<if test="version != null">
+				version,
+			</if>
+			<if test="level != null">
+				level,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="money != null">
+				#{money,jdbcType=INTEGER},
+			</if>
+			<if test="point != null">
+				#{point,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=INTEGER},
+			</if>
+			<if test="releaseby != null">
+				#{releaseby,jdbcType=INTEGER},
+			</if>
+			<if test="claim != null">
+				#{claim,jdbcType=INTEGER},
+			</if>
+			<if test="imgurl != null">
+				#{imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="extra != null">
+				#{extra,jdbcType=VARCHAR},
+			</if>
+			<if test="updatetime != null">
+				#{updatetime,jdbcType=VARCHAR},
+			</if>
+			<if test="version != null">
+				#{version,jdbcType=INTEGER},
+			</if>
+			<if test="level != null">
+				#{level,jdbcType=INTEGER},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="army.db.pojo.Task">
+		update task
+		<set>
+			<if test="money != null">
+				money = #{money,jdbcType=INTEGER},
+			</if>
+			<if test="point != null">
+				point = #{point,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+				state = #{state,jdbcType=INTEGER},
+			</if>
+			<if test="releaseby != null">
+				releaseby = #{releaseby,jdbcType=INTEGER},
+			</if>
+			<if test="claim != null">
+				claim = #{claim,jdbcType=INTEGER},
+			</if>
+			<if test="imgurl != null">
+				imgUrl = #{imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="extra != null">
+				extra = #{extra,jdbcType=VARCHAR},
+			</if>
+			<if test="updatetime != null">
+				updateTime = #{updatetime,jdbcType=VARCHAR},
+			</if>
+			<if test="version != null">
+				version = #{version,jdbcType=INTEGER},
+			</if>
+			<if test="level != null">
+				level = #{level,jdbcType=INTEGER},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="army.db.pojo.Task">
+		update task
+		set money = #{money,jdbcType=INTEGER},
+		point = #{point,jdbcType=INTEGER},
+		title = #{title,jdbcType=VARCHAR},
+		state = #{state,jdbcType=INTEGER},
+		releaseby = #{releaseby,jdbcType=INTEGER},
+		claim = #{claim,jdbcType=INTEGER},
+		imgUrl = #{imgurl,jdbcType=VARCHAR},
+		extra = #{extra,jdbcType=VARCHAR},
+		updateTime = #{updatetime,jdbcType=VARCHAR},
+		version = #{version,jdbcType=INTEGER},
+		level = #{level,jdbcType=INTEGER},
+		content = #{content,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="army.db.pojo.Task">
+		update task
+		set money = #{money,jdbcType=INTEGER},
+		point = #{point,jdbcType=INTEGER},
+		title = #{title,jdbcType=VARCHAR},
+		state = #{state,jdbcType=INTEGER},
+		releaseby = #{releaseby,jdbcType=INTEGER},
+		claim = #{claim,jdbcType=INTEGER},
+		imgUrl = #{imgurl,jdbcType=VARCHAR},
+		extra = #{extra,jdbcType=VARCHAR},
+		updateTime = #{updatetime,jdbcType=VARCHAR},
+		version = #{version,jdbcType=INTEGER},
+		level = #{level,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
 </mapper>

@@ -18,6 +18,6 @@ public class HonorService {
 	}
 	
 	public List<HonorRecord> getHonorList(int userId){
-		return null;
+		return honorRecordMapper.getHonorList(userId);
 	}
 }

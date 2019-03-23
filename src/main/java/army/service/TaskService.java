@@ -22,12 +22,23 @@ public class TaskService {
 	}
 	
 	
-	public List<Task> getAllTask(int pageNumber,int pageSize) {
-		return taskDao.getAllTask((pageNumber-1)*pageSize, pageSize);
+	public List<Task> getAllTask(int pageNumber,int pageSize,int state) {
+		return taskDao.getAllTask((pageNumber-1)*pageSize, pageSize,state);
 	}
 	
 	public List<Task> getTaskByCondition(Task task) {
 		return null;
 	}
+	
+	public List<Task> getUserTaskByState(int userId,int state){
+		return taskDao.getUserTaskByState(userId, state);
+	}
+	
+	public List<Task> getReleaseTask(int userId){
+		return taskDao.getReleaseTask(userId);
+	}
+
+	
+	
 
 }
