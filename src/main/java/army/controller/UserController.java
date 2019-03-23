@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import army.db.pojo.Message;
 import army.db.pojo.User;
+import army.service.MessageService;
 import army.service.RedisTokenManager;
 import army.service.UserService;
 import utils.ImageCreat;
@@ -34,6 +36,9 @@ import utils.TimeUntils;
 public class UserController {
 	@Autowired
 	private UserService userService;
+	
+//	@Autowired
+//	private MessageService messageService;
 
 	@Value("${tomact_dir}")
 	private String tomact_dir;

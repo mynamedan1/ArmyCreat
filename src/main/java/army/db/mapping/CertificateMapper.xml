@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="army.db.dao.CertificateMapper" >
+  <resultMap id="BaseResultMap" type="army.db.pojo.Certificate" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="certificateId" property="certificateid" jdbcType="INTEGER" />
+    <result column="certificateName" property="certificatename" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, userId, certificateId, certificateName
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from certificate
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+    <select id="getUserCertificate" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from certificate
+    where userId = #{userId,jdbcType=INTEGER}
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from certificate
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="army.db.pojo.Certificate" >
+    insert into certificate (id, userId, certificateId, 
+      certificateName)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{certificateid,jdbcType=INTEGER}, 
+      #{certificatename,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="army.db.pojo.Certificate" >
+    insert into certificate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="certificateid != null" >
+        certificateId,
+      </if>
+      <if test="certificatename != null" >
+        certificateName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="certificateid != null" >
+        #{certificateid,jdbcType=INTEGER},
+      </if>
+      <if test="certificatename != null" >
+        #{certificatename,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="army.db.pojo.Certificate" >
+    update certificate
+    <set >
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="certificateid != null" >
+        certificateId = #{certificateid,jdbcType=INTEGER},
+      </if>
+      <if test="certificatename != null" >
+        certificateName = #{certificatename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="army.db.pojo.Certificate" >
+    update certificate
+    set userId = #{userid,jdbcType=INTEGER},
+      certificateId = #{certificateid,jdbcType=INTEGER},
+      certificateName = #{certificatename,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
