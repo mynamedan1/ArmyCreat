@@ -37,7 +37,7 @@ public class TaskController {
 			MultipartFile partFile, Model model) {
 		if (null != partFile) {
 			if (!partFile.isEmpty()) {
-				String filePath = tomact_dir + "/task/" + task.getId() + ".jpg";
+				String filePath = tomact_dir + "/task/" + new Date().getTime() + ".jpg";
 				String setPath = "/task/" + task.getId() + ".jpg";
 				File file = new File(filePath);
 				if (!file.exists()) {
@@ -94,7 +94,7 @@ public class TaskController {
 	@RequestMapping("getAllTask.do")
 	@ResponseBody
 	public ServerResponse getAllTask(HttpServletRequest request, HttpServletResponse response, int state, Model model) {
-		return ServerResponse.createBySuccess("用户列表", taskService.getAllTask(state));
+		return ServerResponse.createBySuccess("任务列表", taskService.getAllTask(state));
 
 	}
 

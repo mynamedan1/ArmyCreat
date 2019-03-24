@@ -22,7 +22,7 @@ public interface TaskMapper {
     int updateByPrimaryKey(Task record);
     
     //任务分页查询
-    List<Task> getAllTask(int state);
+    List<Task> getAllTask(@Param("state")Integer state);
     //任务模糊查询
     List<Task> getTaskByCondition(@Param("task")Task  task);
     //
