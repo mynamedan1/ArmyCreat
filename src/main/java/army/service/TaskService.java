@@ -27,7 +27,7 @@ public class TaskService {
 	}
 	
 	public List<Task> getTaskByCondition(Task task) {
-		return null;
+		return taskDao.getTaskByCondition(task);
 	}
 	
 	public List<Task> getUserTaskByState(int userId,int state){

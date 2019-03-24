@@ -20,7 +20,8 @@
 		<result column="content" property="content" jdbcType="LONGVARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, money, point, title, state, releaseby, claim, imgUrl, extra,
+		id, money, point, title, state, releaseby, claim, imgUrl,
+		extra,
 		updateTime, version,
 		level
 	</sql>
@@ -50,6 +51,15 @@
 	</select>
 
 
+	<select id="getTaskByCondition" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from task
+	</select>
+
+
 	<select id="getUserTaskByState" resultMap="ResultMapWithBLOBs">
 		select
 		<include refid="Base_Column_List" />
@@ -57,18 +67,19 @@
 		<include refid="Blob_Column_List" />
 		from task
 		where id in(
-		select taskID from userTask where userID=#{userId,jdbcType=INTEGER} and state=#{state,jdbcType=INTEGER}
+		select taskID from userTask where
+		userID=#{userId,jdbcType=INTEGER} and state=#{state,jdbcType=INTEGER}
 		)
 	</select>
-	
-	
-		<select id="getReleaseTask" resultMap="ResultMapWithBLOBs">
+
+
+	<select id="getReleaseTask" resultMap="ResultMapWithBLOBs">
 		select
 		<include refid="Base_Column_List" />
 		,
 		<include refid="Blob_Column_List" />
 		from task
-	    where releaseby = #{userId,jdbcType=INTEGER}
+		where releaseby = #{userId,jdbcType=INTEGER}
 	</select>
 
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -76,17 +87,23 @@
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
 	<insert id="insert" parameterType="army.db.pojo.Task">
-		insert into task (id, money, point,
+		insert into task (id, money,
+		point,
 		title, state, releaseby,
 		claim, imgUrl, extra,
-		updateTime, version, level,
+		updateTime,
+		version, level,
 		content)
-		values (#{id,jdbcType=INTEGER}, #{money,jdbcType=INTEGER},
+		values (#{id,jdbcType=INTEGER},
+		#{money,jdbcType=INTEGER},
 		#{point,jdbcType=INTEGER},
-		#{title,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{releaseby,jdbcType=INTEGER},
-		#{claim,jdbcType=INTEGER}, #{imgurl,jdbcType=VARCHAR},
+		#{title,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER},
+		#{releaseby,jdbcType=INTEGER},
+		#{claim,jdbcType=INTEGER},
+		#{imgurl,jdbcType=VARCHAR},
 		#{extra,jdbcType=VARCHAR},
-		#{updatetime,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, #{level,jdbcType=INTEGER},
+		#{updatetime,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER},
+		#{level,jdbcType=INTEGER},
 		#{content,jdbcType=LONGVARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="army.db.pojo.Task">
@@ -217,34 +234,43 @@
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 	<update id="updateByPrimaryKeyWithBLOBs" parameterType="army.db.pojo.Task">
-		update task
+		update
+		task
 		set money = #{money,jdbcType=INTEGER},
-		point = #{point,jdbcType=INTEGER},
+		point =
+		#{point,jdbcType=INTEGER},
 		title = #{title,jdbcType=VARCHAR},
-		state = #{state,jdbcType=INTEGER},
+		state =
+		#{state,jdbcType=INTEGER},
 		releaseby = #{releaseby,jdbcType=INTEGER},
 		claim = #{claim,jdbcType=INTEGER},
 		imgUrl = #{imgurl,jdbcType=VARCHAR},
 		extra = #{extra,jdbcType=VARCHAR},
-		updateTime = #{updatetime,jdbcType=VARCHAR},
+		updateTime =
+		#{updatetime,jdbcType=VARCHAR},
 		version = #{version,jdbcType=INTEGER},
 		level = #{level,jdbcType=INTEGER},
-		content = #{content,jdbcType=LONGVARCHAR}
+		content =
+		#{content,jdbcType=LONGVARCHAR}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 	<update id="updateByPrimaryKey" parameterType="army.db.pojo.Task">
 		update task
-		set money = #{money,jdbcType=INTEGER},
+		set
+		money = #{money,jdbcType=INTEGER},
 		point = #{point,jdbcType=INTEGER},
 		title = #{title,jdbcType=VARCHAR},
 		state = #{state,jdbcType=INTEGER},
 		releaseby = #{releaseby,jdbcType=INTEGER},
-		claim = #{claim,jdbcType=INTEGER},
+		claim =
+		#{claim,jdbcType=INTEGER},
 		imgUrl = #{imgurl,jdbcType=VARCHAR},
-		extra = #{extra,jdbcType=VARCHAR},
+		extra =
+		#{extra,jdbcType=VARCHAR},
 		updateTime = #{updatetime,jdbcType=VARCHAR},
 		version = #{version,jdbcType=INTEGER},
-		level = #{level,jdbcType=INTEGER}
+		level =
+		#{level,jdbcType=INTEGER}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 </mapper>

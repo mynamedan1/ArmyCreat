@@ -69,39 +69,10 @@ public class TaskController {
 	// admin实战任务更新
 	@RequestMapping("changeTaskStatus.do")
 	@ResponseBody
-	public ServerResponse changeTaskStatus(HttpServletRequest request, HttpServletResponse response, Task task,
-			MultipartFile partFile, Model model) {
-		if (task.getState() == 3) {
-			if (null != partFile) {
-				if (partFile.isEmpty()) {
-					ServerResponse.createByError("请上传支付二维码");
-				} else {
-					String filePath = tomact_dir + "/army/pay/" + task.getId() + ".jpg";
-					File file = new File(filePath);
-					if (!file.exists()) {
-						file.mkdirs();
-					}
-					try {
-						partFile.transferTo(file);
-						task.setExtra(filePath);
-					} catch (IllegalStateException e) {
-						// TODO Auto-generated catch block
-						// e.printStackTrace();
-						return ServerResponse.createByError("二维码上传失败");
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						// e.printStackTrace();
-						return ServerResponse.createByError("二维码上传失败");
-					}
-				}
-			}else {
-				ServerResponse.createByError("请上传支付二维码");
-			}
-		}
+	public ServerResponse changeTaskStatus(HttpServletRequest request, HttpServletResponse response, Task task,Model model) {
 		if (taskService.claimTask(task)) {
 			return ServerResponse.createBySuccess("任务状态更新成功");
 		}
-
 		return ServerResponse.createByError("任务状态修改失败");
 	}
 	
@@ -120,7 +91,7 @@ public class TaskController {
 	@ResponseBody
 	public ServerResponse getTaskByCondition(HttpServletRequest request, HttpServletResponse response, Task task,
 			Model model) {
-		return ServerResponse.createByError("任务获取失败");
+		return ServerResponse.createBySuccess("任务获取成功",taskService.getTaskByCondition(task));
 	}
 	
 	//----------------------------------------------app端接口-------------------------------------------------------
@@ -131,7 +102,7 @@ public class TaskController {
 			int userId, int state, Model model) {
 		return ServerResponse.createBySuccess("任务列表", taskService.getUserTaskByState(userId, state));
 	}
-
+    
 	// 我的发布
 	@RequestMapping("getReleaseTask.do")
 	@ResponseBody
