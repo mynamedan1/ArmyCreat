@@ -22,8 +22,8 @@ public class TaskService {
 	}
 	
 	
-	public List<Task> getAllTask(int pageNumber,int pageSize,int state) {
-		return taskDao.getAllTask((pageNumber-1)*pageSize, pageSize,state);
+	public List<Task> getAllTask(int state) {
+		return taskDao.getAllTask(state);
 	}
 	
 	public List<Task> getTaskByCondition(Task task) {
@@ -36,6 +36,10 @@ public class TaskService {
 	
 	public List<Task> getReleaseTask(int userId){
 		return taskDao.getReleaseTask(userId);
+	}
+	
+	public List<Task> getReleaseTaskByState(int userId,int state){
+		return null;
 	}
 
 	

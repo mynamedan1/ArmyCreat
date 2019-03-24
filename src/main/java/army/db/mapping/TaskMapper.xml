@@ -47,7 +47,6 @@
 		<if test="state!=null">
 			where state = #{state,jdbcType=INTEGER}
 		</if>
-		limit #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
 	</select>
 
 

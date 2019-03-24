@@ -77,12 +77,11 @@ public class TaskController {
 	}
 	
 
-	// 任务分页查询，app端传入state 1
+	// 任务查询，app端传入state 1
 	@RequestMapping("getAllTask.do")
 	@ResponseBody
-	public ServerResponse getAllTask(HttpServletRequest request, HttpServletResponse response, int pageNumber,
-			int pageSize,int state, Model model) {
-		return ServerResponse.createBySuccess("用户列表", taskService.getAllTask(pageNumber, pageSize,state));
+	public ServerResponse getAllTask(HttpServletRequest request, HttpServletResponse response,int state, Model model) {
+		return ServerResponse.createBySuccess("用户列表", taskService.getAllTask(state));
 
 	}
  
@@ -110,5 +109,13 @@ public class TaskController {
 			int userId, Model model) {
 		return ServerResponse.createBySuccess("我的发布", taskService.getReleaseTask(userId));
 	}
+	
+	// 我的发布
+		@RequestMapping("getReleaseTaskByState.do")
+		@ResponseBody
+		public ServerResponse getReleaseTaskByState(HttpServletRequest request, HttpServletResponse response,
+				int userId,int state, Model model) {
+			return ServerResponse.createBySuccess("任务列表", taskService.getReleaseTaskByState(userId,state));
+		}
 
 }
