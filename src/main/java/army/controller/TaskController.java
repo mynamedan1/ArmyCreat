@@ -76,6 +76,19 @@ public class TaskController {
 		}
 		return ServerResponse.createByError("任务状态修改失败");
 	}
+	
+	//删除任务
+	@RequestMapping("deleteTask.do")
+	@ResponseBody
+	public ServerResponse deleteTask(HttpServletRequest request, HttpServletResponse response, int id,
+			Model model) {
+		if (taskService.deleteTask(id)) {
+			return ServerResponse.createBySuccess("删除成功");
+		}
+		return ServerResponse.createByError("删除失败");
+	}
+
+	
 
 	// 任务查询，app端传入state 1
 	@RequestMapping("getAllTask.do")

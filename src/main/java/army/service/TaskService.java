@@ -21,6 +21,11 @@ public class TaskService {
 		return taskDao.updateByPrimaryKeySelective(task)==1?true:false;
 	}
 	
+	public boolean deleteTask(int  id) {
+		return taskDao.deleteByPrimaryKey(id)==1?true:false;
+	}
+
+	
 	
 	public List<Task> getAllTask(int state) {
 		return taskDao.getAllTask(state);
