@@ -15,4 +15,8 @@ public class UserTaskService {
 		return userTaskDao.insert(userTask) == 1 ? true : false;
 	}
 
+	public boolean updateUserTask(UserTask userTask) {
+		return userTaskDao.updateByPrimaryKeySelective(userTask) == 1 ? true : false;
+	}
+
 }

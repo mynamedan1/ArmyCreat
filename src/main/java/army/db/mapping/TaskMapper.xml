@@ -79,6 +79,16 @@
 		<include refid="Blob_Column_List" />
 		from task
 		where releaseby = #{userId,jdbcType=INTEGER}
+		<if test="state==0">
+		 and state = #{state,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<select id="getReleaseTaskByState" resultType="army.db.pojo.ReleaseTaskModel">
+		select ut.state as utstatte,ut.payImageUrl,t.*,u.name as claimName from userTask ut,task t,user u
+		where ut.state = #{state,jdbcType=INTEGER}
+		and ut.userID = u.id
+		and ut.taskID in(select id from task where releaseby=#{userId,jdbcType=INTEGER})
 	</select>
 
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

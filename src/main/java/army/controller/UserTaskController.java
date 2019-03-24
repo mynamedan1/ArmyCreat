@@ -7,13 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import army.db.pojo.Task;
 import army.db.pojo.UserTask;
 import army.service.UserTaskService;
 import utils.ServerResponse;
@@ -23,6 +23,9 @@ import utils.ServerResponse;
 public class UserTaskController {
 	@Autowired
 	private UserTaskService userTaskService;
+
+	@Value("${tomact_dir}")
+	private String tomact_dir;
 
 	// 用户领取任务 userTask状态设置为2
 	@RequestMapping("claimTask.do")
@@ -36,46 +39,44 @@ public class UserTaskController {
 		}
 	}
 
-	// 用户任务状态更改
-	// admin实战任务更新
-//		@RequestMapping("changeTaskStatus.do")
-//		@ResponseBody
-//		public ServerResponse changeTaskStatus(HttpServletRequest request, HttpServletResponse response, Task task,
-//				MultipartFile partFile, Model model) {
-//			if (task.getState() == 3) {
-//				if (null != partFile) {
-//					if (partFile.isEmpty()) {
-//						ServerResponse.createByError("请上传支付二维码");
-//					} else {
-//						String filePath = tomact_dir + "/army/pay/" + task.getId() + ".jpg";
-//						File file = new File(filePath);
-//						if (!file.exists()) {
-//							file.mkdirs();
-//						}
-//						try {
-//							partFile.transferTo(file);
-//							task.setExtra(filePath);
-//						} catch (IllegalStateException e) {
-//							// TODO Auto-generated catch block
-//							// e.printStackTrace();
-//							return ServerResponse.createByError("二维码上传失败");
-//						} catch (IOException e) {
-//							// TODO Auto-generated catch block
-//							// e.printStackTrace();
-//							return ServerResponse.createByError("二维码上传失败");
-//						}
-//					}
-//				}else {
-//					ServerResponse.createByError("请上传支付二维码");
-//				}
-//			}
-//			if (taskService.claimTask(task)) {
-//				return ServerResponse.createBySuccess("任务状态更新成功");
-//			}
-//
-//			return ServerResponse.createByError("任务状态修改失败");
-//		}
+	// 用户任务状态更改  2已认领，3代支付，4已完成，
+	@RequestMapping("changeUserTaskStatus.do")
+	@ResponseBody
+	public ServerResponse changeUserTaskStatus(HttpServletRequest request, HttpServletResponse response,
+			UserTask userTask, MultipartFile partFile, Model model) {
+		if (userTask.getState() == 3) {
+			if (null != partFile) {
+				if (partFile.isEmpty()) {
+					ServerResponse.createByError("请上传支付二维码");
+				} else {
+					String filePath = tomact_dir + "/army/pay/" + userTask.getId() + ".jpg";
+					String setPath = "/army/pay/" + userTask.getId() + ".jpg";
+					File file = new File(filePath);
+					if (!file.exists()) {
+						file.mkdirs();
+					}
+					try {
+						partFile.transferTo(file);
+						userTask.setPayimageurl(setPath);
+					} catch (IllegalStateException e) {
+						// TODO Auto-generated catch block
+						// e.printStackTrace();
+						return ServerResponse.createByError("二维码上传失败");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						// e.printStackTrace();
+						return ServerResponse.createByError("二维码上传失败");
+					}
+				}
+			} else {
+				ServerResponse.createByError("请上传支付二维码");
+			}
+		}
+		if (userTaskService.updateUserTask(userTask)) {
+			return ServerResponse.createBySuccess("任务状态更新成功");
+		}
 
-
+		return ServerResponse.createByError("任务状态修改失败");
+	}
 
 }

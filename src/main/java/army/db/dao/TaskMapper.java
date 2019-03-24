@@ -28,7 +28,7 @@ public interface TaskMapper {
     //
     List<Task> getUserTaskByState(@Param("userId")Integer userId,@Param("state")Integer state);
     
-    List<Task> getReleaseTask(Integer userId);
+    List<Task> getReleaseTask(@Param("userId")Integer userId,@Param("state")Integer state);
     
     List<Task> getReleaseTaskByState(@Param("userId")Integer userId,@Param("state")Integer state);
     

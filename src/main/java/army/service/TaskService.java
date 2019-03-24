@@ -34,12 +34,12 @@ public class TaskService {
 		return taskDao.getUserTaskByState(userId, state);
 	}
 	
-	public List<Task> getReleaseTask(int userId){
-		return taskDao.getReleaseTask(userId);
+	public List<Task> getReleaseTask(int userId,int state){
+		return taskDao.getReleaseTask(userId,state);
 	}
 	
 	public List<Task> getReleaseTaskByState(int userId,int state){
-		return null;
+		return taskDao.getReleaseTaskByState(userId, state);
 	}
 
 	

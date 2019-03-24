@@ -69,53 +69,52 @@ public class TaskController {
 	// admin实战任务更新
 	@RequestMapping("changeTaskStatus.do")
 	@ResponseBody
-	public ServerResponse changeTaskStatus(HttpServletRequest request, HttpServletResponse response, Task task,Model model) {
+	public ServerResponse changeTaskStatus(HttpServletRequest request, HttpServletResponse response, Task task,
+			Model model) {
 		if (taskService.claimTask(task)) {
 			return ServerResponse.createBySuccess("任务状态更新成功");
 		}
 		return ServerResponse.createByError("任务状态修改失败");
 	}
-	
 
 	// 任务查询，app端传入state 1
 	@RequestMapping("getAllTask.do")
 	@ResponseBody
-	public ServerResponse getAllTask(HttpServletRequest request, HttpServletResponse response,int state, Model model) {
+	public ServerResponse getAllTask(HttpServletRequest request, HttpServletResponse response, int state, Model model) {
 		return ServerResponse.createBySuccess("用户列表", taskService.getAllTask(state));
 
 	}
- 
+
 	// admin任务模糊查询
 	@RequestMapping("getTaskByCondition.do")
 	@ResponseBody
 	public ServerResponse getTaskByCondition(HttpServletRequest request, HttpServletResponse response, Task task,
 			Model model) {
-		return ServerResponse.createBySuccess("任务获取成功",taskService.getTaskByCondition(task));
+		return ServerResponse.createBySuccess("任务获取成功", taskService.getTaskByCondition(task));
 	}
-	
-	//----------------------------------------------app端接口-------------------------------------------------------
+
+	// ----------------------------------------------app端接口-------------------------------------------------------
 	// 2已认领，3代支付，4完成
 	@RequestMapping("getUserTask.do")
 	@ResponseBody
-	public ServerResponse getUserTask(HttpServletRequest request, HttpServletResponse response,
-			int userId, int state, Model model) {
+	public ServerResponse getUserTask(HttpServletRequest request, HttpServletResponse response, int userId, int state,
+			Model model) {
 		return ServerResponse.createBySuccess("任务列表", taskService.getUserTaskByState(userId, state));
 	}
-    
-	// 我的发布
+
+	// 我的发布 全部 待审批
 	@RequestMapping("getReleaseTask.do")
 	@ResponseBody
-	public ServerResponse getReleaseTask(HttpServletRequest request, HttpServletResponse response,
-			int userId, Model model) {
-		return ServerResponse.createBySuccess("我的发布", taskService.getReleaseTask(userId));
+	public ServerResponse getReleaseTask(HttpServletRequest request, HttpServletResponse response, int userId,Integer state,
+			Model model) {
+		return ServerResponse.createBySuccess("我的发布", taskService.getReleaseTask(userId,state));
 	}
-	
-	// 我的发布
-		@RequestMapping("getReleaseTaskByState.do")
-		@ResponseBody
-		public ServerResponse getReleaseTaskByState(HttpServletRequest request, HttpServletResponse response,
-				int userId,int state, Model model) {
-			return ServerResponse.createBySuccess("任务列表", taskService.getReleaseTaskByState(userId,state));
-		}
 
+	// 我的发布按照状态查询  2已认领，3代支付，4已完成，
+	@RequestMapping("getReleaseTaskByState.do")
+	@ResponseBody
+	public ServerResponse getReleaseTaskByState(HttpServletRequest request, HttpServletResponse response, int userId,
+			int state, Model model) {
+		return ServerResponse.createBySuccess("任务列表", taskService.getReleaseTaskByState(userId, state));
+	}
 }
