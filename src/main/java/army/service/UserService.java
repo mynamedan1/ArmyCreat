@@ -97,7 +97,7 @@ public class UserService {
 			user.setCertificatenumber(String.valueOf(lo.get(1)).length() == 0 ? null : String.valueOf(lo.get(1)));
 			user.setIdcard(String.valueOf(lo.get(2)).length() == 0 ? null : String.valueOf(lo.get(2)));
 			try {
-				user.setPhonenumber(Integer.parseInt(String.valueOf(lo.get(3))));
+				user.setPhonenumber(Integer.parseInt(String.valueOf(lo.get(3)))+"");
 			} catch (Exception e) {
 				return ServerResponse.createByError("数据错误，请检查数据");
 			}

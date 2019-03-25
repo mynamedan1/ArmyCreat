@@ -9,7 +9,7 @@ public class User {
 
     private String idcard;
 
-    private Integer phonenumber;
+    private String phonenumber;
 
     private String password;
 
@@ -63,11 +63,11 @@ public class User {
         this.idcard = idcard == null ? null : idcard.trim();
     }
 
-    public Integer getPhonenumber() {
+    public String getPhonenumber() {
         return phonenumber;
     }
 
-    public void setPhonenumber(Integer phonenumber) {
+    public void setPhonenumber(String phonenumber) {
         this.phonenumber = phonenumber;
     }
 

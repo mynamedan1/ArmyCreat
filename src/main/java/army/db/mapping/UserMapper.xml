@@ -7,7 +7,7 @@
 		<result column="certificateNumber" property="certificatenumber"
 			jdbcType="VARCHAR" />
 		<result column="IDCard" property="idcard" jdbcType="VARCHAR" />
-		<result column="phoneNumber" property="phonenumber" jdbcType="INTEGER" />
+		<result column="phoneNumber" property="phonenumber" jdbcType="VARCHAR" />
 		<result column="password" property="password" jdbcType="VARCHAR" />
 		<result column="pointCount" property="pointcount" jdbcType="INTEGER" />
 		<result column="importType" property="importtype" jdbcType="VARCHAR" />

@@ -115,7 +115,7 @@ public class TaskController {
 		return ServerResponse.createBySuccess("任务列表", taskService.getUserTaskByState(userId, state));
 	}
 
-	// 我的发布 全部 待审批
+	// 我的发布 -3全部 0待审批
 	@RequestMapping("getReleaseTask.do")
 	@ResponseBody
 	public ServerResponse getReleaseTask(HttpServletRequest request, HttpServletResponse response, int userId,Integer state,

@@ -56,6 +56,17 @@
 		,
 		<include refid="Blob_Column_List" />
 		from task
+		where title like CONCAT ('%',#{task.title},'%')
+		and content like CONCAT ('%',#{task.content},'%')
+		<if test="task.updatetime!=''">
+		 and updateTime=#{task.updatetime}
+		</if>
+		<if test="task.state!=null">
+		 and state=#{task.state}
+		</if>
+		<if test="task.level!=null">
+		 and level=#{task.level}
+		</if>
 	</select>
 
 
@@ -67,7 +78,10 @@
 		from task
 		where id in(
 		select taskID from userTask where
-		userID=#{userId,jdbcType=INTEGER} and state=#{state,jdbcType=INTEGER}
+		userID=#{userId,jdbcType=INTEGER}
+		<if test="state!=-3">
+			and state=#{state,jdbcType=INTEGER}
+		</if>
 		)
 	</select>
 
@@ -80,15 +94,18 @@
 		from task
 		where releaseby = #{userId,jdbcType=INTEGER}
 		<if test="state==0">
-		 and state = #{state,jdbcType=INTEGER}
+			and state = #{state,jdbcType=INTEGER}
 		</if>
 	</select>
 
 	<select id="getReleaseTaskByState" resultType="army.db.pojo.ReleaseTaskModel">
-		select ut.state as utstatte,ut.payImageUrl,t.*,u.name as claimName from userTask ut,task t,user u
+		select ut.state as
+		utstatte,ut.payImageUrl,t.*,u.name as claimName from userTask ut,task
+		t,user u
 		where ut.state = #{state,jdbcType=INTEGER}
 		and ut.userID = u.id
-		and ut.taskID in(select id from task where releaseby=#{userId,jdbcType=INTEGER})
+		and ut.taskID in(select id from task where
+		releaseby=#{userId,jdbcType=INTEGER})
 	</select>
 
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
