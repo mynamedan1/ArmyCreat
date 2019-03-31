@@ -36,7 +36,7 @@ import utils.TimeUntils;
 public class UserController {
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private MessageService messageService;
 
@@ -99,8 +99,8 @@ public class UserController {
 				}
 			}
 		}
-//		user.setId(((User) request.getAttribute("currentUser")).getId());
-		HashMap<String,String> hashMap = (HashMap<String, String>) getLevelInfo(user.getPointcount());
+		// user.setId(((User) request.getAttribute("currentUser")).getId());
+		HashMap<String, String> hashMap = (HashMap<String, String>) getLevelInfo(user.getPointcount());
 		user.setLevelvalue(Integer.parseInt(hashMap.get("levelValue")));
 		user.setLavelname(hashMap.get("levelName"));
 		if (userService.updateUser(user)) {
@@ -188,6 +188,14 @@ public class UserController {
 
 	}
 
+	// 当前用户查询
+	@RequestMapping("getUserById.do")
+	@ResponseBody
+	public ServerResponse getUserById(HttpServletRequest request, HttpServletResponse response, int userId) {
+		return ServerResponse.createBySuccess("用户列表", userService.getUserById(userId));
+
+	}
+
 	// 用户模糊查询
 	@RequestMapping("getUserByCondition.do")
 	@ResponseBody
@@ -245,73 +253,73 @@ public class UserController {
 	public ServerResponse UploadExcel(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return userService.ajaxUploadExcel(request, response);
 	}
-	
-	public Map<String,String> getLevelInfo(int point){
-		HashMap<String,String> hashMap = new HashMap<String,String>();
-		if(0<=point&&point<50) {
+
+	public Map<String, String> getLevelInfo(int point) {
+		HashMap<String, String> hashMap = new HashMap<String, String>();
+		if (0 <= point && point < 50) {
 			hashMap.put("levelValue", "1");
 			hashMap.put("levelName", "士兵");
 		}
-		if(50<=point&&point<100) {
+		if (50 <= point && point < 100) {
 			hashMap.put("levelValue", "2");
 			hashMap.put("levelName", "二等兵");
 		}
-		if(100<=point&&point<200) {
+		if (100 <= point && point < 200) {
 			hashMap.put("levelValue", "3");
 			hashMap.put("levelName", "一等兵");
 		}
-		if(200<=point&&point<500) {
+		if (200 <= point && point < 500) {
 			hashMap.put("levelValue", "4");
 			hashMap.put("levelName", "下士");
 		}
-		if(500<=point&&point<1000) {
+		if (500 <= point && point < 1000) {
 			hashMap.put("levelValue", "5");
 			hashMap.put("levelName", "中士");
 		}
-		if(1000<=point&&point<3000) {
+		if (1000 <= point && point < 3000) {
 			hashMap.put("levelValue", "6");
 			hashMap.put("levelName", "上士");
 		}
-		if(3000<=point&&point<5000) {
+		if (3000 <= point && point < 5000) {
 			hashMap.put("levelValue", "7");
 			hashMap.put("levelName", "少尉");
 		}
-		if(5000<=point&&point<10000) {
+		if (5000 <= point && point < 10000) {
 			hashMap.put("levelValue", "8");
 			hashMap.put("levelName", "中尉");
 		}
-		if(10000<=point&&point<300000) {
+		if (10000 <= point && point < 300000) {
 			hashMap.put("levelValue", "9");
 			hashMap.put("levelName", "上尉");
 		}
-		if(30000<=point&&point<50000) {
+		if (30000 <= point && point < 50000) {
 			hashMap.put("levelValue", "10");
 			hashMap.put("levelName", "少校");
 		}
-		if(50000<=point&&point<100000) {
+		if (50000 <= point && point < 100000) {
 			hashMap.put("levelValue", "11");
 			hashMap.put("levelName", "中校");
 		}
-		if(100000<=point&&point<110000) {
+		if (100000 <= point && point < 110000) {
 			hashMap.put("levelValue", "12");
 			hashMap.put("levelName", "上校");
 		}
-		if(110000<=point&&point<200000) {
+		if (110000 <= point && point < 200000) {
 			hashMap.put("levelValue", "13");
 			hashMap.put("levelName", "少将");
 		}
-		if(200000<=point&&point<300000) {
+		if (200000 <= point && point < 300000) {
 			hashMap.put("levelValue", "14");
 			hashMap.put("levelName", "中将");
 		}
-		if(300000<=point&&point<588900) {
+		if (300000 <= point && point < 588900) {
 			hashMap.put("levelValue", "15");
 			hashMap.put("levelName", "上将");
 		}
-		if(588900<=point) {
+		if (588900 <= point) {
 			hashMap.put("levelValue", "16");
 			hashMap.put("levelName", "大将军");
 		}
-		return  hashMap;
+		return hashMap;
 	}
 }

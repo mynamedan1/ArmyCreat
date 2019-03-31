@@ -55,6 +55,10 @@ public class UserService {
 	public boolean deleteUser(int id) {
 		return userDao.deleteByPrimaryKey(id) == 1 ? true : false;
 	}
+	
+	public User getUserById(int userId) {
+		return userDao.selectByPrimaryKey(userId);
+	}
 
 
 	@Transactional
