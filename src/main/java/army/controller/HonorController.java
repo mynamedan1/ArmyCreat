@@ -31,7 +31,7 @@ public class HonorController {
 	@ResponseBody
 	public ServerResponse login(HttpServletRequest request, HttpServletResponse response) {
 		User user = (User) request.getAttribute("currentUser");
-		if (honorService.checkTodayLock(user.getId(), TimeUntils.dataToStringForDate(new Date()))) {
+		if (!honorService.checkTodayLock(user.getId(), TimeUntils.dataToStringForDate(new Date()))) {
 			return ServerResponse.createBySuccess("今日已打卡");
 		} else {
 			HonorRecord honorRecord = new HonorRecord();
