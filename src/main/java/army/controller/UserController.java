@@ -28,6 +28,7 @@ import army.service.UserService;
 import utils.ImageCreat;
 import utils.MD5Utils;
 import utils.ResponseCode;
+import utils.SendCode;
 import utils.ServerResponse;
 import utils.TimeUntils;
 
@@ -245,6 +246,21 @@ public class UserController {
 			serverResponse = new ServerResponse(ResponseCode.ERROR.getCode(), "验证码错误");
 		}
 		return serverResponse;
+	}
+
+	//手机验证码发送
+	@RequestMapping("getPhoneCHeck.do")
+	@ResponseBody
+	public ServerResponse getPhoneCHeck(HttpServletResponse response, HttpSession session, String phoneNumber) {
+		ServerResponse serverResponse;
+		try {
+			String result = SendCode.getPhoneCHeck(phoneNumber);
+			return ServerResponse.createBySuccess("验证码发送成功", result);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return ServerResponse.createByError("发送失败，请重试！");
+		}
+		
 	}
 
 	// excel数据导入

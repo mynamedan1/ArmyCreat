@@ -23,6 +23,17 @@ public class MessageController {
 	   
 	   @Autowired
 		private RedisTokenManager redisRokenManager;
+	   
+	   // 发送中心获取消息 type=1 用户消息 type=2 系统消息
+		@RequestMapping("sendMessage.do")
+		@ResponseBody
+		public ServerResponse sendMessage(HttpServletRequest request, HttpServletResponse response,Message message) {
+			if(messageService.addMessage(message)) {
+				return ServerResponse.createBySuccess("消息发送成功");
+			}
+			return ServerResponse.createByError("消息发送失败");
+		}
+
 	
 	    // 用户中心获取消息 type=1 用户消息 type=2 系统消息
 		@RequestMapping("getMessage.do")

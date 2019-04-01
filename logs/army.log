@@ -1,0 +1,103 @@
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]COMPILATION ERROR : 
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[7,23] 程序包org.apache.http不存在
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[8,23] 程序包org.apache.http不存在
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[9,37] 程序包org.apache.http.client.entity不存在
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[10,38] 程序包org.apache.http.client.methods不存在
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[11,35] 程序包org.apache.http.impl.client不存在
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[12,31] 程序包org.apache.http.message不存在
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[13,28] 程序包org.apache.http.util不存在
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[15,28] 程序包com.netease.checksum不存在
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[41,9] 找不到符号
+  符号:   类 DefaultHttpClient
+  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[41,44] 找不到符号
+  符号:   类 DefaultHttpClient
+  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[42,9] 找不到符号
+  符号:   类 HttpPost
+  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[42,33] 找不到符号
+  符号:   类 HttpPost
+  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[47,27] 找不到符号
+  符号:   变量 CheckSumBuilder
+  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[57,14] 找不到符号
+  符号:   类 NameValuePair
+  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[57,50] 找不到符号
+  符号:   类 NameValuePair
+  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[63,22] 找不到符号
+  符号:   类 BasicNameValuePair
+  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[64,22] 找不到符号
+  符号:   类 BasicNameValuePair
+  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[65,22] 找不到符号
+  符号:   类 BasicNameValuePair
+  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[67,32] 找不到符号
+  符号:   类 UrlEncodedFormEntity
+  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[70,9] 找不到符号
+  符号:   类 HttpResponse
+  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.plugin.compiler.CompilerMojo]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[75,28] 找不到符号
+  符号:   变量 EntityUtils
+  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.1:compile (default-compile) on project ArmyCreate: Compilation failure: Compilation failure: 
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[7,23] 程序包org.apache.http不存在
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[8,23] 程序包org.apache.http不存在
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[9,37] 程序包org.apache.http.client.entity不存在
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[10,38] 程序包org.apache.http.client.methods不存在
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[11,35] 程序包org.apache.http.impl.client不存在
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[12,31] 程序包org.apache.http.message不存在
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[13,28] 程序包org.apache.http.util不存在
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[15,28] 程序包com.netease.checksum不存在
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[41,9] 找不到符号
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  符号:   类 DefaultHttpClient
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[41,44] 找不到符号
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  符号:   类 DefaultHttpClient
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[42,9] 找不到符号
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  符号:   类 HttpPost
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[42,33] 找不到符号
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  符号:   类 HttpPost
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[47,27] 找不到符号
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  符号:   变量 CheckSumBuilder
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[57,14] 找不到符号
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  符号:   类 NameValuePair
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[57,50] 找不到符号
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  符号:   类 NameValuePair
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[63,22] 找不到符号
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  符号:   类 BasicNameValuePair
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[64,22] 找不到符号
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  符号:   类 BasicNameValuePair
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[65,22] 找不到符号
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  符号:   类 BasicNameValuePair
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[67,32] 找不到符号
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  符号:   类 UrlEncodedFormEntity
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[70,9] 找不到符号
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  符号:   类 HttpResponse
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]/Users/chendengfei/Documents/projects/ArmyCreate/src/main/java/utils/SendCode.java:[75,28] 找不到符号
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  符号:   变量 EntityUtils
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]  位置: 类 utils.SendCode
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]-> [Help 1]
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli]For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [2019-03-31 14:15:23][org.apache.maven.cli.MavenCli][Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
