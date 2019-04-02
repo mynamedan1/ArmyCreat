@@ -24,7 +24,10 @@ public class TaskService {
 	public boolean deleteTask(int  id) {
 		return taskDao.deleteByPrimaryKey(id)==1?true:false;
 	}
-
+    
+	public Task selectByPrimaryKey(int id) {
+		return taskDao.selectByPrimaryKey(id);
+	}
 	
 	
 	public List<Task> getAllTask(int state) {

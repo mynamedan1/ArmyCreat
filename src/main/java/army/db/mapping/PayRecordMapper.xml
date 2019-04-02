@@ -18,6 +18,15 @@
     from payRecord
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  <select id="getPayRecordList" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from payRecord
+    where userID = #{userId,jdbcType=INTEGER}
+    and type = #{type,jdbcType=INTEGER}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from payRecord
     where id = #{id,jdbcType=INTEGER}

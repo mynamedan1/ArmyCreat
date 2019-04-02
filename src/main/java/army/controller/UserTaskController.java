@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -25,11 +26,16 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import army.db.pojo.PayRecord;
+import army.db.pojo.Task;
 import army.db.pojo.UserTask;
+import army.service.PayRecordService;
+import army.service.TaskService;
 import army.service.UserTaskService;
 import utils.HttpRequest;
 import utils.SendInfo;
 import utils.ServerResponse;
+import utils.TimeUntils;
 
 
 @Controller
@@ -38,6 +44,13 @@ public class UserTaskController {
 	private static final Logger logger = LogManager.getLogger(UserTaskController.class);
 	@Autowired
 	private UserTaskService userTaskService;
+	
+	@Autowired
+	private TaskService taskService;
+	
+	@Autowired
+	private PayRecordService payRecordService;
+
 
 	@Value("${tomact_dir}")
 	private String tomact_dir;
@@ -69,8 +82,8 @@ public class UserTaskController {
 		String timestamp = String.format("%010d", timeStampSec);
 		sendInfo.setTimestamp(timestamp);
 		sendInfo.setNotifyUrl("http://148.70.49.238:8080/ArmyCreate/usertask/notify.do");
-		sendInfo.setRedirectUrl("http://148.70.49.238:8080/army/#/paySuccess");
-		String stringA = "accountNo=" + sendInfo.getAccountNo() + "&device=" + sendInfo.getDevice() + "&notifyUrl="
+		sendInfo.setRedirectUrl("http://148.70.49.238:8080/army/#/paySuccess");//+ "&device=" + sendInfo.getDevice()
+		String stringA = "accountNo=" + sendInfo.getAccountNo()  + "&notifyUrl="
 				+ sendInfo.getNotifyUrl() + "&orderAmount=" + sendInfo.getOrderAmount() + "&outTradeNo="
 				+ sendInfo.getOutTradeNo() + "&redirectUrl=" + sendInfo.getRedirectUrl() + "&timestamp="
 				+ sendInfo.getTimestamp() + "&version=2.1&" + sendInfo.getSecretKey();
@@ -81,7 +94,7 @@ public class UserTaskController {
 		System.out.println(param);
 		// 发送 POST 请求
 		String sr = HttpRequest.sendPost("http://www.zl-pay.com/open/pay/", param);
-		System.out.println(sr);
+		System.out.println("-------"+sr);
 		return sr;
 	}
 
@@ -90,34 +103,6 @@ public class UserTaskController {
 	@ResponseBody
 	public ServerResponse changeUserTaskStatus(HttpServletRequest request, HttpServletResponse response,
 			UserTask userTask, Model model) {
-		// if (userTask.getState() == 3) {
-		// if (null != partFile) {
-		// if (partFile.isEmpty()) {
-		// ServerResponse.createByError("请上传支付二维码");
-		// } else {
-		// String filePath = tomact_dir + "/army/pay/" + userTask.getId() + ".jpg";
-		// String setPath = "/army/pay/" + userTask.getId() + ".jpg";
-		// File file = new File(filePath);
-		// if (!file.exists()) {
-		// file.mkdirs();
-		// }
-		// try {
-		// partFile.transferTo(file);
-		// userTask.setPayimageurl(setPath);
-		// } catch (IllegalStateException e) {
-		// // TODO Auto-generated catch block
-		// // e.printStackTrace();
-		// return ServerResponse.createByError("二维码上传失败");
-		// } catch (IOException e) {
-		// // TODO Auto-generated catch block
-		// // e.printStackTrace();
-		// return ServerResponse.createByError("二维码上传失败");
-		// }
-		// }
-		// } else {
-		// ServerResponse.createByError("请上传支付二维码");
-		// }
-		// }
 		if (userTaskService.updateUserTask(userTask)) {
 			return ServerResponse.createBySuccess("任务状态更新成功");
 		}
@@ -140,6 +125,30 @@ public class UserTaskController {
         request.getReader().close();
         logger.info("----接收到的报文---"+inputString.toString());
 		//告诉服务器，我收到信息了，不要在调用回调action了
+        JSONObject jsonObject = JSON.parseObject(inputString.toString());
+        //----------更新任务状态已完成--------------------------------------
+        UserTask userTask = new UserTask();
+        userTask.setId(Integer.parseInt(jsonObject.getString("outTradeNo")));
+        userTask.setState(4);
+        userTaskService.updateUserTask(userTask);
+        //----------生成支付记录--------------------------------------------
+        UserTask relaUserTask = userTaskService.selectByTaskId(Integer.parseInt(jsonObject.getString("outTradeNo")));
+        //收款方
+        PayRecord recive = new PayRecord();
+        recive.setUserid(relaUserTask.getUserid());
+        recive.setMoney(Float.parseFloat(jsonObject.getString("orderAmount")));
+        recive.setTime(TimeUntils.dataToStringForDate(new Date()));
+        recive.setType(1);
+        payRecordService.addPayRecord(recive);
+        //付款方
+        Task releaseTask = taskService.selectByPrimaryKey(Integer.parseInt(jsonObject.getString("outTradeNo")));
+        PayRecord release = new PayRecord();
+        release.setUserid(releaseTask.getReleaseby());
+        release.setMoney(Float.parseFloat(jsonObject.getString("orderAmount")));
+        release.setTime(TimeUntils.dataToStringForDate(new Date()));
+        release.setType(-1);
+        payRecordService.addPayRecord(release);
+        //--------------------------------------------------------------------------
         response.getWriter().write("SUCCESS");
         }catch(Exception e){
          	e.printStackTrace();

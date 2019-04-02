@@ -18,5 +18,8 @@ public class UserTaskService {
 	public boolean updateUserTask(UserTask userTask) {
 		return userTaskDao.updateByPrimaryKeySelective(userTask) == 1 ? true : false;
 	}
+	public UserTask selectByTaskId(int taskId) {
+		return userTaskDao.selectByTaskId(taskId);
+	}
 
 }

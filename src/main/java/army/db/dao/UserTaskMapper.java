@@ -14,4 +14,7 @@ public interface UserTaskMapper {
     int updateByPrimaryKeySelective(UserTask record);
 
     int updateByPrimaryKey(UserTask record);
+    
+    UserTask selectByTaskId(Integer taskID);
+
 }
