@@ -28,10 +28,10 @@
 		from message
 		where claimUser = #{userId,jdbcType=INTEGER}
 		<if test="type==1">
-		  and relaseUser=-1
+		  and relaseUser!=-1
 		</if>
-		<if test="type==1">
-		  and relaseUser!= -1
+		<if test="type==2">
+		  and relaseUser= -1
 		</if>
 		order by updateTime
 	</select>

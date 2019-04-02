@@ -71,7 +71,7 @@ public class SendCode {
          * 1.打印执行结果，打印结果一般会200、315、403、404、413、414、500
          * 2.具体的code有问题的可以参考官网的Code状态表
          */
-        System.out.println(EntityUtils.toString(response.getEntity(), "utf-8"));
+//        System.out.println(EntityUtils.toString(response.getEntity(), "utf-8"));
         return EntityUtils.toString(response.getEntity());
     }
 }

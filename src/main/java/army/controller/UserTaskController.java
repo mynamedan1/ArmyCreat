@@ -81,8 +81,8 @@ public class UserTaskController {
 		long timeStampSec = System.currentTimeMillis() / 1000;
 		String timestamp = String.format("%010d", timeStampSec);
 		sendInfo.setTimestamp(timestamp);
-		sendInfo.setNotifyUrl("http://148.70.49.238:8080/ArmyCreate/usertask/notify.do");
-		sendInfo.setRedirectUrl("http://148.70.49.238:8080/army/#/paySuccess");//+ "&device=" + sendInfo.getDevice()
+		sendInfo.setNotifyUrl("http://148.70.49.238:8080//ArmyCreate/usertask/notify.do");
+		sendInfo.setRedirectUrl("http://148.70.49.238:8080//army/#/paySuccess");//+ "&device=" + sendInfo.getDevice()
 		String stringA = "accountNo=" + sendInfo.getAccountNo()  + "&notifyUrl="
 				+ sendInfo.getNotifyUrl() + "&orderAmount=" + sendInfo.getOrderAmount() + "&outTradeNo="
 				+ sendInfo.getOutTradeNo() + "&redirectUrl=" + sendInfo.getRedirectUrl() + "&timestamp="
@@ -125,6 +125,7 @@ public class UserTaskController {
         request.getReader().close();
         logger.info("----接收到的报文---"+inputString.toString());
 		//告诉服务器，我收到信息了，不要在调用回调action了
+        response.getWriter().write("SUCCESS");
         JSONObject jsonObject = JSON.parseObject(inputString.toString());
         //----------更新任务状态已完成--------------------------------------
         UserTask userTask = new UserTask();
@@ -149,7 +150,6 @@ public class UserTaskController {
         release.setType(-1);
         payRecordService.addPayRecord(release);
         //--------------------------------------------------------------------------
-        response.getWriter().write("SUCCESS");
         }catch(Exception e){
          	e.printStackTrace();
         }
