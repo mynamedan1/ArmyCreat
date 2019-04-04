@@ -101,11 +101,39 @@ public class UserTaskController {
 	// 用户任务状态更改 2已认领，3代支付，4已完成，
 	@RequestMapping("changeUserTaskStatus.do")
 	@ResponseBody
-	public ServerResponse changeUserTaskStatus(HttpServletRequest request, HttpServletResponse response,
-			UserTask userTask, Model model) {
-		if (userTaskService.updateUserTask(userTask)) {
-			return ServerResponse.createBySuccess("任务状态更新成功");
-		}
+		public ServerResponse changeUserTaskStatus(HttpServletRequest request, HttpServletResponse response,
+				UserTask userTask, Model model) {
+			// if (userTask.getState() == 3) {
+			// if (null != partFile) {
+			// if (partFile.isEmpty()) {
+			// ServerResponse.createByError("请上传支付二维码");
+			// } else {
+			// String filePath = tomact_dir + "/army/pay/" + userTask.getId() + ".jpg";
+			// String setPath = "/army/pay/" + userTask.getId() + ".jpg";
+			// File file = new File(filePath);
+			// if (!file.exists()) {
+			// file.mkdirs();
+			// }
+			// try {
+			// partFile.transferTo(file);
+			// userTask.setPayimageurl(setPath);
+			// } catch (IllegalStateException e) {
+			// // TODO Auto-generated catch block
+			// // e.printStackTrace();
+			// return ServerResponse.createByError("二维码上传失败");
+			// } catch (IOException e) {
+			// // TODO Auto-generated catch block
+			// // e.printStackTrace();
+			// return ServerResponse.createByError("二维码上传失败");
+			// }
+			// }
+			// } else {
+			// ServerResponse.createByError("请上传支付二维码");
+			// }
+			// }
+			if (userTaskService.updateUserTask(userTask)) {
+				return ServerResponse.createBySuccess("任务状态更新成功");
+			}
 
 		return ServerResponse.createByError("任务状态修改失败");
 	}
@@ -128,27 +156,34 @@ public class UserTaskController {
         response.getWriter().write("SUCCESS");
         JSONObject jsonObject = JSON.parseObject(inputString.toString());
         //----------更新任务状态已完成--------------------------------------
+        logger.info("----2222222222222--"+Integer.parseInt(jsonObject.getString("outTradeNo").split("_")[1]));
         UserTask userTask = new UserTask();
-        userTask.setId(Integer.parseInt(jsonObject.getString("outTradeNo")));
+        userTask.setId(Integer.parseInt(jsonObject.getString("outTradeNo").split("_")[1]));
         userTask.setState(4);
+        logger.info("----111111111--"+JSON.toJSONString(userTask));
         userTaskService.updateUserTask(userTask);
         //----------生成支付记录--------------------------------------------
-        UserTask relaUserTask = userTaskService.selectByTaskId(Integer.parseInt(jsonObject.getString("outTradeNo")));
+//        UserTask relaUserTask = userTaskService.selectByTaskId(Integer.parseInt(jsonObject.getString("outTradeNo").split("_")[1]));
+//        logger.info("----3333333333333--"+JSON.toJSONString(relaUserTask));
+        
+        logger.info("----444444--"+Float.parseFloat(jsonObject.getString("orderAmount")));
         //收款方
         PayRecord recive = new PayRecord();
-        recive.setUserid(relaUserTask.getUserid());
+        recive.setUserid(Integer.parseInt(jsonObject.getString("outTradeNo").split("_")[1]));
         recive.setMoney(Float.parseFloat(jsonObject.getString("orderAmount")));
         recive.setTime(TimeUntils.dataToStringForDate(new Date()));
         recive.setType(1);
         payRecordService.addPayRecord(recive);
+        logger.info("----45555554--");
         //付款方
-        Task releaseTask = taskService.selectByPrimaryKey(Integer.parseInt(jsonObject.getString("outTradeNo")));
+//        Task releaseTask = taskService.selectByPrimaryKey(Integer.parseInt(jsonObject.getString("outTradeNo").split("_")[1]));
         PayRecord release = new PayRecord();
-        release.setUserid(releaseTask.getReleaseby());
+        release.setUserid(Integer.parseInt(jsonObject.getString("outTradeNo").split("_")[1]));
         release.setMoney(Float.parseFloat(jsonObject.getString("orderAmount")));
         release.setTime(TimeUntils.dataToStringForDate(new Date()));
         release.setType(-1);
         payRecordService.addPayRecord(release);
+        logger.info("----45454364664--");
         //--------------------------------------------------------------------------
         }catch(Exception e){
          	e.printStackTrace();

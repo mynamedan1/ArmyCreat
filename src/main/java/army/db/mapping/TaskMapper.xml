@@ -71,7 +71,7 @@
 
 
 	<select id="getUserTaskByState" resultMap="ResultMapWithBLOBs">
-		select
+	<!-- 	select
 		<include refid="Base_Column_List" />
 		,
 		<include refid="Blob_Column_List" />
@@ -82,7 +82,14 @@
 		<if test="state!=-3">
 			and state=#{state,jdbcType=INTEGER}
 		</if>
-		)
+		) -->
+		select ut.id as id,t.money,t.point,t.title,t.content,t.state,t.releaseby,t.claim,t.imgUrl,t.extra,t.updateTime,t.version,t.`level` from userTask ut,task t
+        where ut.taskID = t.id
+        and ut.userID=#{userId,jdbcType=INTEGER}
+        <if test="state!=-3">
+			and ut.state=#{state,jdbcType=INTEGER}
+		</if>
+		
 	</select>
 
 
@@ -100,7 +107,7 @@
 
 	<select id="getReleaseTaskByState" resultType="army.db.pojo.ReleaseTaskModel">
 		select ut.state as
-		utstatte,ut.payImageUrl,t.*,u.name as claimName from userTask ut,task
+		utstatte,ut.payImageUrl,ut.id as id,t.money,t.point,t.title,t.content,t.state,t.releaseby,t.claim,t.imgUrl,t.extra,t.updateTime,t.version,t.`level`,u.name as claimName from userTask ut,task
 		t,user u
 		where ut.state = #{state,jdbcType=INTEGER}
 		and ut.userID = u.id
