@@ -129,7 +129,7 @@ public class UserController {
 
 	}
 
-	// 管理员登陆,验证管理员身份
+	// 管理员登陆,验证管理员身份1111
 	@RequestMapping("adminLogin.do")
 	@ResponseBody
 	public ServerResponse adminLogin(HttpServletRequest request, HttpServletResponse response, String cardCode,
