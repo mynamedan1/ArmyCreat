@@ -8,9 +8,10 @@
     <result column="time" property="time" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="taskId" property="taskid" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, userID, money, time, type, extra
+    id, userID, money, time, type, extra, taskId
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -19,13 +20,24 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   
-  <select id="getPayRecordList" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from payRecord
-    where userID = #{userId,jdbcType=INTEGER}
-    and type = #{type,jdbcType=INTEGER}
-  </select>
+  	<select id="getPayRecordList" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from payRecord
+		where userID = #{userId,jdbcType=INTEGER}
+		and type = #{type,jdbcType=INTEGER}
+	</select>
+	
+	
+	<select id="getPaySuccess" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from payRecord
+		where taskId = #{taskId,jdbcType=VARCHAR}
+		and userID = #{userId,jdbcType=INTEGER}
+		and type = #{type,jdbcType=INTEGER}
+	</select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from payRecord
@@ -33,9 +45,11 @@
   </delete>
   <insert id="insert" parameterType="army.db.pojo.PayRecord" >
     insert into payRecord (id, userID, money, 
-      time, type, extra)
+      time, type, extra, 
+      taskId)
     values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{money,jdbcType=REAL}, 
-      #{time,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{extra,jdbcType=VARCHAR})
+      #{time,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{extra,jdbcType=VARCHAR}, 
+      #{taskid,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="army.db.pojo.PayRecord" >
     insert into payRecord
@@ -58,6 +72,9 @@
       <if test="extra != null" >
         extra,
       </if>
+      <if test="taskid != null" >
+        taskId,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -77,6 +94,9 @@
       </if>
       <if test="extra != null" >
         #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="taskid != null" >
+        #{taskid,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -98,6 +118,9 @@
       <if test="extra != null" >
         extra = #{extra,jdbcType=VARCHAR},
       </if>
+      <if test="taskid != null" >
+        taskId = #{taskid,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -107,7 +130,8 @@
       money = #{money,jdbcType=REAL},
       time = #{time,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
-      extra = #{extra,jdbcType=VARCHAR}
+      extra = #{extra,jdbcType=VARCHAR},
+      taskId = #{taskid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

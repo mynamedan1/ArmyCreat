@@ -62,7 +62,7 @@
 			<!-- /register 和 /login 不需要拦截 -->
 			<mvc:exclude-mapping path="/user/register.do" />
 			<mvc:exclude-mapping path="/user/login.do" />
-			<mvc:exclude-mapping path="/user/adminLogin"/>
+			<mvc:exclude-mapping path="/user/adminLogin.do"/>
 			<mvc:exclude-mapping path="/user/getPhoneCHeck.do"/>
 			<!-- 支付成功异步回调不需要拦截 -->
 			<mvc:exclude-mapping path="/usertask/notify.do" />

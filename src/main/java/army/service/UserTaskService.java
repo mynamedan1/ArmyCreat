@@ -21,5 +21,10 @@ public class UserTaskService {
 	public UserTask selectByTaskId(int taskId) {
 		return userTaskDao.selectByTaskId(taskId);
 	}
+	
+	public UserTask selectById(int id) {
+		return userTaskDao.selectByPrimaryKey(id);
+	}
+
 
 }

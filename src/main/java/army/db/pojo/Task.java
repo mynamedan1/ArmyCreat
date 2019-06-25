@@ -26,6 +26,8 @@ public class Task {
     private Integer level;
 
     private String content;
+    
+    private Integer changecount;
 
     public Integer getId() {
         return id;
@@ -130,4 +132,12 @@ public class Task {
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
     }
+
+	public Integer getChangecount() {
+		return changecount;
+	}
+
+	public void setChangecount(Integer changecount) {
+		this.changecount = changecount;
+	}
 }

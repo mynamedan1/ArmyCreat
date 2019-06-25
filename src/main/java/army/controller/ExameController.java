@@ -88,6 +88,22 @@ public class ExameController {
 
 		}
 	}
+	
+
+	// 删除题目
+	@RequestMapping("deleteQuestion.do")
+	@ResponseBody
+	public ServerResponse deleteQuestion(HttpServletRequest request, HttpServletResponse response,int id) {
+		ServerResponse serverResponse;
+		if (exameService.deleteQuestion(id)) {
+			return serverResponse = new ServerResponse(ResponseCode.SUCCESS.getCode(),"题目删除成功");
+
+		} else {
+			return serverResponse = new ServerResponse(ResponseCode.ERROR.getCode(), "题目删除失败");
+
+		}
+	}
+	
 
 	// app端提交答案，对比答案，给出评分
 	@RequestMapping("checkAnswer.do")
@@ -110,7 +126,7 @@ public class ExameController {
 		String smg = "本次测试" + userAnw.length + "题,您共答对" + rightAnswer + "题,获得" + point + "点荣誉积分";
 
 		// 更新用户积分
-		User user = (User) request.getAttribute("currentUser");
+		User user = userService.getUserById(((User) request.getAttribute("currentUser")).getId());;
 		user.setPointcount(user.getPointcount() + point);
 		userService.updateUser(user);
 		// 生成一条答题记录

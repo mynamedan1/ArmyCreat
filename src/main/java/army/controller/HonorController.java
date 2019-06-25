@@ -30,13 +30,14 @@ public class HonorController {
 	@RequestMapping("clock.do")
 	@ResponseBody
 	public ServerResponse login(HttpServletRequest request, HttpServletResponse response) {
-		User user = (User) request.getAttribute("currentUser");
-		if (!honorService.checkTodayLock(user.getId(), TimeUntils.dataToStringForDate(new Date()))) {
+		User user = userService.getUserById(((User) request.getAttribute("currentUser")).getId());
+		System.out.println(TimeUntils.dataToString(new Date()).split(" ")[0]);
+		if (!honorService.checkTodayLock(user.getId(), TimeUntils.dataToString(new Date()).split(" ")[0])) {
 			return ServerResponse.createBySuccess("今日已打卡");
 		} else {
 			HonorRecord honorRecord = new HonorRecord();
 			honorRecord.setPoint(1);
-			honorRecord.setTime(TimeUntils.dataToStringForDate(new Date()));
+			honorRecord.setTime(TimeUntils.dataToString(new Date()));
 			honorRecord.setType(1);
 			honorRecord.setTypeexpense("完成当日打卡 获得1个荣誉");
 			honorRecord.setUserid(((User) request.getAttribute("currentUser")).getId());
@@ -53,9 +54,10 @@ public class HonorController {
 	// 查询荣誉点记录
 	@RequestMapping("gethonors.do")
 	@ResponseBody
-	public ServerResponse gethonors(HttpServletRequest request, HttpServletResponse response) {
+	public ServerResponse gethonors(HttpServletRequest request, HttpServletResponse response,Integer type) {
+		System.out.println(type);
 		int userId = ((User) request.getAttribute("currentUser")).getId();
-		return ServerResponse.createBySuccess("荣誉记录", honorService.getHonorList(userId));
+		return ServerResponse.createBySuccess("荣誉记录", honorService.getHonorList(userId,type));
 
 	}
 

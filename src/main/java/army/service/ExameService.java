@@ -51,5 +51,11 @@ public class ExameService {
 	public String getAnswer() {
 		return questionMapper.getAnswers();
 	}
+	
+	//删除题目
+	
+	public boolean deleteQuestion(int id) {
+		return questionMapper.deleteByPrimaryKey(id)==1?true:false;
+	}
 
 }

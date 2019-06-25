@@ -17,11 +17,17 @@ public class PayRecordController {
 	@Autowired
 	private PayRecordService payRecordService;
 
-	@RequestMapping("getUserPayRecord")
+	@RequestMapping("getUserPayRecord.do")
 	@ResponseBody
 	public ServerResponse getPayRecordList(int userId, int type) {
 		return ServerResponse.createBySuccess("支付记录", payRecordService.getPayRecordList(userId, type));
 
 	}
+    
+	@RequestMapping("successInfo.do")
+	@ResponseBody
+	public ServerResponse successInfo(String taskId,int userId, int type) {
+		return ServerResponse.createBySuccess("支付记录", payRecordService.getPaySuccess(taskId,userId, type));
 
+	}
 }

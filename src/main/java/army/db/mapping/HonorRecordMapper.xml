@@ -19,6 +19,8 @@
 		<include refid="Base_Column_List" />
 		from honorRecord
 		where id = #{id,jdbcType=INTEGER}
+		
+		
 	</select>
 
 
@@ -28,6 +30,12 @@
 		<include refid="Base_Column_List" />
 		from honorRecord
 		where userId = #{userId,jdbcType=INTEGER}
+		<!-- <if test="type==-1">
+		  and type != 4
+		</if>
+		<if test="type!=-1">
+		  and type= 4
+		</if> -->
 		order by time
 	</select>
 
@@ -38,7 +46,7 @@
 		<include refid="Base_Column_List" />
 		from honorRecord
 		where userId = #{userId,jdbcType=INTEGER}
-		and time = #{time,jdbcType=VARCHAR}
+		and time like CONCAT ('%',#{time},'%')
 	</select>
 
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

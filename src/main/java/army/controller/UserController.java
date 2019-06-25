@@ -58,13 +58,13 @@ public class UserController {
 		ServerResponse serverResponse;
 		user.setPassword(MD5Utils.stringMD5(user.getPassword()));
 		if (userService.insertUser(user)) {
-			Message message = new Message();
-			message.setContent("欢迎来到军创平台！");
-			message.setClaimuser(user.getId());
-			message.setRelaseuser(-1);
-			message.setSendtime(TimeUntils.dataToStringForDate(new Date()));
-			message.setState(0);
-			messageService.addMessage(message);
+//			Message message = new Message();
+//			message.setContent("欢迎来到军创平台！");
+//			message.setClaimuser(user.getId());
+//			message.setRelaseuser(-1);
+//			message.setSendtime(TimeUntils.dataToStringForDate(new Date()));
+//			message.setState(0);
+//			messageService.addMessage(message);
 			serverResponse = new ServerResponse(ResponseCode.SUCCESS.getCode(), "用户注册成功");
 		} else {
 			serverResponse = new ServerResponse(ResponseCode.ERROR.getCode(), "用户注册失败");
@@ -101,9 +101,6 @@ public class UserController {
 			}
 		}
 		// user.setId(((User) request.getAttribute("currentUser")).getId());
-		HashMap<String, String> hashMap = (HashMap<String, String>) getLevelInfo(user.getPointcount());
-		user.setLevelvalue(Integer.parseInt(hashMap.get("levelValue")));
-		user.setLavelname(hashMap.get("levelName"));
 		if (userService.updateUser(user)) {
 			return ServerResponse.createBySuccess("用户更新成功");
 		} else {
@@ -138,11 +135,12 @@ public class UserController {
 		User user = userService.checkLogin(cardCode, password);
 		ServerResponse serverResponse;
 		if (user != null) {
-			if (user.getUpdateby() == "system") {
+			if ("system".equals(user.getUpdateby())) {
 				redisRokenManager.setToken(user);
 				response.setHeader("key", MD5Utils.stringMD5(user.getId() + ""));
 				return ServerResponse.createBySuccess("登录成功", user);
 			} else {
+				System.out.println(user.getUpdateby());
 				return ServerResponse.createByError("您没有管理员权限");
 			}
 		} else {
@@ -248,7 +246,7 @@ public class UserController {
 		return serverResponse;
 	}
 
-	//手机验证码发送
+	// 手机验证码发送
 	@RequestMapping("getPhoneCHeck.do")
 	@ResponseBody
 	public ServerResponse getPhoneCHeck(HttpServletResponse response, HttpSession session, String phoneNumber) {
@@ -260,7 +258,7 @@ public class UserController {
 			// TODO Auto-generated catch block
 			return ServerResponse.createByError("发送失败，请重试！");
 		}
-		
+
 	}
 
 	// excel数据导入
@@ -270,72 +268,4 @@ public class UserController {
 		return userService.ajaxUploadExcel(request, response);
 	}
 
-	public Map<String, String> getLevelInfo(int point) {
-		HashMap<String, String> hashMap = new HashMap<String, String>();
-		if (0 <= point && point < 50) {
-			hashMap.put("levelValue", "1");
-			hashMap.put("levelName", "士兵");
-		}
-		if (50 <= point && point < 100) {
-			hashMap.put("levelValue", "2");
-			hashMap.put("levelName", "二等兵");
-		}
-		if (100 <= point && point < 200) {
-			hashMap.put("levelValue", "3");
-			hashMap.put("levelName", "一等兵");
-		}
-		if (200 <= point && point < 500) {
-			hashMap.put("levelValue", "4");
-			hashMap.put("levelName", "下士");
-		}
-		if (500 <= point && point < 1000) {
-			hashMap.put("levelValue", "5");
-			hashMap.put("levelName", "中士");
-		}
-		if (1000 <= point && point < 3000) {
-			hashMap.put("levelValue", "6");
-			hashMap.put("levelName", "上士");
-		}
-		if (3000 <= point && point < 5000) {
-			hashMap.put("levelValue", "7");
-			hashMap.put("levelName", "少尉");
-		}
-		if (5000 <= point && point < 10000) {
-			hashMap.put("levelValue", "8");
-			hashMap.put("levelName", "中尉");
-		}
-		if (10000 <= point && point < 300000) {
-			hashMap.put("levelValue", "9");
-			hashMap.put("levelName", "上尉");
-		}
-		if (30000 <= point && point < 50000) {
-			hashMap.put("levelValue", "10");
-			hashMap.put("levelName", "少校");
-		}
-		if (50000 <= point && point < 100000) {
-			hashMap.put("levelValue", "11");
-			hashMap.put("levelName", "中校");
-		}
-		if (100000 <= point && point < 110000) {
-			hashMap.put("levelValue", "12");
-			hashMap.put("levelName", "上校");
-		}
-		if (110000 <= point && point < 200000) {
-			hashMap.put("levelValue", "13");
-			hashMap.put("levelName", "少将");
-		}
-		if (200000 <= point && point < 300000) {
-			hashMap.put("levelValue", "14");
-			hashMap.put("levelName", "中将");
-		}
-		if (300000 <= point && point < 588900) {
-			hashMap.put("levelValue", "15");
-			hashMap.put("levelName", "上将");
-		}
-		if (588900 <= point) {
-			hashMap.put("levelValue", "16");
-			hashMap.put("levelName", "大将军");
-		}
-		return hashMap;
-	}
 }

@@ -32,6 +32,10 @@ public class ReleaseTaskModel {
 	private int utstate;
 	
 	private String payImageUrl;
+	
+	private Integer changecount;
+	
+	private Integer claimId;
 
 	public Integer getId() {
 		return id;
@@ -159,6 +163,22 @@ public class ReleaseTaskModel {
 
 	public void setPayImageUrl(String payImageUrl) {
 		this.payImageUrl = payImageUrl;
+	}
+
+	public Integer getChangecount() {
+		return changecount;
+	}
+
+	public void setChangecount(Integer changecount) {
+		this.changecount = changecount;
+	}
+
+	public Integer getClaimId() {
+		return claimId;
+	}
+
+	public void setClaimId(Integer claimId) {
+		this.claimId = claimId;
 	}
 
 }

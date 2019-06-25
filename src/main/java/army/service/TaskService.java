@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import army.db.dao.TaskMapper;
+import army.db.pojo.OrderModel;
 import army.db.pojo.Task;
 
 @Service
@@ -30,8 +31,8 @@ public class TaskService {
 	}
 	
 	
-	public List<Task> getAllTask(int state) {
-		return taskDao.getAllTask(state);
+	public List<Task> getAllTask(int state,int level) {
+		return taskDao.getAllTask(state,level);
 	}
 	
 	public List<Task> getTaskByCondition(Task task) {
@@ -50,7 +51,13 @@ public class TaskService {
 		return taskDao.getReleaseTaskByState(userId, state);
 	}
 
+	public List<OrderModel> getOrder(OrderModel orderModel){
+		return taskDao.getOrderByCondition(orderModel);
+	}
 	
+	public boolean updateTask(Task task) {
+		return taskDao.updateByPrimaryKeySelective(task)==1?true:false;
+	}
 	
 
 }

@@ -14,6 +14,7 @@
 		<result column="updateTime" property="updatetime" jdbcType="VARCHAR" />
 		<result column="version" property="version" jdbcType="INTEGER" />
 		<result column="level" property="level" jdbcType="INTEGER" />
+		<result column="changecount" property="changecount" jdbcType="INTEGER" />
 	</resultMap>
 	<resultMap id="ResultMapWithBLOBs" type="army.db.pojo.Task"
 		extends="BaseResultMap">
@@ -23,7 +24,7 @@
 		id, money, point, title, state, releaseby, claim, imgUrl,
 		extra,
 		updateTime, version,
-		level
+		level,changecount
 	</sql>
 	<sql id="Blob_Column_List">
 		content
@@ -46,6 +47,8 @@
 		from task
 		<if test="state!=null">
 			where state = #{state,jdbcType=INTEGER}
+			and level =
+			#{level,jdbcType=INTEGER}
 		</if>
 	</select>
 
@@ -57,39 +60,34 @@
 		<include refid="Blob_Column_List" />
 		from task
 		where title like CONCAT ('%',#{task.title},'%')
-		and content like CONCAT ('%',#{task.content},'%')
+		and content
+		like CONCAT ('%',#{task.content},'%')
 		<if test="task.updatetime!=''">
-		 and updateTime=#{task.updatetime}
+			and updateTime=#{task.updatetime}
 		</if>
 		<if test="task.state!=null">
-		 and state=#{task.state}
+			and state=#{task.state}
 		</if>
 		<if test="task.level!=null">
-		 and level=#{task.level}
+			and level=#{task.level}
 		</if>
 	</select>
 
 
 	<select id="getUserTaskByState" resultMap="ResultMapWithBLOBs">
-	<!-- 	select
-		<include refid="Base_Column_List" />
-		,
-		<include refid="Blob_Column_List" />
-		from task
-		where id in(
-		select taskID from userTask where
-		userID=#{userId,jdbcType=INTEGER}
+		<!-- select <include refid="Base_Column_List" /> , <include refid="Blob_Column_List" 
+			/> from task where id in( select taskID from userTask where userID=#{userId,jdbcType=INTEGER} 
+			<if test="state!=-3"> and state=#{state,jdbcType=INTEGER} </if> ) -->
+		select ut.id as
+		id,t.money,t.point,t.title,t.content,t.state,t.releaseby,t.claim,t.imgUrl,t.extra,t.updateTime,t.version,t.`level`,t.changecount
+		from userTask ut,task t
+		where ut.taskID = t.id
+		and
+		ut.userID=#{userId,jdbcType=INTEGER}
 		<if test="state!=-3">
-			and state=#{state,jdbcType=INTEGER}
-		</if>
-		) -->
-		select ut.id as id,t.money,t.point,t.title,t.content,t.state,t.releaseby,t.claim,t.imgUrl,t.extra,t.updateTime,t.version,t.`level` from userTask ut,task t
-        where ut.taskID = t.id
-        and ut.userID=#{userId,jdbcType=INTEGER}
-        <if test="state!=-3">
 			and ut.state=#{state,jdbcType=INTEGER}
 		</if>
-		
+
 	</select>
 
 
@@ -107,12 +105,46 @@
 
 	<select id="getReleaseTaskByState" resultType="army.db.pojo.ReleaseTaskModel">
 		select ut.state as
-		utstatte,ut.payImageUrl,ut.id as id,t.money,t.point,t.title,t.content,t.state,t.releaseby,t.claim,t.imgUrl,t.extra,t.updateTime,t.version,t.`level`,u.name as claimName from userTask ut,task
-		t,user u
-		where ut.state = #{state,jdbcType=INTEGER}
+		utstatte,ut.payImageUrl,ut.id
+		,t.money,t.point,t.title,t.content,t.state,t.releaseby,t.claim,t.imgUrl,t.extra,t.updateTime,t.version,t.`level`,t.changecount,u.name
+		as claimName,u.id as claimId
+		from userTask ut,user u,(select
+		* from task where
+		releaseby=#{userId,jdbcType=INTEGER}) t
+		where ut.state =
+		#{state,jdbcType=INTEGER}
 		and ut.userID = u.id
-		and ut.taskID in(select id from task where
-		releaseby=#{userId,jdbcType=INTEGER})
+		and ut.taskid = t.`id`
+
+		<!-- select ut.state as utstatte,ut.payImageUrl,ut.id as id,t.money,t.point,t.title,t.content,t.state,t.releaseby,t.claim,t.imgUrl,t.extra,t.updateTime,t.version,t.`level`,u.name 
+			as claimName from userTask ut,task t,user u where ut.state = #{state,jdbcType=INTEGER} 
+			and ut.userID = u.id and ut.taskID in(select id from task where releaseby=#{userId,jdbcType=INTEGER}) -->
+	</select>
+
+	<select id="getOrderByCondition" resultType="army.db.pojo.OrderModel">
+		select t.*,u.name
+		name,u.`certificateNumber`,u.IDCard,u1.name
+		releaseuaer,u.phoneNumber
+		from userTask ut,task t,user u,user u1
+		where
+		ut.`taskID` = t.id and ut.`userID` = u.`id` and u1.id = t.`releaseby`
+		<if test="orderModel.releaseuaer!=''">
+			and u1.name like CONCAT
+			('%',#{orderModel.releaseuaer},'%')
+		</if>
+		<if test="orderModel.name!=''">
+			and u.name like CONCAT ('%',#{orderModel.name},'%')
+		</if>
+		<if test="orderModel.title!=''">
+			and t.title like CONCAT ('%',#{orderModel.title},'%')
+		</if>
+		<if test="orderModel.level!=null">
+			and t.level=#{orderModel.level}
+		</if>
+		<if test="orderModel.updatetime!=''">
+			and t.updatetime=#{orderModel.updatetime}
+		</if>
+
 	</select>
 
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -126,7 +158,7 @@
 		claim, imgUrl, extra,
 		updateTime,
 		version, level,
-		content)
+		content,changecount)
 		values (#{id,jdbcType=INTEGER},
 		#{money,jdbcType=INTEGER},
 		#{point,jdbcType=INTEGER},
@@ -137,7 +169,8 @@
 		#{extra,jdbcType=VARCHAR},
 		#{updatetime,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER},
 		#{level,jdbcType=INTEGER},
-		#{content,jdbcType=LONGVARCHAR})
+		#{content,jdbcType=LONGVARCHAR},
+		#{changecount,jdbcType=INTEGER})
 	</insert>
 	<insert id="insertSelective" parameterType="army.db.pojo.Task">
 		insert into task

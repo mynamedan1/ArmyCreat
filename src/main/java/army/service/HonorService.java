@@ -17,8 +17,8 @@ public class HonorService {
 		return honorRecordMapper.insert(honor) == 1 ? true : false;
 	}
 
-	public List<HonorRecord> getHonorList(int userId) {
-		return honorRecordMapper.getHonorList(userId);
+	public List<HonorRecord> getHonorList(int userId,Integer type) {
+		return honorRecordMapper.getHonorList(userId,type);
 	}
 
 	public boolean checkTodayLock(int userId, String time) {

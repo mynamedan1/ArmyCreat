@@ -26,11 +26,15 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import army.db.pojo.HonorRecord;
 import army.db.pojo.PayRecord;
 import army.db.pojo.Task;
+import army.db.pojo.User;
 import army.db.pojo.UserTask;
+import army.service.HonorService;
 import army.service.PayRecordService;
 import army.service.TaskService;
+import army.service.UserService;
 import army.service.UserTaskService;
 import utils.HttpRequest;
 import utils.SendInfo;
@@ -49,6 +53,12 @@ public class UserTaskController {
 	private TaskService taskService;
 	
 	@Autowired
+	private HonorService honorService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
 	private PayRecordService payRecordService;
 
 
@@ -61,6 +71,10 @@ public class UserTaskController {
 	public ServerResponse claimTask(HttpServletRequest request, HttpServletResponse response, UserTask userTask,
 			Model model) {
 		if (userTaskService.addUserTask(userTask)) {
+			Task task = new Task();
+			task.setId(userTask.getTaskid());
+			task.setState(11);
+			taskService.updateTask(task);
 			return ServerResponse.createBySuccess("任务领取成功");
 		} else {
 			return ServerResponse.createByError("任务领取失败");
@@ -70,7 +84,7 @@ public class UserTaskController {
 	@RequestMapping("pay.do")
 	@ResponseBody
 	public String changeUserTaskStatus(HttpServletRequest request, HttpServletResponse response, SendInfo sendInfo,
-			Model model) {
+			Model model,int point,int changecount) {
 		sendInfo.setAccountNo("1900000109");
 		sendInfo.setSecretKey("W@X6E9tu9ijMSSO450LSE7RZI3V!PglVF5St66");
 		// sendInfo.setOutTradeNo("68237893399782489");
@@ -81,8 +95,8 @@ public class UserTaskController {
 		long timeStampSec = System.currentTimeMillis() / 1000;
 		String timestamp = String.format("%010d", timeStampSec);
 		sendInfo.setTimestamp(timestamp);
-		sendInfo.setNotifyUrl("http://148.70.49.238:8080//ArmyCreate/usertask/notify.do");
-		sendInfo.setRedirectUrl("http://148.70.49.238:8080//army/#/paySuccess");//+ "&device=" + sendInfo.getDevice()
+		sendInfo.setNotifyUrl("http://119.3.111.196:8080//ArmyCreate/usertask/notify.do?soid="+((User) request.getAttribute("currentUser")).getId()+"&point="+point+"&changecount="+changecount);
+		sendInfo.setRedirectUrl("http://119.3.111.196:8080//army/#/paySuccess?taskId="+sendInfo.getOutTradeNo().split("_")[1]);//+ "&device=" + sendInfo.getDevice()
 		String stringA = "accountNo=" + sendInfo.getAccountNo()  + "&notifyUrl="
 				+ sendInfo.getNotifyUrl() + "&orderAmount=" + sendInfo.getOrderAmount() + "&outTradeNo="
 				+ sendInfo.getOutTradeNo() + "&redirectUrl=" + sendInfo.getRedirectUrl() + "&timestamp="
@@ -141,8 +155,9 @@ public class UserTaskController {
 	//支付异步回调
 	@RequestMapping("notify.do")
 	@ResponseBody
-	public String notify(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String notify(HttpServletRequest request, HttpServletResponse response,int soid,int point,int changecount) throws IOException {
 		logger.info("------------进入异步--------------------");
+		logger.info("------------进入异步111"+soid+"--------------------");
 		BufferedReader reader = request.getReader();
         String line = "";
         StringBuffer inputString = new StringBuffer();
@@ -166,29 +181,50 @@ public class UserTaskController {
 //        UserTask relaUserTask = userTaskService.selectByTaskId(Integer.parseInt(jsonObject.getString("outTradeNo").split("_")[1]));
 //        logger.info("----3333333333333--"+JSON.toJSONString(relaUserTask));
         
-        logger.info("----444444--"+Float.parseFloat(jsonObject.getString("orderAmount")));
+        logger.info("----444444--"+Float.parseFloat(jsonObject.getString("totalAmount")));
         //收款方
         PayRecord recive = new PayRecord();
-        recive.setUserid(Integer.parseInt(jsonObject.getString("outTradeNo").split("_")[1]));
-        recive.setMoney(Float.parseFloat(jsonObject.getString("orderAmount")));
+        recive.setUserid(userTaskService.selectById(userTask.getId()).getUserid());
+        recive.setMoney(Float.parseFloat(jsonObject.getString("totalAmount")));
         recive.setTime(TimeUntils.dataToStringForDate(new Date()));
         recive.setType(1);
+        recive.setTaskid(jsonObject.getString("outTradeNo").split("_")[1]);
         payRecordService.addPayRecord(recive);
         logger.info("----45555554--");
         //付款方
 //        Task releaseTask = taskService.selectByPrimaryKey(Integer.parseInt(jsonObject.getString("outTradeNo").split("_")[1]));
         PayRecord release = new PayRecord();
-        release.setUserid(Integer.parseInt(jsonObject.getString("outTradeNo").split("_")[1]));
-        release.setMoney(Float.parseFloat(jsonObject.getString("orderAmount")));
+        release.setUserid(soid);
+        release.setMoney(Float.parseFloat(jsonObject.getString("totalAmount")));
         release.setTime(TimeUntils.dataToStringForDate(new Date()));
         release.setType(-1);
+        release.setTaskid(jsonObject.getString("outTradeNo").split("_")[1]);
         payRecordService.addPayRecord(release);
         logger.info("----45454364664--");
-        //--------------------------------------------------------------------------
+        User user = new User();
+        user.setId(userTaskService.selectById(userTask.getId()).getUserid());
+        if(user.getChangecount()!=null) {
+        	  user.setChangecount(user.getChangecount()+changecount);
+        }else {
+          user.setChangecount(changecount);
+        }
+       
+        
+        HonorRecord honorRecord = new HonorRecord();
+		honorRecord.setPoint(point);
+		honorRecord.setTime(TimeUntils.dataToString(new Date()));
+		honorRecord.setType(4);
+		honorRecord.setTypeexpense("完成任务获取"+point+"积分");
+		honorRecord.setUserid(userTaskService.selectById(userTask.getId()).getUserid());
+		if(honorService.addHonorRecord(honorRecord)) {
+			user.setPointcount(user.getPointcount() + point);
+		}
+		userService.updateUser(user);
+	        //--------------------------------------------------------------------------
         }catch(Exception e){
          	e.printStackTrace();
         }
-      return  null;
+      return null;
 	}
 
 }

@@ -13,6 +13,8 @@ public class PayRecord {
 
     private String extra;
 
+    private String taskid;
+
     public Integer getId() {
         return id;
     }
@@ -59,5 +61,13 @@ public class PayRecord {
 
     public void setExtra(String extra) {
         this.extra = extra == null ? null : extra.trim();
+    }
+
+    public String getTaskid() {
+        return taskid;
+    }
+
+    public void setTaskid(String taskid) {
+        this.taskid = taskid == null ? null : taskid.trim();
     }
 }

@@ -7,17 +7,18 @@ import org.apache.ibatis.annotations.Param;
 import army.db.pojo.PayRecord;
 
 public interface PayRecordMapper {
-	int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Integer id);
 
-	int insert(PayRecord record);
+    int insert(PayRecord record);
 
-	int insertSelective(PayRecord record);
+    int insertSelective(PayRecord record);
 
-	PayRecord selectByPrimaryKey(Integer id);
+    PayRecord selectByPrimaryKey(Integer id);
 
-	int updateByPrimaryKeySelective(PayRecord record);
+    int updateByPrimaryKeySelective(PayRecord record);
 
-	int updateByPrimaryKey(PayRecord record);
-
+    int updateByPrimaryKey(PayRecord record);
+    
 	List<PayRecord> getPayRecordList(@Param("userId") Integer userId, @Param("type") Integer type);
+	PayRecord getPaySuccess(@Param("taskId")String taskId,@Param("userId")int userId, @Param("type")int type);
 }

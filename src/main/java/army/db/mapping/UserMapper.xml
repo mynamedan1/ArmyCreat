@@ -1,40 +1,37 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="army.db.dao.UserMapper">
-	<resultMap id="BaseResultMap" type="army.db.pojo.User">
-		<id column="id" property="id" jdbcType="INTEGER" />
-		<result column="name" property="name" jdbcType="VARCHAR" />
-		<result column="certificateNumber" property="certificatenumber"
-			jdbcType="VARCHAR" />
-		<result column="IDCard" property="idcard" jdbcType="VARCHAR" />
-		<result column="phoneNumber" property="phonenumber" jdbcType="VARCHAR" />
-		<result column="password" property="password" jdbcType="VARCHAR" />
-		<result column="pointCount" property="pointcount" jdbcType="INTEGER" />
-		<result column="importType" property="importtype" jdbcType="VARCHAR" />
-		<result column="state" property="state" jdbcType="INTEGER" />
-		<result column="imgUrl" property="imgurl" jdbcType="VARCHAR" />
-		<result column="extra" property="extra" jdbcType="VARCHAR" />
-		<result column="updateby" property="updateby" jdbcType="VARCHAR" />
-		<result column="updateTime" property="updatetime" jdbcType="VARCHAR" />
-		<result column="levelvalue" property="levelvalue" jdbcType="INTEGER" />
-		<result column="lavelname" property="lavelname" jdbcType="VARCHAR" />
-	</resultMap>
-	<sql id="Base_Column_List">
-		id, name, certificateNumber, IDCard, phoneNumber, password,
-		pointCount,
-		importType,
-		state, imgUrl, extra, updateby, updateTime,
-		levelvalue, lavelname
-	</sql>
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
-		parameterType="java.lang.Integer">
-		select
-		<include refid="Base_Column_List" />
-		from user
-		where id = #{id,jdbcType=INTEGER}
-	</select>
-
-	<select id="checkLogin" resultMap="BaseResultMap">
+  <resultMap id="BaseResultMap" type="army.db.pojo.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="certificateNumber" jdbcType="VARCHAR" property="certificatenumber" />
+    <result column="IDCard" jdbcType="VARCHAR" property="idcard" />
+    <result column="phoneNumber" jdbcType="VARCHAR" property="phonenumber" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="pointCount" jdbcType="INTEGER" property="pointcount" />
+    <result column="importType" jdbcType="VARCHAR" property="importtype" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="imgUrl" jdbcType="VARCHAR" property="imgurl" />
+    <result column="extra" jdbcType="VARCHAR" property="extra" />
+    <result column="updateby" jdbcType="VARCHAR" property="updateby" />
+    <result column="updateTime" jdbcType="VARCHAR" property="updatetime" />
+    <result column="levelvalue" jdbcType="INTEGER" property="levelvalue" />
+    <result column="lavelname" jdbcType="VARCHAR" property="lavelname" />
+    <result column="changecount" jdbcType="INTEGER" property="changecount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, certificateNumber, IDCard, phoneNumber, password, pointCount, importType, 
+    state, imgUrl, extra, updateby, updateTime, levelvalue, lavelname, changecount
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+  <select id="checkLogin" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from user
@@ -73,239 +70,198 @@
 			and levelvalue = #{user.levelvalue}
 		</if>
 	</select>
-
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		delete from user
-		where id = #{id,jdbcType=INTEGER}
-	</delete>
-	<insert id="insert" parameterType="army.db.pojo.User" useGeneratedKeys="true" keyProperty="id">
-		insert into user (id, name,
-		certificateNumber,
-		IDCard, phoneNumber, password,
-		pointCount,
-		importType, state,
-		imgUrl, extra, updateby,
-		updateTime, levelvalue,
-		lavelname
-		)
-		values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
-		#{certificatenumber,jdbcType=VARCHAR},
-		#{idcard,jdbcType=VARCHAR},
-		#{phonenumber,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR},
-		#{pointcount,jdbcType=INTEGER}, #{importtype,jdbcType=VARCHAR},
-		#{state,jdbcType=INTEGER},
-		#{imgurl,jdbcType=VARCHAR},
-		#{extra,jdbcType=VARCHAR}, #{updateby,jdbcType=VARCHAR},
-		#{updatetime,jdbcType=VARCHAR}, #{levelvalue,jdbcType=INTEGER},
-		#{lavelname,jdbcType=VARCHAR}
-		)
-	</insert>
-
-	<insert id="inserByList" parameterType="java.util.List">
-		insert into user (id, name, certificateNumber,
-		IDCard, phoneNumber,
-		password,
-		pointCount, importType, state,
-		imgUrl,extra,updateby,updateTime,levelvalue,lavelname
-		)values
-		<foreach collection="list" item="item" index="index"
-			separator=",">
-			(#{item.id,jdbcType=INTEGER},
-			#{item.name,jdbcType=VARCHAR},
-			#{item.certificatenumber,jdbcType=VARCHAR},
-			#{item.idcard,jdbcType=VARCHAR},
-			#{item.phonenumber,jdbcType=INTEGER},
-			#{item.password,jdbcType=VARCHAR},
-			#{item.pointcount,jdbcType=INTEGER},
-			#{item.importtype,jdbcType=VARCHAR}, #{item.state,jdbcType=INTEGER},
-			#{item.imgurl,jdbcType=VARCHAR},
-			#{item.extra,jdbcType=VARCHAR},
-			#{item.updateby,jdbcType=VARCHAR},
-			#{item.updatetime,jdbcType=VARCHAR},
-			#{item.levelvalue,jdbcType=INTEGER},
-			#{item.lavelname,jdbcType=VARCHAR}
-			)
-		</foreach>
-	</insert>
-
-	<insert id="insertSelective" parameterType="army.db.pojo.User">
-		insert into user
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="id != null">
-				id,
-			</if>
-			<if test="name != null">
-				name,
-			</if>
-			<if test="certificatenumber != null">
-				certificateNumber,
-			</if>
-			<if test="idcard != null">
-				IDCard,
-			</if>
-			<if test="phonenumber != null">
-				phoneNumber,
-			</if>
-			<if test="password != null">
-				password,
-			</if>
-			<if test="pointcount != null">
-				pointCount,
-			</if>
-			<if test="importtype != null">
-				importType,
-			</if>
-			<if test="state != null">
-				state,
-			</if>
-			<if test="imgurl != null">
-				imgUrl,
-			</if>
-			<if test="extra != null">
-				extra,
-			</if>
-			<if test="updateby != null">
-				updateby,
-			</if>
-			<if test="updatetime != null">
-				updateTime,
-			</if>
-			<if test="levelvalue != null">
-				levelvalue,
-			</if>
-			<if test="lavelname != null">
-				lavelname,
-			</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="id != null">
-				#{id,jdbcType=INTEGER},
-			</if>
-			<if test="name != null">
-				#{name,jdbcType=VARCHAR},
-			</if>
-			<if test="certificatenumber != null">
-				#{certificatenumber,jdbcType=VARCHAR},
-			</if>
-			<if test="idcard != null">
-				#{idcard,jdbcType=VARCHAR},
-			</if>
-			<if test="phonenumber != null">
-				#{phonenumber,jdbcType=INTEGER},
-			</if>
-			<if test="password != null">
-				#{password,jdbcType=VARCHAR},
-			</if>
-			<if test="pointcount != null">
-				#{pointcount,jdbcType=INTEGER},
-			</if>
-			<if test="importtype != null">
-				#{importtype,jdbcType=VARCHAR},
-			</if>
-			<if test="state != null">
-				#{state,jdbcType=INTEGER},
-			</if>
-			<if test="imgurl != null">
-				#{imgurl,jdbcType=VARCHAR},
-			</if>
-			<if test="extra != null">
-				#{extra,jdbcType=VARCHAR},
-			</if>
-			<if test="updateby != null">
-				#{updateby,jdbcType=VARCHAR},
-			</if>
-			<if test="updatetime != null">
-				#{updatetime,jdbcType=VARCHAR},
-			</if>
-			<if test="levelvalue != null">
-				#{levelvalue,jdbcType=INTEGER},
-			</if>
-			<if test="lavelname != null">
-				#{lavelname,jdbcType=VARCHAR},
-			</if>
-		</trim>
-	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="army.db.pojo.User">
-		update user
-		<set>
-			<if test="name != null">
-				name = #{name,jdbcType=VARCHAR},
-			</if>
-			<if test="certificatenumber != null">
-				certificateNumber =
-				#{certificatenumber,jdbcType=VARCHAR},
-			</if>
-			<if test="idcard != null">
-				IDCard = #{idcard,jdbcType=VARCHAR},
-			</if>
-			<if test="phonenumber != null">
-				phoneNumber = #{phonenumber,jdbcType=INTEGER},
-			</if>
-			<if test="password != null">
-				password = #{password,jdbcType=VARCHAR},
-			</if>
-			<if test="pointcount != null">
-				pointCount = #{pointcount,jdbcType=INTEGER},
-			</if>
-			<if test="importtype != null">
-				importType = #{importtype,jdbcType=VARCHAR},
-			</if>
-			<if test="state != null">
-				state = #{state,jdbcType=INTEGER},
-			</if>
-			<if test="imgurl != null">
-				imgUrl = #{imgurl,jdbcType=VARCHAR},
-			</if>
-			<if test="extra != null">
-				extra = #{extra,jdbcType=VARCHAR},
-			</if>
-			<if test="updateby != null">
-				updateby = #{updateby,jdbcType=VARCHAR},
-			</if>
-			<if test="updatetime != null">
-				updateTime = #{updatetime,jdbcType=VARCHAR},
-			</if>
-			<if test="levelvalue != null">
-				levelvalue = #{levelvalue,jdbcType=INTEGER},
-			</if>
-			<if test="lavelname != null">
-				lavelname = #{lavelname,jdbcType=VARCHAR},
-			</if>
-		</set>
-		where id = #{id,jdbcType=INTEGER}
-	</update>
-	<update id="updateByPrimaryKey" parameterType="army.db.pojo.User">
-		update user
-		set
-		name = #{name,jdbcType=VARCHAR},
-		certificateNumber =
-		#{certificatenumber,jdbcType=VARCHAR},
-		IDCard =
-		#{idcard,jdbcType=VARCHAR},
-		phoneNumber =
-		#{phonenumber,jdbcType=INTEGER},
-		password =
-		#{password,jdbcType=VARCHAR},
-		pointCount =
-		#{pointcount,jdbcType=INTEGER},
-		importType =
-		#{importtype,jdbcType=VARCHAR},
-		state = #{state,jdbcType=INTEGER},
-		imgUrl = #{imgurl,jdbcType=VARCHAR},
-		extra = #{extra,jdbcType=VARCHAR},
-		updateby = #{updateby,jdbcType=VARCHAR},
-		updateTime =
-		#{updatetime,jdbcType=VARCHAR},
-		levelvalue =
-		#{levelvalue,jdbcType=INTEGER},
-		lavelname =
-		#{lavelname,jdbcType=VARCHAR}
-		where id = #{id,jdbcType=INTEGER}
-	</update>
-	<update id="updatePassword">
-		update user
-		set password =
-		#{password,jdbcType=VARCHAR}
-		where id = #{id,jdbcType=INTEGER}
-	</update>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="army.db.pojo.User">
+    insert into user (id, name, certificateNumber, 
+      IDCard, phoneNumber, password, 
+      pointCount, importType, state, 
+      imgUrl, extra, updateby, 
+      updateTime, levelvalue, lavelname, 
+      changecount)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{certificatenumber,jdbcType=VARCHAR}, 
+      #{idcard,jdbcType=VARCHAR}, #{phonenumber,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{pointcount,jdbcType=INTEGER}, #{importtype,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
+      #{imgurl,jdbcType=VARCHAR}, #{extra,jdbcType=VARCHAR}, #{updateby,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=VARCHAR}, #{levelvalue,jdbcType=INTEGER}, #{lavelname,jdbcType=VARCHAR}, 
+      #{changecount,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="army.db.pojo.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="certificatenumber != null">
+        certificateNumber,
+      </if>
+      <if test="idcard != null">
+        IDCard,
+      </if>
+      <if test="phonenumber != null">
+        phoneNumber,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="pointcount != null">
+        pointCount,
+      </if>
+      <if test="importtype != null">
+        importType,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="imgurl != null">
+        imgUrl,
+      </if>
+      <if test="extra != null">
+        extra,
+      </if>
+      <if test="updateby != null">
+        updateby,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+      <if test="levelvalue != null">
+        levelvalue,
+      </if>
+      <if test="lavelname != null">
+        lavelname,
+      </if>
+      <if test="changecount != null">
+        changecount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="certificatenumber != null">
+        #{certificatenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenumber != null">
+        #{phonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="pointcount != null">
+        #{pointcount,jdbcType=INTEGER},
+      </if>
+      <if test="importtype != null">
+        #{importtype,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="imgurl != null">
+        #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="extra != null">
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="updateby != null">
+        #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="levelvalue != null">
+        #{levelvalue,jdbcType=INTEGER},
+      </if>
+      <if test="lavelname != null">
+        #{lavelname,jdbcType=VARCHAR},
+      </if>
+      <if test="changecount != null">
+        #{changecount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="army.db.pojo.User">
+    update user
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="certificatenumber != null">
+        certificateNumber = #{certificatenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        IDCard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenumber != null">
+        phoneNumber = #{phonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="pointcount != null">
+        pointCount = #{pointcount,jdbcType=INTEGER},
+      </if>
+      <if test="importtype != null">
+        importType = #{importtype,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="imgurl != null">
+        imgUrl = #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="extra != null">
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="updateby != null">
+        updateby = #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="levelvalue != null">
+        levelvalue = #{levelvalue,jdbcType=INTEGER},
+      </if>
+      <if test="lavelname != null">
+        lavelname = #{lavelname,jdbcType=VARCHAR},
+      </if>
+      <if test="changecount != null">
+        changecount = #{changecount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="army.db.pojo.User">
+    update user
+    set name = #{name,jdbcType=VARCHAR},
+      certificateNumber = #{certificatenumber,jdbcType=VARCHAR},
+      IDCard = #{idcard,jdbcType=VARCHAR},
+      phoneNumber = #{phonenumber,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      pointCount = #{pointcount,jdbcType=INTEGER},
+      importType = #{importtype,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      imgUrl = #{imgurl,jdbcType=VARCHAR},
+      extra = #{extra,jdbcType=VARCHAR},
+      updateby = #{updateby,jdbcType=VARCHAR},
+      updateTime = #{updatetime,jdbcType=VARCHAR},
+      levelvalue = #{levelvalue,jdbcType=INTEGER},
+      lavelname = #{lavelname,jdbcType=VARCHAR},
+      changecount = #{changecount,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 </mapper>

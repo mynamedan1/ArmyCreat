@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import army.db.pojo.OrderModel;
 import army.db.pojo.Task;
 
 public interface TaskMapper {
@@ -22,7 +23,7 @@ public interface TaskMapper {
     int updateByPrimaryKey(Task record);
     
     //任务分页查询
-    List<Task> getAllTask(@Param("state")Integer state);
+    List<Task> getAllTask(@Param("state")Integer state,@Param("level")Integer level);
     //任务模糊查询
     List<Task> getTaskByCondition(@Param("task")Task  task);
     //
@@ -32,5 +33,7 @@ public interface TaskMapper {
     
     List<Task> getReleaseTaskByState(@Param("userId")Integer userId,@Param("state")Integer state);
     
+    List<OrderModel> getOrderByCondition(@Param("orderModel")OrderModel  orderModel);
+
     
 }

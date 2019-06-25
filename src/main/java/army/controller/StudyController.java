@@ -32,10 +32,10 @@ public class StudyController {
 
 	@Autowired
 	private StudyService studyService;
-	
+
 	@Autowired
 	private HonorService honorService;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -46,8 +46,8 @@ public class StudyController {
 			MultipartFile partFile, Model model) {
 		if (null != partFile) {
 			if (!partFile.isEmpty()) {
-				String filePath = tomact_dir + "/task/" + (studyService.selectMaxId() + 1) + ".jpg";
-				String setPath = "/task/" + (studyService.selectMaxId() + 1) + ".jpg";
+				String filePath = tomact_dir + "/study/" + (studyService.selectMaxId() + 1) + ".jpg";
+				String setPath = "/study/" + (studyService.selectMaxId() + 1) + ".jpg";
 				File file = new File(filePath);
 				if (!file.exists()) {
 					file.mkdirs();
@@ -103,32 +103,42 @@ public class StudyController {
 	// 查询学习任务分页查询
 	@RequestMapping("getStudyList.do")
 	@ResponseBody
-	public ServerResponse getStudyList(HttpServletRequest request, HttpServletResponse response,int type) {
+	public ServerResponse getStudyList(HttpServletRequest request, HttpServletResponse response, int type) {
 		return ServerResponse.createBySuccess("学习任务列表", studyService.selectStudy(type));
 	}
-	//查询学习任务
+
+	// 查询学习任务
 	@RequestMapping("getStudyListByCon.do")
 	@ResponseBody
-	public ServerResponse getStudyListByCon(HttpServletRequest request, HttpServletResponse response,Study study,Model model) {
+	public ServerResponse getStudyListByCon(HttpServletRequest request, HttpServletResponse response, Study study,
+			Model model) {
 		return ServerResponse.createBySuccess("学习任务列表", studyService.selectStudy(study));
 	}
-	
-	//完成学习任务，添加荣誉点
+
+	// 查询id查询学习任务
+	@RequestMapping("getStudyById.do")
+	@ResponseBody
+	public ServerResponse getStudyById(HttpServletRequest request, HttpServletResponse response, int id,
+			Model model) {
+		return ServerResponse.createBySuccess("学习任务列表", studyService.getStudyById(id));
+	}
+
+	// 完成学习任务，添加荣誉点
 	@RequestMapping("completeStudy.do")
 	@ResponseBody
-	public ServerResponse completeStudy(HttpServletRequest request, HttpServletResponse response,int point) {
-		User user = (User) request.getAttribute("currentUser");
+	public ServerResponse completeStudy(HttpServletRequest request, HttpServletResponse response, int point) {
+		User user = userService.getUserById(((User) request.getAttribute("currentUser")).getId());
 		HonorRecord honorRecord = new HonorRecord();
 		honorRecord.setPoint(point);
 		honorRecord.setTime(TimeUntils.dataToString(new Date()));
 		honorRecord.setType(2);
 		honorRecord.setTypeexpense("完成学习 获取" + point + "积分");
 		honorRecord.setUserid(user.getId());
-		if(honorService.addHonorRecord(honorRecord)) {
+		if (honorService.addHonorRecord(honorRecord)) {
 			user.setPointcount(user.getPointcount() + point);
 			userService.updateUser(user);
 			return ServerResponse.createBySuccess("完成学习", honorRecord);
-		}else {
+		} else {
 			return ServerResponse.createByError("系统异常，请稍后重试");
 		}
 	}

@@ -20,5 +20,8 @@ public class PayRecordService {
 	public List<PayRecord> getPayRecordList(int userId,int type){
 		return payRecordMapper.getPayRecordList(userId, type);
 	}
+	public PayRecord getPaySuccess(String taskId,int userId, int type) {
+		return payRecordMapper.getPaySuccess(taskId, userId, type);
+	}
 
 }

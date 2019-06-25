@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import army.db.pojo.OrderModel;
 import army.db.pojo.Task;
 import army.db.pojo.User;
 import army.service.TaskService;
@@ -38,7 +39,7 @@ public class TaskController {
 		if (null != partFile) {
 			if (!partFile.isEmpty()) {
 				String filePath = tomact_dir + "/task/" + new Date().getTime() + ".jpg";
-				String setPath = "/task/" + task.getId() + ".jpg";
+				String setPath = "/task/" + new Date().getTime() + ".jpg";
 				File file = new File(filePath);
 				if (!file.exists()) {
 					file.mkdirs();
@@ -93,8 +94,8 @@ public class TaskController {
 	// 任务查询，app端传入state 1
 	@RequestMapping("getAllTask.do")
 	@ResponseBody
-	public ServerResponse getAllTask(HttpServletRequest request, HttpServletResponse response, int state, Model model) {
-		return ServerResponse.createBySuccess("任务列表", taskService.getAllTask(state));
+	public ServerResponse getAllTask(HttpServletRequest request, HttpServletResponse response, int state,int level, Model model) {
+		return ServerResponse.createBySuccess("任务列表", taskService.getAllTask(state,level));
 
 	}
 
@@ -129,5 +130,12 @@ public class TaskController {
 	public ServerResponse getReleaseTaskByState(HttpServletRequest request, HttpServletResponse response, int userId,
 			int state, Model model) {
 		return ServerResponse.createBySuccess("任务列表", taskService.getReleaseTaskByState(userId, state));
+	}
+	
+	// 订单查询
+	@RequestMapping("getOrder.do")
+	@ResponseBody
+	public ServerResponse getOrder(HttpServletRequest request, HttpServletResponse response, Model model,OrderModel orderModel) {
+		return ServerResponse.createBySuccess("任务列表", taskService.getOrder(orderModel));
 	}
 }

@@ -36,5 +36,9 @@ public class StudyService {
 	public List<Study> selectStudy(Study study) {
 		return studyMapper.getStudyListByCon(study);
 	}
+	
+	public Study getStudyById(int id) {
+		return studyMapper.selectByPrimaryKey(id);
+	}
 
 }

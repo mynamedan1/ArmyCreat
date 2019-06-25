@@ -31,6 +31,8 @@ public class User {
 
     private String lavelname;
 
+    private Integer changecount;
+
     public Integer getId() {
         return id;
     }
@@ -68,7 +70,7 @@ public class User {
     }
 
     public void setPhonenumber(String phonenumber) {
-        this.phonenumber = phonenumber;
+        this.phonenumber = phonenumber == null ? null : phonenumber.trim();
     }
 
     public String getPassword() {
@@ -149,5 +151,13 @@ public class User {
 
     public void setLavelname(String lavelname) {
         this.lavelname = lavelname == null ? null : lavelname.trim();
+    }
+
+    public Integer getChangecount() {
+        return changecount;
+    }
+
+    public void setChangecount(Integer changecount) {
+        this.changecount = changecount;
     }
 }

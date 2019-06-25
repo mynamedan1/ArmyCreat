@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +35,11 @@ public class UserService {
 	}
 
 	public boolean updateUser(User user) {
+		if(user.getPointcount()!=null) {
+			HashMap<String, String> hashMap = (HashMap<String, String>) getLevelInfo(user.getPointcount());
+			user.setLevelvalue(Integer.parseInt(hashMap.get("levelValue")));
+			user.setLavelname(hashMap.get("levelName"));
+		}
 		return userDao.updateByPrimaryKeySelective(user) == 1 ? true : false;
 	}
 
@@ -101,7 +108,7 @@ public class UserService {
 			user.setCertificatenumber(String.valueOf(lo.get(1)).length() == 0 ? null : String.valueOf(lo.get(1)));
 			user.setIdcard(String.valueOf(lo.get(2)).length() == 0 ? null : String.valueOf(lo.get(2)));
 			try {
-				user.setPhonenumber(Integer.parseInt(String.valueOf(lo.get(3)))+"");
+				user.setPhonenumber(String.valueOf(lo.get(3)));
 			} catch (Exception e) {
 				return ServerResponse.createByError("数据错误，请检查数据");
 			}
@@ -129,4 +136,74 @@ public class UserService {
 //		}
 		return ServerResponse.createBySuccess("插入成功");
 	}
+	
+	public Map<String, String> getLevelInfo(int point) {
+		HashMap<String, String> hashMap = new HashMap<String, String>();
+		if (0 <= point && point < 50) {
+			hashMap.put("levelValue", "1");
+			hashMap.put("levelName", "士兵");
+		}
+		if (50 <= point && point < 100) {
+			hashMap.put("levelValue", "2");
+			hashMap.put("levelName", "二等兵");
+		}
+		if (100 <= point && point < 200) {
+			hashMap.put("levelValue", "3");
+			hashMap.put("levelName", "一等兵");
+		}
+		if (200 <= point && point < 500) {
+			hashMap.put("levelValue", "4");
+			hashMap.put("levelName", "下士");
+		}
+		if (500 <= point && point < 1000) {
+			hashMap.put("levelValue", "5");
+			hashMap.put("levelName", "中士");
+		}
+		if (1000 <= point && point < 3000) {
+			hashMap.put("levelValue", "6");
+			hashMap.put("levelName", "上士");
+		}
+		if (3000 <= point && point < 5000) {
+			hashMap.put("levelValue", "7");
+			hashMap.put("levelName", "少尉");
+		}
+		if (5000 <= point && point < 10000) {
+			hashMap.put("levelValue", "8");
+			hashMap.put("levelName", "中尉");
+		}
+		if (10000 <= point && point < 300000) {
+			hashMap.put("levelValue", "9");
+			hashMap.put("levelName", "上尉");
+		}
+		if (30000 <= point && point < 50000) {
+			hashMap.put("levelValue", "10");
+			hashMap.put("levelName", "少校");
+		}
+		if (50000 <= point && point < 100000) {
+			hashMap.put("levelValue", "11");
+			hashMap.put("levelName", "中校");
+		}
+		if (100000 <= point && point < 110000) {
+			hashMap.put("levelValue", "12");
+			hashMap.put("levelName", "上校");
+		}
+		if (110000 <= point && point < 200000) {
+			hashMap.put("levelValue", "13");
+			hashMap.put("levelName", "少将");
+		}
+		if (200000 <= point && point < 300000) {
+			hashMap.put("levelValue", "14");
+			hashMap.put("levelName", "中将");
+		}
+		if (300000 <= point && point < 588900) {
+			hashMap.put("levelValue", "15");
+			hashMap.put("levelName", "上将");
+		}
+		if (588900 <= point) {
+			hashMap.put("levelValue", "16");
+			hashMap.put("levelName", "大将军");
+		}
+		return hashMap;
+	}
+
 }
